@@ -215,7 +215,7 @@
             <button class="paste-toggle-btn" onclick="togglePasteBox()">+ Yeni Mətn Yapışdır / Yenilə</button>
             
             <div class="paste-box-container" id="pasteBox">
-                <textarea id="bulkInput" placeholder="Məsələn: 1. Ayət... 6,7,8. Ayətlər birlikdə..."></textarea>
+                <textarea id="bulkInput" placeholder="Məsələn: 1-2. Ayətlər... 3-5. Ayətlər..."></textarea>
                 <button class="action-btn" onclick="parseAndFill()">Mətni Avtomatik Yerləşdir</button>
             </div>
 
@@ -228,7 +228,7 @@
         "Fatiha Suresi", "İhlas Suresi", "Zilzal Suresi", "Alak Suresi", "Tekvir Suresi", "Karia Suresi", "Kıyamet Suresi", "Yakia Suresi", "Necm Suresi", "Müddessir Suresi",
         "Müzzemmil Suresi", "Kureyş Suresi", "Fil Suresi", "Nebe Suresi", "Kadir Suresi", "Kafirun Suresi", "Maun Suresi", "Hümeze Suresi", "Tebbet Suresi", "Tekasur Suresi",
         "Tarık Suresi", "Duha Suresi", "İnşirah Suresi", "Kevser Suresi", "Kalem Suresi", "Felak Suresi", "Nas Suresi", "Asır Suresi", "Tin Suresi", "İnsan Suresi",
-        "Şems Suresi", "Ala Suresi", "Leyl Suresi", "Fecir Suresi", "Beled Suresi", "İnfitar Suresi", "Inşikak Suresi", "Murselat Suresi", "Adiyat Suresi", "Gaşiye Suresi",
+        "Şems Suresi", "Ala Suresi", "Leyl Suresi", "Fecir Suresi", "Beled Suresi", "İnfitar Suresi", "İnşikak Suresi", "Murselat Suresi", "Adiyat Suresi", "Gaşiye Suresi",
         "Tur Suresi", "Hakka Suresi", "Mearic Suresi", "Saffat Suresi", "Şuara Suresi", "Lokman Suresi", "Fatır Suresi", "Furkan Suresi", "Rahman Suresi", "Secde Suresi",
         "Meryem Suresi", "Naziat Suresi", "Fussilet Suresi", "Casiye Suresi", "Rad Suresi", "Kamer Suresi", "Sad Suresi", "Taha Suresi", "Kaf Suresi", "İsra Suresi",
         "Buruc Suresi", "Mutaffifin Suresi", "Kehf Suresi", "Hud Suresi", "Enam Suresi", "Zariyat Suresi", "Zuhruf Suresi", "Zümer Suresi", "Şura Suresi", "Hicir Suresi",
@@ -342,8 +342,8 @@
         let num = currentSurahIndex + 1;
         if (!db[num]) db[num] = { ayahs: {} };
 
-        // Yan-yana rəqəmləri, vergüllü və ya tireli nömrələri (məsələn: 6,7,8,9,10,11 və ya 6-8) tam şəkildə qəbul edir
-        let parts = rawText.split(/(?=\b\d+[\d\s,\-\.\)]*[\.\-\)]+)/);
+        // Tire (-) və ya nöqtə ilə gələn diapazonları (məsələn: 1-2, 3-5) bütöv şəkildə tutan səliqəli bölücü
+        let parts = rawText.split(/(?=\b\d+[\d\s\-\,\.]*[\.\-]+)/);
         
         parts.forEach(part => {
             let match = part.match(/^\s*([\d\-\,\s]+)\s*[\.\-\)]\s*([\s\S]*)$/);
