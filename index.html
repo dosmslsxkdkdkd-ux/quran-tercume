@@ -3,221 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quran Tərcümə Paneli (Xüsusi Sıralama)</title>
+    <title>Quran Tərcümə Paneli</title>
     <style>
-        body { font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 20px; margin: 0; }
-        h1 { color: #38bdf8; text-align: center; }
-        .container { max-width: 800px; margin: auto; }
-        .search { width: 100%; padding: 12px; margin-bottom: 20px; background: #1e293b; color: #fff; border: 1px solid #334155; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        .surah { background: #1e293b; border: 1px solid #334155; padding: 15px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; }
-        .surah-title { font-weight: bold; font-size: 18px; display: flex; justify-content: space-between; align-items: center; }
-        .badge { font-size: 12px; background: #334155; padding: 3px 8px; border-radius: 4px; color: #38bdf8; }
-        .details { display: none; margin-top: 15px; border-top: 1px solid #334155; padding-top: 15px; cursor: default; }
-        .surah.active .details { display: block; }
-        textarea { width: 100%; height: 120px; background: #0f172a; color: #fff; border: 1px solid #334155; margin-top: 5px; border-radius: 6px; padding: 10px; box-sizing: border-box; font-family: inherit; resize: vertical; }
-        .parsed-output { margin-top: 15px; background: #090d16; padding: 10px; border-radius: 6px; border: 1px dashed #334155; font-size: 14px; white-space: pre-wrap; max-height: 200px; overflow-y: auto; color: #cbd5e1; }
-        .btns { text-align: center; margin-bottom: 20px; display: flex; justify-content: center; gap: 10px; }
-        button { background: #38bdf8; color: #0f172a; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
-        button:hover { background: #0284c7; color: #fff; }
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --border: #1e293b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        h1 { margin: 0; font-size: 20px; color: var(--accent); }
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+        
+        /* Əsas Səhifə Siyahısı */
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            font-size: 15px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        .surah-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .surah-item:active { transform: scale(0.98); }
+        .surah-name { font-size: 16px; font-weight: bold; }
+        .status-badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .status-empty { background-color: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .status-full { background-color: rgba(34, 197, 94, 0.15); color: var(--success); }
+
+        /* Surə İçi Səhifəsi */
+        #surahView { display: none; }
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .paste-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .paste-section h3 { margin-top: 0; font-size: 15px; color: var(--accent); }
+        textarea {
+            width: 100%;
+            height: 100px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: inherit;
+            resize: vertical;
+            font-size: 14px;
+        }
+        .action-btn {
+            background-color: var(--accent);
+            color: #0b0f19;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        /* Ayə Xanaları (Damalar) */
+        .ayahs-container { display: flex; flex-direction: column; gap: 10px; }
+        .ayah-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .ayah-header-num { font-size: 13px; color: var(--text-muted); margin-bottom: 5px; font-weight: bold; }
+        .ayah-input {
+            width: 100%;
+            height: 60px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .global-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .global-actions button {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
     </style>
 </head>
 <body>
+
+    <header>
+        <h1 id="headerTitle">Quran Tərcümə Paneli</h1>
+    </header>
+
     <div class="container">
-        <h1>Quran Tərcümə Paneli</h1>
-        <div class="btns">
-            <button onclick="exportJSON()">Arxivi Yüklə (JSON)</button>
-            <button onclick="copyAll()">Hamısını Kopyala</button>
+        <!-- Əsas Siyahı Səhifəsi -->
+        <div id="listView">
+            <div class="global-actions">
+                <button onclick="exportJSON()">Arxivi Yüklə (JSON)</button>
+                <button onclick="copyAll()">Hamısını Kopyala</button>
+            </div>
+            <input type="text" class="search-box" id="searchInput" placeholder="Surə axtar..." oninput="renderList()">
+            <div id="surahList"></div>
         </div>
-        <input type="text" class="search" id="search" placeholder="Surə axtar..." oninput="filterSurahs()">
-        <div id="list"></div>
+
+        <!-- Surə İçi Səhifəsi -->
+        <div id="surahView">
+            <button class="back-btn" onclick="goBack()">← Geri qayıt</button>
+            <h2 id="currentSurahTitle" style="margin-top:0; font-size:18px;"></h2>
+            
+            <!-- Demo Yapışdırma Bölməsi -->
+            <div class="paste-section" id="demoPasteSection">
+                <h3>Bütöv Yapışdır (Demo Rejimi)</h3>
+                <textarea id="bulkInput" placeholder="Mətni bura yapışdırın..."></textarea>
+                <button class="action-btn" onclick="parseAndFill()">Avtomatik Damalara Böl və Yığ</button>
+            </div>
+
+            <div class="ayahs-container" id="ayahsListContainer"></div>
+        </div>
     </div>
 
 <script>
-    // Sənin göndərdiyin PDF-dəki xüsusi sıralama (Göç Öncəsi + Göç Sonrası)[span_1](start_span)[span_1](end_span)
     const surahs = [
-        // Göç Öncəsi[span_2](start_span)[span_2](end_span)
-        { name: "Fatiha Suresi", type: "Göç Öncəsi" },
-        { name: "İhlas Suresi", type: "Göç Öncəsi" },
-        { name: "Zilzal Suresi", type: "Göç Öncəsi" },
-        { name: "Alak Suresi", type: "Göç Öncəsi" },
-        { name: "Tekvir Suresi", type: "Göç Öncəsi" },
-        { name: "Karia Suresi", type: "Göç Öncəsi" },
-        { name: "Kıyamet Suresi", type: "Göç Öncəsi" },
-        { name: "Yakia Suresi", type: "Göç Öncəsi" },
-        { name: "Necm Suresi", type: "Göç Öncəsi" },
-        { name: "Müddessir Suresi", type: "Göç Öncəsi" },
-        { name: "Müzzemmil Suresi", type: "Göç Öncəsi" },
-        { name: "Kureyş Suresi", type: "Göç Öncəsi" },
-        { name: "Fil Suresi", type: "Göç Öncəsi" },
-        { name: "Nebe Suresi", type: "Göç Öncəsi" },
-        { name: "Kadir Suresi", type: "Göç Öncəsi" },
-        { name: "Kafirun Suresi", type: "Göç Öncəsi" },
-        { name: "Maun Suresi", type: "Göç Öncəsi" },
-        { name: "Hümeze Suresi", type: "Göç Öncəsi" },
-        { name: "Tebbet Suresi", type: "Göç Öncəsi" },
-        { name: "Tekasur Suresi", type: "Göç Öncəsi" },
-        { name: "Tarık Suresi", type: "Göç Öncəsi" },
-        { name: "Duha Suresi", type: "Göç Öncəsi" },
-        { name: "İnşirah Suresi", type: "Göç Öncəsi" },
-        { name: "Kevser Suresi", type: "Göç Öncəsi" },
-        { name: "Kalem Suresi", type: "Göç Öncəsi" },
-        { name: "Felak Suresi", type: "Göç Öncəsi" },
-        { name: "Nas Suresi", type: "Göç Öncəsi" },
-        { name: "Asır Suresi", type: "Göç Öncəsi" },
-        { name: "Tin Suresi", type: "Göç Öncəsi" },
-        { name: "İnsan Suresi", type: "Göç Öncəsi" },
-        { name: "Şems Suresi", type: "Göç Öncəsi" },
-        { name: "Ala Suresi", type: "Göç Öncəsi" },
-        { name: "Leyl Suresi", type: "Göç Öncəsi" },
-        { name: "Fecir Suresi", type: "Göç Öncəsi" },
-        { name: "Beled Suresi", type: "Göç Öncəsi" },
-        { name: "İnfitar Suresi", type: "Göç Öncəsi" },
-        { name: "İnşikak Suresi", type: "Göç Öncəsi" },
-        { name: "Murselat Suresi", type: "Göç Öncəsi" },
-        { name: "Adiyat Suresi", type: "Göç Öncəsi" },
-        { name: "Gaşiye Suresi", type: "Göç Öncəsi" },
-        { name: "Tur Suresi", type: "Göç Öncəsi" },
-        { name: "Hakka Suresi", type: "Göç Öncəsi" },
-        { name: "Mearic Suresi", type: "Göç Öncəsi" },
-        { name: "Saffat Suresi", type: "Göç Öncəsi" },
-        { name: "Şuara Suresi", type: "Göç Öncəsi" },
-        { name: "Lokman Suresi", type: "Göç Öncəsi" },
-        { name: "Fatır Suresi", type: "Göç Öncəsi" },
-        { name: "Furkan Suresi", type: "Göç Öncəsi" },
-        { name: "Rahman Suresi", type: "Göç Öncəsi" },
-        { name: "Secde Suresi", type: "Göç Öncəsi" },
-        { name: "Meryem Suresi", type: "Göç Öncəsi" },
-        { name: "Naziat Suresi", type: "Göç Öncəsi" },
-        { name: "Fussilet Suresi", type: "Göç Öncəsi" },
-        { name: "Casiye Suresi", type: "Göç Öncəsi" },
-        { name: "Rad Suresi", type: "Göç Öncəsi" },
-        { name: "Kamer Suresi", type: "Göç Öncəsi" },
-        { name: "Sad Suresi", type: "Göç Öncəsi" },
-        { name: "Taha Suresi", type: "Göç Öncəsi" },
-        { name: "Kaf Suresi", type: "Göç Öncəsi" },
-        { name: "İsra Suresi", type: "Göç Öncəsi" },
-        { name: "Buruc Suresi", type: "Göç Öncəsi" },
-        { name: "Mutaffifin Suresi", type: "Göç Öncəsi" },
-        { name: "Kehf Suresi", type: "Göç Öncəsi" },
-        { name: "Hud Suresi", type: "Göç Öncəsi" },
-        { name: "Enam Suresi", type: "Göç Öncəsi" },
-        { name: "Zariyat Suresi", type: "Göç Öncəsi" },
-        { name: "Zuhruf Suresi", type: "Göç Öncəsi" },
-        { name: "Zümer Suresi", type: "Göç Öncəsi" },
-        { name: "Şura Suresi", type: "Göç Öncəsi" },
-        { name: "Hicir Suresi", type: "Göç Öncəsi" },
-        { name: "Araf Suresi", type: "Göç Öncəsi" },
-        { name: "Yasin Suresi", type: "Göç Öncəsi" },
-        { name: "Mülk Suresi", type: "Göç Öncəsi" },
-        { name: "Yunus Suresi", type: "Göç Öncəsi" },
-        { name: "Kasas Suresi", type: "Göç Öncəsi" },
-        { name: "Yusuf Suresi", type: "Göç Öncəsi" },
-        { name: "Mümin Suresi", type: "Göç Öncəsi" },
-        { name: "Enbiya Suresi", type: "Göç Öncəsi" },
-        { name: "İbrahim Suresi", type: "Göç Öncəsi" },
-        { name: "Müminun Suresi", type: "Göç Öncəsi" },
-        { name: "Cin Suresi", type: "Göç Öncəsi" },
-        { name: "Ahkaf Suresi", type: "Göç Öncəsi" },
-        { name: "Abese Suresi", type: "Göç Öncəsi" },
-        { name: "Nemil Suresi", type: "Göç Öncəsi" },
-        { name: "Sebe Suresi", type: "Göç Öncəsi" },
-        { name: "Ankebut Suresi", type: "Göç Öncəsi" },
-        
-        // Göç Sonrası[span_3](start_span)[span_3](end_span)
-        { name: "Nahil Suresi", type: "Göç Sonrası" },
-        { name: "Duhan Suresi", type: "Göç Sonrası" },
-        { name: "Nuh Suresi", type: "Göç Sonrası" },
-        { name: "Rum Suresi", type: "Göç Sonrası" },
-        { name: "Cuma Suresi", type: "Göç Sonrası" },
-        { name: "Tegabun Suresi", type: "Göç Sonrası" },
-        { name: "Beyyine Suresi", type: "Göç Sonrası" },
-        { name: "Bakara Suresi", type: "Göç Sonrası" },
-        { name: "Hac Suresi", type: "Göç Sonrası" },
-        { name: "Ali Imran Suresi", type: "Göç Sonrası" },
-        { name: "Münafikun Suresi", type: "Göç Sonrası" },
-        { name: "Enfal Suresi", type: "Göç Sonrası" },
-        { name: "Muhammed Suresi", type: "Göç Sonrası" },
-        { name: "Saf Suresi", type: "Göç Sonrası" },
-        { name: "Nisa Suresi", type: "Göç Sonrası" },
-        { name: "Maide Suresi", type: "Göç Sonrası" },
-        { name: "Nur Suresi", type: "Göç Sonrası" },
-        { name: "Mücadele Suresi", type: "Göç Sonrası" },
-        { name: "Ahzab Suresi", type: "Göç Sonrası" },
-        { name: "Haşr Suresi", type: "Göç Sonrası" },
-        { name: "Tahrim Suresi", type: "Göç Sonrası" },
-        { name: "Talak Suresi", type: "Göç Sonrası" },
-        { name: "Hadid Suresi", type: "Göç Sonrası" },
-        { name: "Fetih Suresi", type: "Göç Sonrası" },
-        { name: "Mümtehine Suresi", type: "Göç Sonrası" },
-        { name: "Hucurat Suresi", type: "Göç Sonrası" },
-        { name: "Tevbe Suresi", type: "Göç Sonrası" },
-        { name: "Nasr Suresi", type: "Göç Sonrası" }
+        "Fatiha Suresi", "İhlas Suresi", "Zilzal Suresi", "Alak Suresi", "Tekvir Suresi", "Karia Suresi", "Kıyamet Suresi", "Yakia Suresi", "Necm Suresi", "Müddessir Suresi",
+        "Müzzemmil Suresi", "Kureyş Suresi", "Fil Suresi", "Nebe Suresi", "Kadir Suresi", "Kafirun Suresi", "Maun Suresi", "Hümeze Suresi", "Tebbet Suresi", "Tekasur Suresi",
+        "Tarık Suresi", "Duha Suresi", "İnşirah Suresi", "Kevser Suresi", "Kalem Suresi", "Felak Suresi", "Nas Suresi", "Asır Suresi", "Tin Suresi", "İnsan Suresi",
+        "Şems Suresi", "Ala Suresi", "Leyl Suresi", "Fecir Suresi", "Beled Suresi", "İnfitar Suresi", "İnşikak Suresi", "Murselat Suresi", "Adiyat Suresi", "Gaşiye Suresi",
+        "Tur Suresi", "Hakka Suresi", "Mearic Suresi", "Saffat Suresi", "Şuara Suresi", "Lokman Suresi", "Fatır Suresi", "Furkan Suresi", "Rahman Suresi", "Secde Suresi",
+        "Meryem Suresi", "Naziat Suresi", "Fussilet Suresi", "Casiye Suresi", "Rad Suresi", "Kamer Suresi", "Sad Suresi", "Taha Suresi", "Kaf Suresi", "İsra Suresi",
+        "Buruc Suresi", "Mutaffifin Suresi", "Kehf Suresi", "Hud Suresi", "Enam Suresi", "Zariyat Suresi", "Zuhruf Suresi", "Zümer Suresi", "Şura Suresi", "Hicir Suresi",
+        "Araf Suresi", "Yasin Suresi", "Mülk Suresi", "Yunus Suresi", "Kasas Suresi", "Yusuf Suresi", "Mümin Suresi", "Enbiya Suresi", "İbrahim Suresi", "Müminun Suresi",
+        "Cin Suresi", "Ahkaf Suresi", "Abese Suresi", "Nemil Suresi", "Sebe Suresi", "Ankebut Suresi", "Nahil Suresi", "Duhan Suresi", "Nuh Suresi", "Rum Suresi",
+        "Cuma Suresi", "Tegabun Suresi", "Beyyine Suresi", "Bakara Suresi", "Hac Suresi", "Ali Imran Suresi", "Münafikun Suresi", "Enfal Suresi", "Muhammed Suresi", "Saf Suresi",
+        "Nisa Suresi", "Maide Suresi", "Nur Suresi", "Mücadele Suresi", "Ahzab Suresi", "Haşr Suresi", "Tahrim Suresi", "Talak Suresi", "Hadid Suresi", "Fetih Suresi",
+        "Mümtehine Suresi", "Hucurat Suresi", "Tevbe Suresi", "Nasr Suresi"
     ];
-    
-    let data = JSON.parse(localStorage.getItem('quran_custom_data') || '{}');
 
-    function render(filter = "") {
-        const list = document.getElementById('list');
-        list.innerHTML = '';
-        surahs.forEach((surah, i) => {
-            let num = i + 1;
-            if(filter && !surah.name.toLowerCase().includes(filter.toLowerCase()) && !num.toString().includes(filter)) return;
+    let db = JSON.parse(localStorage.getItem('quran_app_db_v3') || '{}');
+    let currentSurahIndex = null;
+
+    function renderList() {
+        const filter = document.getElementById('searchInput').value.toLowerCase();
+        const listEl = document.getElementById('surahList');
+        listEl.innerHTML = '';
+
+        surahs.forEach((name, index) => {
+            let num = index + 1;
+            if (filter && !name.toLowerCase().includes(filter) && !num.toString().includes(filter)) return;
+
+            // Yoxlayaq görək surə doludur ya boş
+            let surahData = db[num] || {};
+            let hasContent = Object.values(surahData.ayahs || {}).some(val => val && val.trim() !== "");
             
-            let savedText = data[num] || "";
-            let div = document.createElement('div');
-            div.className = 'surah';
-            div.id = `s-${num}`;
-            div.innerHTML = `
-                <div class="surah-title" onclick="toggle(${num})">
-                    <span>${num}. ${surah.name}</span>
-                    <span class="badge">${surah.type}</span>
-                </div>
-                <div class="details" id="d-${num}" onclick="event.stopPropagation()">
-                    <p style="margin:0 0 5px 0; font-size:13px; color:#94a3b8;">Ayələri bütöv şəkildə bura yapışdırın (məs: 1. Ayət... 2. Ayət...):</p>
-                    <textarea id="text-${num}" placeholder="Ayətləri bura yapışdırın..." oninput="processText(${num})">${savedText}</textarea>
-                    <div class="parsed-output" id="out-${num}">${savedText ? "✓ Yadda saxlanıldı və bölüşdürüldü" : "Hələ mətn əlavə edilməyib."}</div>
-                </div>
+            let statusClass = hasContent ? "status-full" : "status-empty";
+            let statusText = hasContent ? "Doludur" : "Boşdur";
+
+            let item = document.createElement('div');
+            item.className = 'surah-item';
+            item.onclick = () => openSurah(index);
+            item.innerHTML = `
+                <span class="surah-name">${num}. ${name}</span>
+                <span class="status-badge ${statusClass}">${statusText}</span>
             `;
-            list.appendChild(div);
+            listEl.appendChild(item);
         });
     }
 
-    function toggle(num) {
-        document.getElementById(`s-${num}`).classList.toggle('active');
+    function openSurah(index) {
+        currentSurahIndex = index;
+        let num = index + 1;
+        document.getElementById('listView').style.display = 'none';
+        document.getElementById('surahView').style.display = 'block';
+        document.getElementById('currentSurahTitleinnerText') = `${num}. ${surahs[index]}`;
+        document.getElementById('headerTitle').innerText = surahs[index];
+        document.getElementById('bulkInput').value = '';
+
+        renderAyahRows();
     }
 
-    function processText(num) {
-        let val = document.getElementById(`text-${num}`).value;
-        data[num] = val;
-        localStorage.setItem('quran_custom_data', JSON.stringify(data));
-        document.getElementById(`out-${num}`).innerText = val ? "✓ Mətn uğurla qeydə alındı." : "Hələ mətn əlavə edilməyib.";
+    function goBack() {
+        document.getElementById('surahView').style.display = 'none';
+        document.getElementById('listView').style.display = 'block';
+        document.getElementById('headerTitle').innerText = "Quran Tərcümə Paneli";
+        renderList();
     }
 
-    function filterSurahs() {
-        render(document.getElementById('search').value);
+    function renderAyahRows() {
+        let num = currentSurahIndex + 1;
+        if (!db[num]) db[num] = { ayahs: {} };
+        
+        let container = document.getElementById('ayahsListContainer');
+        container.innerHTML = '';
+
+        // Təqribi ayə sayı (istənilən qədər ayə xanası yaradılır, məsələn standart 30, lazım olsa artırmaq olar)
+        let totalAyahs = 30; 
+        for (let i = 1; i <= totalAyahs; i++) {
+            let text = (db[num].ayahs && db[num].ayahs[i]) || "";
+            let card = document.createElement('div');
+            card.className = 'ayah-card';
+            card.innerHTML = `
+                <div class="ayah-header-num">${i}-ci Ayət</div>
+                <textarea class="ayah-input" oninput="saveAyah(${i}, this.value)">${text}</textarea>
+            `;
+            container.appendChild(card);
+        }
+    }
+
+    function saveAyah(ayahNum, val) {
+        let num = currentSurahIndex + 1;
+        if (!db[num]) db[num] = { ayahs: {} };
+        db[num].ayahs[ayahNum] = val;
+        localStorage.setItem('quran_app_db_v3', JSON.stringify(db));
+    }
+
+    // Demo yapışdırma və avtomatik bölmə (rəqəmlərə görə ayırma)
+    function parseAndFill() {
+        let rawText = document.getElementById('bulkInput').value;
+        if (!rawText) return;
+
+        let num = currentSurahIndex + 1;
+        if (!db[num]) db[num] = { ayahs: {} };
+
+        // Sadə ayırma: rəqəm və nöqtə ilə başlayan yerlərdən ayırır (məsələn: "1. ... 2. ...")
+        let parts = rawText.split(/(?=\d+\s*[\.\-\)]\s*)/);
+        
+        parts.forEach(part => {
+            let match = part.match(/^\s*(\d+)\s*[\.\-\)]\s*([\s\S]*)$/);
+            if (match) {
+                let ayahNum = parseInt(match[1]);
+                let ayahText = match[2].trim();
+                db[num].ayahs[ayahNum] = ayahText;
+            }
+        });
+
+        localStorage.setItem('quran_app_db_v3', JSON.stringify(db));
+        renderAyahRows();
+        alert("Mətn uğurla ayələrə bölündü və damalara yerləşdirildi!");
     }
 
     function exportJSON() {
-        let blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+        let blob = new Blob([JSON.stringify(db, null, 2)], {type: "application/json"});
         let a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = "quran_sira_arxiv.json";
+        a.download = "quran_butov_arxiv.json";
         a.click();
     }
 
     function copyAll() {
         let text = "";
-        surahs.forEach((s, i) => {
-            let num = i + 1;
-            if(data[num]) {
-                text += `=== ${num}. ${s.name} ===\n${data[num]}\n\n`;
+        surahs.forEach((name, idx) => {
+            let num = idx + 1;
+            if (db[num] && db[num].ayahs) {
+                text += `=== ${num}. ${name} ===\n`;
+                for (let a in db[num].ayahs) {
+                    if (db[num].ayahs[a]) text += `${a}. ${db[num].ayahs[a]}\n`;
+                }
+                text += "\n";
             }
         });
         navigator.clipboard.writeText(text);
         alert("Bütün tərcümələr kopyalandı!");
     }
 
-    render();
+    renderList();
 </script>
 </body>
 </html>
