@@ -6,14 +6,15 @@
     <title>Quran Tərcümə Paneli</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #131b2e;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --border: #1e293b;
+            --bg-color: #0f1017;
+            --card-bg: #181a26;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent: #fbbf24; /* İsti qızılı / kəhrəba - göz yormayan, premium rəng */
+            --accent-glow: rgba(251, 191, 36, 0.15);
+            --success: #34d399;
+            --warning: #fb923c;
+            --border: #262938;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -32,7 +33,7 @@
             top: 0;
             z-index: 10;
         }
-        h1 { margin: 0; font-size: 18px; color: var(--accent); font-weight: 700; }
+        h1 { margin: 0; font-size: 18px; color: var(--accent); font-weight: 700; letter-spacing: 0.3px; }
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         
         .search-box {
@@ -46,6 +47,7 @@
             margin-bottom: 15px;
             box-sizing: border-box;
             outline: none;
+            transition: border-color 0.2s;
         }
         .search-box:focus { border-color: var(--accent); }
 
@@ -61,7 +63,7 @@
             cursor: pointer;
             transition: 0.15s ease;
         }
-        .surah-item:active { transform: scale(0.98); background-color: #1a253f; }
+        .surah-item:active { transform: scale(0.98); background-color: #212435; }
         .surah-name { font-size: 16px; font-weight: 600; }
         .status-badge {
             font-size: 12px;
@@ -69,8 +71,8 @@
             border-radius: 20px;
             font-weight: 600;
         }
-        .status-empty { background-color: rgba(245, 158, 11, 0.15); color: var(--warning); }
-        .status-full { background-color: rgba(34, 197, 94, 0.15); color: var(--success); }
+        .status-empty { background-color: rgba(251, 146, 60, 0.12); color: var(--warning); }
+        .status-full { background-color: rgba(52, 211, 153, 0.12); color: var(--success); }
 
         #surahView { display: none; }
         .back-btn {
@@ -90,8 +92,8 @@
             background-color: var(--card-bg);
             color: var(--accent);
             border: 1px solid var(--border);
-            padding: 10px 15px;
-            border-radius: 10px;
+            padding: 12px 15px;
+            border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
@@ -109,7 +111,7 @@
         }
         textarea {
             width: 100%;
-            height: 120px;
+            height: 130px;
             background-color: var(--bg-color);
             color: var(--text-main);
             border: 1px solid var(--border);
@@ -125,7 +127,7 @@
 
         .action-btn {
             background-color: var(--accent);
-            color: #0b0f19;
+            color: #0f1017;
             border: none;
             padding: 12px 15px;
             border-radius: 10px;
@@ -136,24 +138,24 @@
             font-size: 15px;
         }
 
-        .ayahs-container { display: flex; flex-direction: column; gap: 24px; padding-bottom: 30px; }
+        .ayahs-container { display: flex; flex-direction: column; gap: 20px; padding-bottom: 30px; }
         .ayah-block {
-            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+            border-bottom: 1px solid rgba(38, 41, 56, 0.6);
             padding-bottom: 18px;
         }
         .ayah-num-tag {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--accent);
-            background-color: rgba(56, 189, 248, 0.1);
-            padding: 3px 8px;
+            background-color: var(--accent-glow);
+            padding: 4px 10px;
             border-radius: 6px;
-            font-weight: 600;
+            font-weight: 700;
             display: inline-block;
             margin-bottom: 8px;
         }
         .ayah-text-view {
             font-size: 17px;
-            line-height: 1.6;
+            line-height: 1.65;
             color: var(--text-main);
             word-break: break-word;
         }
@@ -162,11 +164,11 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        .global-actions button, .file-upload-label {
+        .global-actions button, .file-upload-label, .copy-all-btn {
             padding: 12px;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             font-weight: 600;
             cursor: pointer;
@@ -178,6 +180,8 @@
             align-items: center;
             justify-content: center;
         }
+        .copy-all-btn { width: 100%; margin-bottom: 15px; }
+        
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -202,7 +206,7 @@
                     <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importJSON(event)">
                 </label>
             </div>
-            <button onclick="copyAll()" style="width:100%; margin-bottom:15px; padding:12px; border-radius:10px; border:1px solid var(--border); font-weight:600; cursor:pointer; background-color:var(--card-bg); color:var(--text-main);">Hamısını Kopyala</button>
+            <button class="copy-all-btn" onclick="copyAll()">Hamısını Kopyala</button>
             
             <input type="text" class="search-box" id="searchInput" placeholder="Surə axtar..." oninput="renderList()">
             <div id="surahList"></div>
@@ -215,8 +219,10 @@
             <button class="paste-toggle-btn" onclick="togglePasteBox()">+ Yeni Mətn Yapışdır / Yenilə</button>
             
             <div class="paste-box-container" id="pasteBox">
-                <textarea id="bulkInput" placeholder="Məsələn: 1-2. Ayətlər... 3-5. Ayətlər..."></textarea>
-                <button class="action-btn" onclick="parseAndFill()">Mətni Avtomatik Yerləşdir</button>
+                <textarea id="bulkInput" placeholder="Məsələn:
+1-2. Hər şeyi yaradan...
+3-5. İnsana bilmədiklərini..."></textarea>
+                <button class="action-btn" onclick="parseAndFill()">Mətni Olduğu Kimi Əlavə Et</button>
             </div>
 
             <div class="ayahs-container" id="ayahsListContainer"></div>
@@ -342,11 +348,10 @@
         let num = currentSurahIndex + 1;
         if (!db[num]) db[num] = { ayahs: {} };
 
-        // Tire (-) və ya nöqtə ilə gələn diapazonları (məsələn: 1-2, 3-5) bütöv şəkildə tutan səliqəli bölücü
-        let parts = rawText.split(/(?=\b\d+[\d\s\-\,\.]*[\.\-]+)/);
-        
-        parts.forEach(part => {
-            let match = part.match(/^\s*([\d\-\,\s]+)\s*[\.\-\)]\s*([\s\S]*)$/);
+        // Sətri sətir oxuyaraq sənin qoyduğun nömrəni (məsələn: 1-2, 3-5, 8) heç bir dəyişiklik etmədən götürür
+        let lines = rawText.split('\n');
+        lines.forEach(line => {
+            let match = line.match(/^\s*([\d\-\,\s]+)\s*[\.\-\)]\s*([\s\S]*)$/);
             if (match) {
                 let ayahKey = match[1].trim().replace(/\s+/g, '');
                 let ayahText = match[2].trim();
