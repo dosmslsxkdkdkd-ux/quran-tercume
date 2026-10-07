@@ -8,13 +8,12 @@
         :root {
             --bg-color: #0b0f19;
             --card-bg: #131b2e;
-            --text-main: #f8fafc;
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
             --success: #22c55e;
             --warning: #f59e0b;
             --border: #1e293b;
-            --danger: #ef4444;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -26,7 +25,7 @@
         }
         header {
             background-color: var(--card-bg);
-            padding: 18px 20px;
+            padding: 16px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border);
             position: sticky;
@@ -87,14 +86,28 @@
             gap: 5px;
         }
         
-        .paste-section {
+        /* Yapışdırma Paneli (Açılıb-bağlanan) */
+        .paste-toggle-btn {
+            background-color: var(--card-bg);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .paste-box-container {
+            display: none;
             background-color: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 16px;
             margin-bottom: 20px;
         }
-        .paste-section h3 { margin: 0 0 10px 0; font-size: 15px; color: var(--accent); }
         textarea {
             width: 100%;
             height: 120px;
@@ -123,48 +136,30 @@
             margin-top: 12px;
             font-size: 15px;
         }
-        .action-btn:active { opacity: 0.9; }
 
-        /* Dinamik Yaradılan Xanalar (Damalar) */
-        .ayahs-container { display: flex; flex-direction: column; gap: 12px; }
-        .ayah-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            position: relative;
+        /* Oxuma Görünüşü (Şəkildəki kimi təmiz kitab tərzi) */
+        .ayahs-container { display: flex; flex-direction: column; gap: 24px; padding-bottom: 30px; }
+        .ayah-block {
+            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+            padding-bottom: 18px;
         }
-        .ayah-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .ayah-num-tag {
+            font-size: 12px;
+            color: var(--accent);
+            background-color: rgba(56, 189, 248, 0.1);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
             margin-bottom: 8px;
         }
-        .ayah-header-num { font-size: 14px; color: var(--accent); font-weight: 700; }
-        .delete-ayah-btn {
-            background: none;
-            border: none;
-            color: var(--danger);
-            font-size: 13px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .ayah-input {
-            width: 100%;
-            height: 80px;
-            background-color: var(--bg-color);
+        .ayah-text-view {
+            font-size: 17px;
+            line-height: 1.6;
             color: var(--text-main);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px;
-            box-sizing: border-box;
-            font-family: inherit;
-            font-size: 16px; /* Telefonda rahat oxunması üçün böyük şrift */
-            line-height: 1.5;
-            outline: none;
+            word-break: break-word;
         }
-        .ayah-input:focus { border-color: var(--accent); }
-
+        
         .global-actions {
             display: flex;
             gap: 10px;
@@ -183,7 +178,7 @@
         }
         .empty-state {
             text-align: center;
-            padding: 30px;
+            padding: 40px 20px;
             color: var(--text-muted);
             font-size: 15px;
         }
@@ -209,13 +204,12 @@
         <!-- Surə İçi Səhifəsi -->
         <div id="surahView">
             <button class="back-btn" onclick="goBack()">← Geri qayıt</button>
-            <h2 id="currentSurahTitle" style="margin-top:0; font-size:18px; color:#fff; display:none;"></h2>
             
-            <!-- Yapışdırma Bölməsi -->
-            <div class="paste-section">
-                <h3>Ayətləri Bura Yapışdır</h3>
-                <textarea id="bulkInput" placeholder="Məsələn: 1. Ayət mətnİ... 2. və 3. Ayət birlikdə..."></textarea>
-                <button class="action-btn" onclick="parseAndFill()">Avtomatik Xanalara Böl və Yığ</button>
+            <button class="paste-toggle-btn" onclick="togglePasteBox()">+ Yeni Mətn Yapışdır / Yenilə</button>
+            
+            <div class="paste-box-container" id="pasteBox">
+                <textarea id="bulkInput" placeholder="Məsələn: 1. Ayət... 6,7,8. Ayətlər birlikdə..."></textarea>
+                <button class="action-btn" onclick="parseAndFill()">Mətni Avtomatik Yerləşdir</button>
             </div>
 
             <div class="ayahs-container" id="ayahsListContainer"></div>
@@ -238,16 +232,15 @@
         "Mümtehine Suresi", "Hucurat Suresi", "Tevbe Suresi", "Nasr Suresi"
     ];
 
-    // Yaddaşın qorunması
     let db = {};
     try {
-        let savedData = localStorage.getItem('quran_app_pro_db');
+        let savedData = localStorage.getItem('quran_app_clean_db');
         if (savedData) db = JSON.parse(savedData);
     } catch(e) { db = {}; }
 
     function saveData() {
         try {
-            localStorage.setItem('quran_app_pro_db', JSON.stringify(db));
+            localStorage.setItem('quran_app_clean_db', JSON.stringify(db));
         } catch(e) {}
     }
 
@@ -263,7 +256,6 @@
             if (filter && !name.toLowerCase().includes(filter) && !num.toString().includes(filter)) return;
 
             let surahData = db[num] || {};
-            // Array və ya obyekt yoxlaması (xana sayına görə)
             let ayahsObj = surahData.ayahs || {};
             let hasContent = Object.keys(ayahsObj).length > 0 && Object.values(ayahsObj).some(val => val && val.trim() !== "");
             
@@ -287,9 +279,10 @@
         document.getElementById('listView').style.display = 'none';
         document.getElementById('surahView').style.display = 'block';
         document.getElementById('headerTitle').innerText = surahs[index];
+        document.getElementById('pasteBox').style.display = 'none';
         document.getElementById('bulkInput').value = '';
 
-        renderAyahRows();
+        renderAyahBlocks();
     }
 
     function goBack() {
@@ -299,7 +292,12 @@
         renderList();
     }
 
-    function renderAyahRows() {
+    function togglePasteBox() {
+        let box = document.getElementById('pasteBox');
+        box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function renderAyahBlocks() {
         let num = currentSurahIndex + 1;
         if (!db[num]) db[num] = { ayahs: {} };
         
@@ -310,50 +308,26 @@
         let keys = Object.keys(ayahs);
 
         if (keys.length === 0) {
-            container.innerHTML = `<div class="empty-state">Hələ bu surəyə mətn əlavə edilməyib. Yuxarıdakı xanaya yapışdırıb avtomatik yarada bilərsiniz.</div>`;
+            container.innerHTML = `<div class="empty-state">Hələ bu surəyə mətn əlavə edilməyib.<br>Yuxarıdakı düyməyə basaraq mətn yapışdıra bilərsiniz.</div>`;
             return;
         }
 
-        // Sıralı şəkildə xanaları göstərək
         keys.sort((a, b) => {
-            // Əgər "7-8" kimi simvoldursa sadəcə string kimi saxlayaq
             return a.localeCompare(b, undefined, {numeric: true});
         });
 
         keys.forEach(key => {
             let text = ayahs[key] || "";
-            let card = document.createElement('div');
-            card.className = 'ayah-card';
-            card.innerHTML = `
-                <div class="ayah-header-row">
-                    <span class="ayah-header-num">Ayət: ${key}</span>
-                    <button class="delete-ayah-btn" onclick="deleteAyah('${key}')">Sil</button>
-                </div>
-                <textarea class="ayah-input" oninput="updateAyah('${key}', this.value)">${text}</textarea>
+            let block = document.createElement('div');
+            block.className = 'ayah-block';
+            block.innerHTML = `
+                <div><span class="ayah-num-tag">${key}</span></div>
+                <div class="ayah-text-view">${text}</div>
             `;
-            container.appendChild(card);
+            container.appendChild(block);
         });
     }
 
-    function updateAyah(key, val) {
-        let num = currentSurahIndex + 1;
-        if (!db[num]) db[num] = { ayahs: {} };
-        db[num].ayahs[key] = val;
-        saveData();
-    }
-
-    function deleteAyah(key) {
-        if(confirm("Bu ayət xanasını silmək istədiyinizdən əminsiniz?")) {
-            let num = currentSurahIndex + 1;
-            if (db[num] && db[num].ayahs) {
-                delete db[num].ayahs[key];
-                saveData();
-                renderAyahRows();
-            }
-        }
-    }
-
-    // Ağıllı Avtomatik Bölmə (İstənilən nömrəni və ya birləşmiş ayələri dəstəkləyir)
     function parseAndFill() {
         let rawText = document.getElementById('bulkInput').value;
         if (!rawText.trim()) return;
@@ -361,7 +335,6 @@
         let num = currentSurahIndex + 1;
         if (!db[num]) db[num] = { ayahs: {} };
 
-        // Mətni rəqəm ilə başlayan yerlərdən bölür (məsələn: "1.", "2-3.", "7)")
         let parts = rawText.split(/(?=\b\d+[\s\.\-\)]+)/);
         
         parts.forEach(part => {
@@ -377,14 +350,15 @@
 
         saveData();
         document.getElementById('bulkInput').value = '';
-        renderAyahRows();
+        document.getElementById('pasteBox').style.display = 'none';
+        renderAyahBlocks();
     }
 
     function exportJSON() {
         let blob = new Blob([JSON.stringify(db, null, 2)], {type: "application/json"});
         let a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = "quran_pro_arxiv.json";
+        a.download = "quran_temiz_arxiv.json";
         a.click();
     }
 
