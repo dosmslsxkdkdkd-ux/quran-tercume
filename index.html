@@ -86,7 +86,6 @@
             gap: 5px;
         }
         
-        /* Yapışdırma Paneli (Açılıb-bağlanan) */
         .paste-toggle-btn {
             background-color: var(--card-bg);
             color: var(--accent);
@@ -137,7 +136,6 @@
             font-size: 15px;
         }
 
-        /* Oxuma Görünüşü (Şəkildəki kimi təmiz kitab tərzi) */
         .ayahs-container { display: flex; flex-direction: column; gap: 24px; padding-bottom: 30px; }
         .ayah-block {
             border-bottom: 1px solid rgba(30, 41, 59, 0.5);
@@ -161,12 +159,12 @@
         }
         
         .global-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 15px;
         }
-        .global-actions button {
-            flex: 1;
+        .global-actions button, .file-upload-label {
             padding: 12px;
             border-radius: 10px;
             border: 1px solid var(--border);
@@ -174,7 +172,11 @@
             cursor: pointer;
             background-color: var(--card-bg);
             color: var(--text-main);
-            font-size: 14px;
+            font-size: 13px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .empty-state {
             text-align: center;
@@ -195,8 +197,13 @@
         <div id="listView">
             <div class="global-actions">
                 <button onclick="exportJSON()">Arxivi Yüklə (JSON)</button>
-                <button onclick="copyAll()">Hamısını Kopyala</button>
+                <label class="file-upload-label">
+                    Arxivi Bərpa Et
+                    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importJSON(event)">
+                </label>
             </div>
+            <button onclick="copyAll()" style="width:100%; margin-bottom:15px; padding:12px; border-radius:10px; border:1px solid var(--border); font-weight:600; cursor:pointer; background-color:var(--card-bg); color:var(--text-main);">Hamısını Kopyala</button>
+            
             <input type="text" class="search-box" id="searchInput" placeholder="Surə axtar..." oninput="renderList()">
             <div id="surahList"></div>
         </div>
@@ -360,6 +367,29 @@
         a.href = URL.createObjectURL(blob);
         a.download = "quran_temiz_arxiv.json";
         a.click();
+    }
+
+    function importJSON(event) {
+        let file = event.target.files[0];
+        if (!file) return;
+
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                let importedData = JSON.parse(e.target.result);
+                if (importedData && typeof importedData === 'object') {
+                    db = importedData;
+                    saveData();
+                    renderList();
+                    alert("Arxiv uğurla bərpa edildi!");
+                } else {
+                    alert("Fayl formatı düzgün deyil!");
+                }
+            } catch(err) {
+                alert("JSON faylını oxumaq mümkün olmadı!");
+            }
+        };
+        reader.readAsText(file);
     }
 
     function copyAll() {
