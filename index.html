@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Tərcümə Paneli</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --border-color: #334155;
+            --hover-color: #0284c7;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--card-bg);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        h1 { margin: 0 0 15px 0; font-size: 24px; color: var(--accent-color); }
+        .actions-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        button, label.btn {
+            background-color: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        button:hover, label.btn:hover { background-color: var(--hover-color); color: #fff; }
+        input[type="file"] { display: none; }
+        
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .surah-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .surah-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .surah-card:hover { border-color: var(--accent-color); }
+        .surah-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .surah-title { font-size: 18px; font-weight: bold; }
+        .surah-details {
+            margin-top: 15px;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+        .surah-card.active .surah-details { display: block; }
+        
+        .ayah-row {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .ayah-label { font-size: 14px; color: #94a3b8; }
+        textarea {
+            width: 100%;
+            height: 60px;
+            background-color: #0f172a;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px;
+            font-family: inherit;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        textarea:focus { border-color: var(--accent-color); outline: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Quran Tərcümə Paneli (114 Surə)</h1>
+        <div class="actions-bar">
+            <button onclick="exportJSON()">Arxivi Yüklə (JSON)</button>
+            <label class="btn" for="importFile">Arxivi Bərpa Et</label>
+            <input type="file" id="importFile" accept=".json" onchange="importJSON(event)">
+            <button onclick="copyAllText()">Bütün Mətni Kopyala</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <input type="text" id="searchInput" class="search-box" placeholder="Surə adı və ya nömrəsi ilə axtar..." oninput="filterSurahs()">
+        <div class="surah-list" id="surahList"></div>
+    </div>
+
+<script>
+    // 114 Surənin siyahısı
+    const surahs = [
+        "1. Fatihə", "2. Bəqərə", "3. Ali-İmran", "4. Nisa", "5. Maidə", "6. Ənam", "7. Əraf", "8. Ənfal", "9. Tövbə", "10. Yunis",
+        "11. Hud", "12. Yusif", "13. Rəd", "14. İbrahim", "15. Hicr", "16. Nəhl", "17. İsra", "18. Kəhf", "19. Məryəm", "20. Taha",
+        "21. Ənbiya", "22. Həcc", "23. Muminun", "24. Nur", "25. Furqan", "26. Şüəra", "27. Nəml", "28. Qəsəs", "29. Ənkəbut", "30. Rum",
+        "31. Loğman", "32. Səcdə", "33. Əhzab", "34. Səba", "35. Fatir", "36. Ya-Sin", "37. Saffat", "38. Sad", "39. Zumər", "40. Mumin",
+        "41. Fussilət", "42. Şura", "43. Zuxruf", "44. Duxan", "45. Casiyə", "46. Əhqaf", "47. Məhəmməd", "48. Fəth", "49. Hücurat", "50. Qaf",
+        "51. Zariyat", "52. Tur", "53. Nəcm", "54. Qəmər", "55. Rəhman", "56. Vaqiə", "57. Hədid", "58. Mücadilə", "59. Həşr", "60. Mümtəhənə",
+        "61. Səff", "62. Cümə", "63. Munafiqun", "64. Təğabun", "65. Təlaq", "66. Təhrim", "67. Mülk", "68. Qələm", "69. Həqqə", "70. Məaric",
+        "71. Nuh", "72. Cin", "73. Məzzəmmil", "74. Müddəssir", "75. Qiyamə", "76. İnsan", "77. Mursəlat", "78. Nəbə", "79. Naziat", "80. Əbəsə",
+        "81. Təkvir", "82. İnfitar", "83. Mütəffifin", "84. İnşiqaq", "85. Büruc", "86. Tariq", "87. Əla", "88. Ğaşiyə", "89. Fəcr", "90. Bələd",
+        "91. Şəms", "92. Leyl", "93. Züha", "94. İنشراح (İnşirah)", "95. Tin", "96. Ələq", "97. Qədr", "98. Bəyyinə", "99. Zəlzələ", "100. Adiyat",
+        "101. Qariə", "102. Təkasur", "103. Əsr", "104. Hüməzə", "105. Fil", "106. Qüreyş", "107. Məun", "108. Kövsər", "109. Kafurun", "110. Nəsr",
+        "111. Təbət", "112. İxlas", "113. Fələq", "114. Nas"
+    ];
+
+    // Hər surənin təqribi ayə sayları (istəsəniz dəyişə bilərsiniz, xanalar avtomatik yaranır)
+    // Sadəlik üçün əsas surələri və ümumi struktur qurulub.
+    const ayahCounts = {
+        1: 7, 2: 286, 3: 200, 5: 120, 36: 83, 112: 4, 113: 5, 114: 6
+        // Qalan surələr üçün standart olaraq 30 ayə veririk, ehtiyac olsa artırıb azalda bilərsiniz
+    };
+
+    function getAyahCount(surahIndex) {
+        return ayahCounts[surahIndex] || 30; // Standart olaraq 30 ayə xanası yaradır
+    }
+
+    let translations = JSON.parse(localStorage.getItem('quran_translations') || '{}');
+
+    function renderSurahs(filter = "") {
+        const listContainer = document.getElementById('surahList');
+        listContainer.innerHTML = '';
+
+        surahs.forEach((name, index) => {
+            const surahNum = index + 1;
+            if (filter && !name.toLowerCase().includes(filter.toLowerCase()) && !surahNum.toString().includes(filter)) {
+                return;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'surah-card';
+            card.id = `surah-${surahNum}`;
+
+            let headerHTML = `
+                <div class="surah-header" onclick="toggleSurah(${surahNum})">
+                    <span class="surah-title">${name}</span>
+                    <span>Ayələr (${getAyahCount(surahNum)})</span>
+                </div>
+                <div class="surah-details" id="details-${surahNum}">
+            `;
+
+            const totalAyahs = getAyahCount(surahNum);
+            for (let i = 1; i <= totalAyahs; i++) {
+                const savedText = (translations[surahNum] && translations[surahNum][i]) || '';
+                headerHTML += `
+                    <div class="ayah-row">
+                        <span class="ayah-label">${surahNum}-ci surə, ${i}-cü ayət</span>
+                        <textarea oninput="saveAyah(${surahNum}, ${i}, this.value)" placeholder="Ayənin tərcüməsini bura yazın və ya yapışdırın...">${savedText}</textarea>
+                    </div>
+                `;
+            }
+
+            headerHTML += `</div>`;
+            card.innerHTML = headerHTML;
+            listContainer.appendChild(card);
+        });
+    }
+
+    function toggleSurah(num) {
+        const card = document.getElementById(`surah-${num}`);
+        card.classList.toggle('active');
+    }
+
+    function saveAyah(surah, ayah, text) {
+        if (!translations[surah]) {
+            translations[surah] = {};
+        }
+        translations[surah][ayah] = text;
+        localStorage.setItem('quran_translations', JSON.stringify(translations));
+    }
+
+    function filterSurahs() {
+        const query = document.getElementById('searchInput').value;
+        renderSurahs(query);
+    }
+
+    function exportJSON() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(translations, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "quran_tercume_arxiv.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    function importJSON(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                translations = JSON.parse(e.target.result);
+                localStorage.setItem('quran_translations', JSON.stringify(translations));
+                renderSurahs();
+                alert("Arxiv uğurla bərpa olundu!");
+            } catch (err) {
+                alert("Fayl oxunarkən xəta baş verdi!");
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function copyAllText() {
+        let fullText = "";
+        for (let s = 1; s <= 114; s++) {
+            if (translations[s]) {
+                fullText += `--- Surə ${s} ---\n`;
+                for (let a in translations[s]) {
+                    if (translations[s][a]) {
+                        fullText += `Ayə ${a}: ${translations[s][a]}\n`;
+                    }
+                }
+                fullText += "\n";
+            }
+        }
+        navigator.clipboard.writeText(fullText).then(() => {
+            alert("Bütün daxil edilmiş tərcümələr kopyalandı!");
+        });
+    }
+
+    renderSurahs();
+</script>
+
+</body>
+</html>
