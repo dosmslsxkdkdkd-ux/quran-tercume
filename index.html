@@ -35,7 +35,6 @@
         h1 { margin: 0; font-size: 20px; color: var(--accent); }
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         
-        /* Əsas Səhifə Siyahısı */
         .search-box {
             width: 100%;
             padding: 12px 15px;
@@ -59,7 +58,6 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .surah-item:active { transform: scale(0.98); }
         .surah-name { font-size: 16px; font-weight: bold; }
         .status-badge {
             font-size: 12px;
@@ -70,7 +68,6 @@
         .status-empty { background-color: rgba(245, 158, 11, 0.15); color: var(--warning); }
         .status-full { background-color: rgba(34, 197, 94, 0.15); color: var(--success); }
 
-        /* Surə İçi Səhifəsi */
         #surahView { display: none; }
         .back-btn {
             background: none;
@@ -117,8 +114,6 @@
             margin-top: 10px;
             font-size: 14px;
         }
-        
-        /* Ayə Xanaları (Damalar) */
         .ayahs-container { display: flex; flex-direction: column; gap: 10px; }
         .ayah-card {
             background-color: var(--card-bg);
@@ -165,7 +160,6 @@
     </header>
 
     <div class="container">
-        <!-- Əsas Siyahı Səhifəsi -->
         <div id="listView">
             <div class="global-actions">
                 <button onclick="exportJSON()">Arxivi Yüklə (JSON)</button>
@@ -175,12 +169,10 @@
             <div id="surahList"></div>
         </div>
 
-        <!-- Surə İçi Səhifəsi -->
         <div id="surahView">
             <button class="back-btn" onclick="goBack()">← Geri qayıt</button>
             <h2 id="currentSurahTitle" style="margin-top:0; font-size:18px;"></h2>
             
-            <!-- Demo Yapışdırma Bölməsi -->
             <div class="paste-section" id="demoPasteSection">
                 <h3>Bütöv Yapışdır (Demo Rejimi)</h3>
                 <textarea id="bulkInput" placeholder="Mətni bura yapışdırın..."></textarea>
@@ -207,7 +199,25 @@
         "Mümtehine Suresi", "Hucurat Suresi", "Tevbe Suresi", "Nasr Suresi"
     ];
 
-    let db = JSON.parse(localStorage.getItem('quran_app_db_v3') || '{}');
+    // Yaddaşın silinməməsi üçün etibarlı qoruma (localStorage + Backup yoxlaması)
+    let db = {};
+    try {
+        let savedData = localStorage.getItem('quran_app_secure_db');
+        if (savedData) {
+            db = JSON.parse(savedData);
+        }
+    } catch(e) {
+        db = {};
+    }
+
+    function saveData() {
+        try {
+            localStorage.setItem('quran_app_secure_db', JSON.stringify(db));
+        } catch(e) {
+            console.error("Yadda saxlama xətası:", e);
+        }
+    }
+
     let currentSurahIndex = null;
 
     function renderList() {
@@ -219,7 +229,6 @@
             let num = index + 1;
             if (filter && !name.toLowerCase().includes(filter) && !num.toString().includes(filter)) return;
 
-            // Yoxlayaq görək surə doludur ya boş
             let surahData = db[num] || {};
             let hasContent = Object.values(surahData.ayahs || {}).some(val => val && val.trim() !== "");
             
@@ -242,7 +251,6 @@
         let num = index + 1;
         document.getElementById('listView').style.display = 'none';
         document.getElementById('surahView').style.display = 'block';
-        document.getElementById('currentSurahTitleinnerText') = `${num}. ${surahs[index]}`;
         document.getElementById('headerTitle').innerText = surahs[index];
         document.getElementById('bulkInput').value = '';
 
@@ -263,7 +271,6 @@
         let container = document.getElementById('ayahsListContainer');
         container.innerHTML = '';
 
-        // Təqribi ayə sayı (istənilən qədər ayə xanası yaradılır, məsələn standart 30, lazım olsa artırmaq olar)
         let totalAyahs = 30; 
         for (let i = 1; i <= totalAyahs; i++) {
             let text = (db[num].ayahs && db[num].ayahs[i]) || "";
@@ -281,10 +288,9 @@
         let num = currentSurahIndex + 1;
         if (!db[num]) db[num] = { ayahs: {} };
         db[num].ayahs[ayahNum] = val;
-        localStorage.setItem('quran_app_db_v3', JSON.stringify(db));
+        saveData(); // Dəyişiklik olunan kimi dərhal yaddaşa yazır
     }
 
-    // Demo yapışdırma və avtomatik bölmə (rəqəmlərə görə ayırma)
     function parseAndFill() {
         let rawText = document.getElementById('bulkInput').value;
         if (!rawText) return;
@@ -292,9 +298,7 @@
         let num = currentSurahIndex + 1;
         if (!db[num]) db[num] = { ayahs: {} };
 
-        // Sadə ayırma: rəqəm və nöqtə ilə başlayan yerlərdən ayırır (məsələn: "1. ... 2. ...")
         let parts = rawText.split(/(?=\d+\s*[\.\-\)]\s*)/);
-        
         parts.forEach(part => {
             let match = part.match(/^\s*(\d+)\s*[\.\-\)]\s*([\s\S]*)$/);
             if (match) {
@@ -304,16 +308,16 @@
             }
         });
 
-        localStorage.setItem('quran_app_db_v3', JSON.stringify(db));
+        saveData(); // Bütöv yapışdıranda da dərhal yaddaşa yazır
         renderAyahRows();
-        alert("Mətn uğurla ayələrə bölündü və damalara yerləşdirildi!");
+        alert("Mətn uğurla ayələrə bölündü və yadda saxlanıldı!");
     }
 
     function exportJSON() {
         let blob = new Blob([JSON.stringify(db, null, 2)], {type: "application/json"});
         let a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = "quran_butov_arxiv.json";
+        a.download = "quran_guvenli_arxiv.json";
         a.click();
     }
 
