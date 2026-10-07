@@ -10,10 +10,12 @@
             --card-bg: #181a26;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --accent: #fbbf24; /* İsti qızılı / kəhrəba - göz yormayan, premium rəng */
+            --accent: #fbbf24;
             --accent-glow: rgba(251, 191, 36, 0.15);
             --success: #34d399;
             --warning: #fb923c;
+            --danger: #ef4444;
+            --danger-glow: rgba(239, 68, 68, 0.15);
             --border: #262938;
         }
         body {
@@ -88,6 +90,13 @@
             gap: 5px;
         }
         
+        .top-action-bar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
         .paste-toggle-btn {
             background-color: var(--card-bg);
             color: var(--accent);
@@ -97,10 +106,23 @@
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            margin-bottom: 15px;
             font-size: 14px;
             text-align: center;
         }
+
+        .clear-surah-btn {
+            background-color: var(--danger-glow);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .clear-surah-btn:active { background-color: rgba(239, 68, 68, 0.3); }
+
         .paste-box-container {
             display: none;
             background-color: var(--card-bg);
@@ -216,7 +238,10 @@
         <div id="surahView">
             <button class="back-btn" onclick="goBack()">← Geri qayıt</button>
             
-            <button class="paste-toggle-btn" onclick="togglePasteBox()">+ Yeni Mətn Yapışdır / Yenilə</button>
+            <div class="top-action-bar">
+                <button class="paste-toggle-btn" onclick="togglePasteBox()">+ Yeni Mətn Yapışdır / Yenilə</button>
+                <button class="clear-surah-btn" onclick="clearCurrentSurah()">Hamısını Sil</button>
+            </div>
             
             <div class="paste-box-container" id="pasteBox">
                 <textarea id="bulkInput" placeholder="Məsələn:
@@ -310,6 +335,19 @@
         box.style.display = box.style.display === 'block' ? 'none' : 'block';
     }
 
+    function clearCurrentSurah() {
+        let num = currentSurahIndex + 1;
+        if (db[num] && db[num].ayahs && Object.keys(db[num].ayahs).length > 0) {
+            if (confirm("Bu surəyə aid bütün mətnlər silinsin?")) {
+                db[num].ayahs = {};
+                saveData();
+                renderAyahBlocks();
+            }
+        } else {
+            alert("Bu surə onsuz da boşdur!");
+        }
+    }
+
     function renderAyahBlocks() {
         let num = currentSurahIndex + 1;
         if (!db[num]) db[num] = { ayahs: {} };
@@ -348,7 +386,6 @@
         let num = currentSurahIndex + 1;
         if (!db[num]) db[num] = { ayahs: {} };
 
-        // Sətri sətir oxuyaraq sənin qoyduğun nömrəni (məsələn: 1-2, 3-5, 8) heç bir dəyişiklik etmədən götürür
         let lines = rawText.split('\n');
         lines.forEach(line => {
             let match = line.match(/^\s*([\d\-\,\s]+)\s*[\.\-\)]\s*([\s\S]*)$/);
