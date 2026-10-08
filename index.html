@@ -7,609 +7,321 @@
 <title>Quran Tərcüməsi</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#f4f7f5;color:#17211e;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+
+.header{
+  background:linear-gradient(135deg,#173f35,#286653);
+  color:white;padding:28px 18px 24px;border-radius:0 0 28px 28px;
+  box-shadow:0 5px 18px rgba(0,0,0,.12)
+}
+.header h1{margin:0;font-size:28px;font-weight:800}
+.header p{margin:7px 0 0;opacity:.85;font-size:14px}
+
+.container,.reader{max-width:760px;margin:auto;padding:18px}
+.search{
+  width:100%;padding:15px 17px;border:1px solid #d8e1dd;border-radius:16px;
+  background:white;outline:none;font-size:16px;margin-bottom:16px
 }
 
-body {
-  margin: 0;
-  background: #f4f7f5;
-  color: #17211e;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-               "Segoe UI", Arial, sans-serif;
+.toolbar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.btn{
+  border:0;border-radius:14px;padding:12px 15px;font-weight:700;
+  background:#173f35;color:white
+}
+.btn.secondary{background:#e3ece8;color:#173f35}
+.btn.danger{background:#b83b3b;color:white}
+
+.surah-grid{display:grid;gap:11px}
+.surah-card{
+  display:flex;align-items:center;gap:13px;background:white;
+  border:1px solid #e1e8e5;border-radius:18px;padding:15px;
+  box-shadow:0 3px 10px rgba(0,0,0,.035)
+}
+.surah-card:active{transform:scale(.98)}
+.number{
+  width:43px;height:43px;min-width:43px;border-radius:14px;
+  background:#e6f0ec;color:#173f35;display:flex;
+  align-items:center;justify-content:center;font-weight:800
+}
+.surah-info{flex:1}
+.surah-name{font-size:17px;font-weight:800}
+.surah-arabic{color:#73827d;margin-top:3px;font-size:14px}
+.arrow{color:#8a9994;font-size:21px}
+
+.hidden{display:none!important}
+
+.reader-header{
+  position:sticky;top:0;z-index:10;background:rgba(244,247,245,.95);
+  backdrop-filter:blur(12px);padding:12px 18px;border-bottom:1px solid #dde5e1
+}
+.reader-top{max-width:760px;margin:auto;display:flex;align-items:center;gap:10px}
+.back{
+  border:0;background:white;width:42px;height:42px;border-radius:13px;font-size:20px
+}
+.reader-title{flex:1}
+.reader-title strong{display:block;font-size:18px}
+.reader-title small{color:#75847e}
+.reader-actions{display:flex;gap:7px}
+.icon-btn{
+  border:0;background:white;width:42px;height:42px;border-radius:13px;font-size:18px
 }
 
-button, input, textarea {
-  font: inherit;
+.reader{padding:22px 18px 80px}
+
+.ayah{
+  background:white;border-radius:20px;padding:22px 19px;margin-bottom:14px;
+  border:1px solid #e1e8e5;box-shadow:0 4px 13px rgba(0,0,0,.035)
+}
+.ayah-number{color:#286653;font-size:13px;font-weight:800;margin-bottom:12px}
+.ayah-text{
+  font-size:22px;line-height:1.75;white-space:pre-wrap;
+  word-break:break-word
+}
+.ayah-buttons{display:flex;gap:7px;margin-top:17px}
+.small-btn{
+  border:0;border-radius:11px;padding:9px 12px;background:#edf3f0;
+  color:#173f35;font-size:13px;font-weight:700
+}
+.small-btn.delete{background:#f9e6e6;color:#a62f2f}
+
+.empty{
+  text-align:center;background:white;border-radius:20px;
+  padding:35px 20px;color:#71807b
 }
 
-button {
-  cursor: pointer;
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.48);
+  display:flex;align-items:flex-end;justify-content:center;z-index:100
+}
+.modal{
+  width:100%;max-width:760px;background:white;border-radius:28px 28px 0 0;
+  padding:22px 18px 30px;max-height:90vh;overflow-y:auto
+}
+.modal h2{margin:0 0 15px;font-size:21px}
+
+.notice{
+  background:#e8f1ed;color:#275646;border-radius:14px;
+  padding:12px 14px;margin-bottom:15px;font-size:13px
 }
 
-.header {
-  background: linear-gradient(135deg, #173f35, #286653);
-  color: white;
-  padding: 28px 18px 24px;
-  border-radius: 0 0 28px 28px;
-  box-shadow: 0 5px 18px rgba(0,0,0,.12);
+label{
+  display:block;margin:13px 0 7px;font-size:13px;
+  font-weight:800;color:#52615c
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 800;
+textarea,input{
+  width:100%;border:1px solid #d6e0dc;border-radius:14px;
+  padding:13px;outline:none;background:#fbfcfc
+}
+textarea{
+  min-height:230px;resize:vertical;line-height:1.65;font-size:17px
 }
 
-.header p {
-  margin: 7px 0 0;
-  opacity: .85;
-  font-size: 14px;
+.modal-buttons{display:flex;gap:9px;margin-top:18px}
+.modal-buttons .btn{flex:1}
+
+.format-box{
+  background:#f3f7f5;border-radius:13px;padding:12px;
+  font-size:13px;line-height:1.6;margin-top:10px
 }
 
-.container {
-  max-width: 760px;
-  margin: auto;
-  padding: 18px;
-}
-
-.search {
-  width: 100%;
-  padding: 15px 17px;
-  border: 1px solid #d8e1dd;
-  border-radius: 16px;
-  background: white;
-  outline: none;
-  font-size: 16px;
-  margin-bottom: 16px;
-}
-
-.search:focus {
-  border-color: #286653;
-  box-shadow: 0 0 0 3px rgba(40,102,83,.1);
-}
-
-.toolbar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  border: 0;
-  border-radius: 14px;
-  padding: 12px 15px;
-  font-weight: 700;
-  background: #173f35;
-  color: white;
-}
-
-.btn.secondary {
-  background: #e3ece8;
-  color: #173f35;
-}
-
-.btn.danger {
-  background: #b83b3b;
-  color: white;
-}
-
-.surah-grid {
-  display: grid;
-  gap: 11px;
-}
-
-.surah-card {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  background: white;
-  border: 1px solid #e1e8e5;
-  border-radius: 18px;
-  padding: 15px;
-  box-shadow: 0 3px 10px rgba(0,0,0,.035);
-  transition: .15s;
-}
-
-.surah-card:active {
-  transform: scale(.98);
-}
-
-.number {
-  width: 43px;
-  height: 43px;
-  min-width: 43px;
-  border-radius: 14px;
-  background: #e6f0ec;
-  color: #173f35;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-}
-
-.surah-info {
-  flex: 1;
-}
-
-.surah-name {
-  font-size: 17px;
-  font-weight: 800;
-}
-
-.surah-arabic {
-  color: #73827d;
-  margin-top: 3px;
-  font-size: 14px;
-}
-
-.arrow {
-  color: #8a9994;
-  font-size: 21px;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.reader-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: rgba(244,247,245,.95);
-  backdrop-filter: blur(12px);
-  padding: 12px 18px;
-  border-bottom: 1px solid #dde5e1;
-}
-
-.reader-top {
-  max-width: 760px;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.back {
-  border: 0;
-  background: white;
-  width: 42px;
-  height: 42px;
-  border-radius: 13px;
-  font-size: 20px;
-}
-
-.reader-title {
-  flex: 1;
-}
-
-.reader-title strong {
-  display: block;
-  font-size: 18px;
-}
-
-.reader-title small {
-  color: #75847e;
-}
-
-.reader-actions {
-  display: flex;
-  gap: 7px;
-}
-
-.icon-btn {
-  border: 0;
-  background: white;
-  width: 42px;
-  height: 42px;
-  border-radius: 13px;
-  font-size: 18px;
-}
-
-.reader {
-  max-width: 760px;
-  margin: auto;
-  padding: 22px 18px 80px;
-}
-
-.ayah {
-  background: white;
-  border-radius: 20px;
-  padding: 22px 19px;
-  margin-bottom: 14px;
-  border: 1px solid #e1e8e5;
-  box-shadow: 0 4px 13px rgba(0,0,0,.035);
-}
-
-.ayah-number {
-  color: #286653;
-  font-size: 13px;
-  font-weight: 800;
-  margin-bottom: 12px;
-}
-
-.ayah-text {
-  font-size: 22px;
-  line-height: 1.75;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.ayah-buttons {
-  display: flex;
-  gap: 7px;
-  margin-top: 17px;
-}
-
-.small-btn {
-  border: 0;
-  border-radius: 11px;
-  padding: 9px 12px;
-  background: #edf3f0;
-  color: #173f35;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.small-btn.delete {
-  background: #f9e6e6;
-  color: #a62f2f;
-}
-
-.empty {
-  text-align: center;
-  background: white;
-  border-radius: 20px;
-  padding: 35px 20px;
-  color: #71807b;
-}
-
-.modal-bg {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.48);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 100;
-}
-
-.modal {
-  width: 100%;
-  max-width: 760px;
-  background: white;
-  border-radius: 28px 28px 0 0;
-  padding: 22px 18px 30px;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal h2 {
-  margin: 0 0 18px;
-  font-size: 21px;
-}
-
-label {
-  display: block;
-  margin: 13px 0 7px;
-  font-size: 13px;
-  font-weight: 800;
-  color: #52615c;
-}
-
-input, textarea {
-  width: 100%;
-  border: 1px solid #d6e0dc;
-  border-radius: 14px;
-  padding: 13px;
-  outline: none;
-  background: #fbfcfc;
-}
-
-textarea {
-  min-height: 170px;
-  resize: vertical;
-  line-height: 1.65;
-  font-size: 17px;
-}
-
-.modal-buttons {
-  display: flex;
-  gap: 9px;
-  margin-top: 18px;
-}
-
-.modal-buttons .btn {
-  flex: 1;
-}
-
-.notice {
-  background: #e8f1ed;
-  color: #275646;
-  border-radius: 14px;
-  padding: 12px 14px;
-  margin-bottom: 15px;
-  font-size: 13px;
-}
-
-@media (min-width: 600px) {
-  .surah-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .ayah-text {
-    font-size: 25px;
-  }
-
-  .modal-bg {
-    align-items: center;
-    padding: 20px;
-  }
-
-  .modal {
-    border-radius: 25px;
-  }
+@media(min-width:600px){
+  .surah-grid{grid-template-columns:1fr 1fr}
+  .ayah-text{font-size:25px}
+  .modal-bg{align-items:center;padding:20px}
+  .modal{border-radius:25px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- ANA SƏHİFƏ -->
 <section id="homePage">
 
-  <header class="header">
-    <h1>📖 Quran Tərcüməsi</h1>
-    <p>Ayələri oxu, əlavə et və öz arxivini yarat.</p>
-  </header>
+<header class="header">
+  <h1>📖 Quran Tərcüməsi</h1>
+  <p>Ayələri oxu, əlavə et və öz arxivini yarat.</p>
+</header>
 
-  <main class="container">
+<main class="container">
 
-    <input
-      id="searchInput"
-      class="search"
-      type="search"
-      placeholder="Surə axtar..."
-      oninput="searchSurahs()"
-    >
+<input
+  id="searchInput"
+  class="search"
+  type="search"
+  placeholder="Surə axtar..."
+  oninput="searchSurahs()"
+>
 
-    <div class="toolbar">
-      <button class="btn" onclick="openAddFromHome()">＋ Ayə əlavə et</button>
-      <button class="btn secondary" onclick="exportArchive()">📦 Arxiv yarat</button>
-      <button class="btn secondary" onclick="document.getElementById('fileInput').click()">♻️ Arxivi bərpa et</button>
-      <input id="fileInput" type="file" accept=".json" hidden onchange="importArchive(event)">
-    </div>
+<div class="toolbar">
+  <button class="btn secondary" onclick="exportArchive()">📦 Arxiv yarat</button>
+  <button class="btn secondary" onclick="document.getElementById('fileInput').click()">♻️ Arxivi bərpa et</button>
+  <input id="fileInput" type="file" accept=".json" hidden onchange="importArchive(event)">
+</div>
 
-    <div id="surahGrid" class="surah-grid"></div>
+<div id="surahGrid" class="surah-grid"></div>
 
-  </main>
+</main>
 </section>
 
 
-<!-- OXUYUCU -->
 <section id="readerPage" class="hidden">
 
-  <div class="reader-header">
+<div class="reader-header">
+  <div class="reader-top">
 
-    <div class="reader-top">
+    <button class="back" onclick="goHome()">‹</button>
 
-      <button class="back" onclick="goHome()">‹</button>
-
-      <div class="reader-title">
-        <strong id="readerSurahName"></strong>
-        <small id="readerSurahArabic"></small>
-      </div>
-
-      <div class="reader-actions">
-        <button class="icon-btn" onclick="openAddAyah()">＋</button>
-        <button class="icon-btn" onclick="deleteAllAyahs()">🗑️</button>
-      </div>
-
+    <div class="reader-title">
+      <strong id="readerSurahName"></strong>
+      <small id="readerSurahArabic"></small>
     </div>
 
-  </div>
-
-  <main id="reader" class="reader"></main>
-
-</section>
-
-
-<!-- AYƏ MODALI -->
-<div id="ayahModal" class="modal-bg hidden">
-
-  <div class="modal">
-
-    <h2 id="modalTitle">Ayə əlavə et</h2>
-
-    <div class="notice">
-      Ayənin nömrəsini və öz tərcüməni yaz. Sonra yadda saxla.
-    </div>
-
-    <label>Ayə nömrəsi</label>
-    <input id="ayahNumber" type="number" min="1" placeholder="Məsələn: 1">
-
-    <label>Ayə mətni / tərcümə</label>
-    <textarea
-      id="ayahText"
-      placeholder="Ayənin tərcüməsini buraya yaz..."
-    ></textarea>
-
-    <div class="modal-buttons">
-      <button class="btn secondary" onclick="closeModal()">Ləğv et</button>
-      <button class="btn" onclick="saveAyah()">Yadda saxla</button>
+    <div class="reader-actions">
+      <button class="icon-btn" onclick="openAddAyah()">＋</button>
+      <button class="icon-btn" onclick="deleteAllAyahs()">🗑️</button>
     </div>
 
   </div>
 </div>
 
+<main id="reader" class="reader"></main>
+
+</section>
+
+
+<div id="ayahModal" class="modal-bg hidden">
+
+<div class="modal">
+
+<h2 id="modalTitle">Ayələri əlavə et</h2>
+
+<div class="notice">
+  Buraya bir neçə ayəni birdən yapışdıra bilərsən. Hər sətir ayrıca ayə kimi əlavə olunacaq.
+</div>
+
+<label>Başlanğıc ayə nömrəsi</label>
+
+<input
+  id="startNumber"
+  type="number"
+  min="1"
+  value="1"
+  placeholder="Məsələn: 1"
+>
+
+<label>Ayələri yaz / yapışdır</label>
+
+<textarea
+  id="ayahText"
+  placeholder="Məsələn:
+
+Rəhmi bol və mərhəməti davamlı Allahın adı ilə.
+Həmd yalnız aləmlərin Rəbbi Allaha məxsusdur.
+O, mərhəməti bol və davamlı olandır.
+
+Buraya 30, 50 və ya 100 ayəni birdən yapışdıra bilərsən."
+></textarea>
+
+<div class="format-box">
+  <strong>Necə işləyir?</strong><br>
+  Hər sətir = 1 ayə.<br>
+  Məsələn 30 sətir yazsan → 30 ayə əlavə olunacaq.
+</div>
+
+<div class="modal-buttons">
+  <button class="btn secondary" onclick="closeModal()">Ləğv et</button>
+  <button class="btn" onclick="saveAyahs()">Hamısını yadda saxla</button>
+</div>
+
+</div>
+</div>
+
 
 <script>
 
-/* =========================================================
+/* =========================
    114 SURƏ
-========================================================= */
+========================= */
 
 const surahs = [
-["Əl-Fatihə","الفاتحة"],
-["Əl-Bəqərə","البقرة"],
-["Ali İmran","آل عمران"],
-["Ən-Nisa","النساء"],
-["Əl-Maidə","المائدة"],
-["Əl-Ənam","الأنعام"],
-["Əl-Əraf","الأعراف"],
-["Əl-Ənfal","الأنفال"],
-["Ət-Tövbə","التوبة"],
-["Yunus","يونس"],
-["Hud","هود"],
-["Yusuf","يوسف"],
-["Ər-Rəd","الرعد"],
-["İbrahim","إبراهيم"],
-["Əl-Hicr","الحجر"],
-["Ən-Nəhl","النحل"],
-["Əl-İsra","الإسراء"],
-["Əl-Kəhf","الكهف"],
-["Məryəm","مريم"],
-["Ta-Ha","طه"],
-["Əl-Ənbiya","الأنبياء"],
-["Əl-Həcc","الحج"],
-["Əl-Muminun","المؤمنون"],
-["Ən-Nur","النور"],
-["Əl-Furqan","الفرقان"],
-["Əş-Şuəra","الشعراء"],
-["Ən-Nəml","النمل"],
-["Əl-Qəsəs","القصص"],
-["Əl-Ənkəbut","العنكبوت"],
-["Ər-Rum","الروم"],
-["Loğman","لقمان"],
-["Əs-Səcdə","السجدة"],
-["Əl-Əhzab","الأحزاب"],
-["Səba","سبأ"],
-["Fatir","فاطر"],
-["Yasin","يس"],
-["Əs-Saffat","الصافات"],
-["Sad","ص"],
-["Əz-Zumər","الزمر"],
-["Ğafir","غافر"],
-["Fussilət","فصلت"],
-["Əş-Şura","الشورى"],
-["Əz-Zuxruf","الزخرف"],
-["Əd-Duxan","الدخان"],
-["Əl-Casiyə","الجاثية"],
-["Əl-Əhqaf","الأحقاف"],
-["Muhəmməd","محمد"],
-["Əl-Fəth","الفتح"],
-["Əl-Hucurat","الحجرات"],
-["Qaf","ق"],
-["Əz-Zariyat","الذاريات"],
-["Ət-Tur","الطور"],
-["Ən-Nəcm","النجم"],
-["Əl-Qəmər","القمر"],
-["Ər-Rəhman","الرحمن"],
-["Əl-Vaqiə","الواقعة"],
-["Əl-Hədid","الحديد"],
-["Əl-Mücadilə","المجادلة"],
-["Əl-Həşr","الحشر"],
-["Əl-Mumtəhənə","الممتحنة"],
-["Əs-Saff","الصف"],
-["Əl-Cumuə","الجمعة"],
-["Əl-Münafiqun","المنافقون"],
-["Ət-Təğabun","التغابن"],
-["Ət-Talaq","الطلاق"],
-["Ət-Təhrim","التحريم"],
-["Əl-Mülk","الملك"],
-["Əl-Qələm","القلم"],
-["Əl-Haqqə","الحاقة"],
-["Əl-Məaric","المعارج"],
-["Nuh","نوح"],
-["Əl-Cin","الجن"],
-["Əl-Muzzəmmil","المزمل"],
-["Əl-Müddəssir","المدثر"],
-["Əl-Qiyamə","القيامة"],
-["Əl-İnsan","الإنسان"],
-["Əl-Mursəlat","المرسلات"],
-["Ən-Nəbə","النبأ"],
-["Ən-Naziat","النازعات"],
-["Əbəsə","عبس"],
-["Ət-Təkvir","التكوير"],
-["Əl-İnfitar","الانفطار"],
-["Əl-Mutəffifin","المطففين"],
-["Əl-İnşiqaq","الانشقاق"],
-["Əl-Buruc","البروج"],
-["Ət-Tariq","الطارق"],
-["Əl-Əla","الأعلى"],
-["Əl-Ğaşiyə","الغاشية"],
-["Əl-Fəcr","الفجر"],
-["Əl-Bələd","البلد"],
-["Əş-Şəms","الشمس"],
-["Əl-Leyl","الليل"],
-["Əd-Duha","الضحى"],
-["Əş-Şərh","الشرح"],
-["Ət-Tin","التين"],
-["Əl-Ələq","العلق"],
-["Əl-Qədr","القدر"],
-["Əl-Bəyyinə","البينة"],
-["Əz-Zilzal","الزلزلة"],
-["Əl-Adiyat","العاديات"],
-["Əl-Qariə","القارعة"],
-["Ət-Təkasur","التكاثر"],
-["Əl-Əsr","العصر"],
-["Əl-Huməzə","الهمزة"],
-["Əl-Fil","الفيل"],
-["Qureyş","قريش"],
-["Əl-Maun","الماعون"],
-["Əl-Kövsər","الكوثر"],
-["Əl-Kafirun","الكافرون"],
-["Ən-Nəsr","النصر"],
-["Əl-Məsəd","المسد"],
-["Əl-İxlas","الإخلاص"],
-["Əl-Fələq","الفلق"],
-["Ən-Nas","الناس"]
+["Əl-Fatihə","الفاتحة"],["Əl-Bəqərə","البقرة"],["Ali İmran","آل عمران"],
+["Ən-Nisa","النساء"],["Əl-Maidə","المائدة"],["Əl-Ənam","الأنعام"],
+["Əl-Əraf","الأعراف"],["Əl-Ənfal","الأنفال"],["Ət-Tövbə","التوبة"],
+["Yunus","يونس"],["Hud","هود"],["Yusuf","يوسف"],["Ər-Rəd","الرعد"],
+["İbrahim","إبراهيم"],["Əl-Hicr","الحجر"],["Ən-Nəhl","النحل"],
+["Əl-İsra","الإسراء"],["Əl-Kəhf","الكهف"],["Məryəm","مريم"],
+["Ta-Ha","طه"],["Əl-Ənbiya","الأنبياء"],["Əl-Həcc","الحج"],
+["Əl-Muminun","المؤمنون"],["Ən-Nur","النور"],["Əl-Furqan","الفرقان"],
+["Əş-Şuəra","الشعراء"],["Ən-Nəml","النمل"],["Əl-Qəsəs","القصص"],
+["Əl-Ənkəbut","العنكبوت"],["Ər-Rum","الروم"],["Loğman","لقمان"],
+["Əs-Səcdə","السجدة"],["Əl-Əhzab","الأحزاب"],["Səba","سبأ"],
+["Fatir","فاطر"],["Yasin","يس"],["Əs-Saffat","الصافات"],
+["Sad","ص"],["Əz-Zumər","الزمر"],["Ğafir","غافر"],
+["Fussilət","فصلت"],["Əş-Şura","الشورى"],["Əz-Zuxruf","الزخرف"],
+["Əd-Duxan","الدخان"],["Əl-Casiyə","الجاثية"],["Əl-Əhqaf","الأحقاف"],
+["Muhəmməd","محمد"],["Əl-Fəth","الفتح"],["Əl-Hucurat","الحجرات"],
+["Qaf","ق"],["Əz-Zariyat","الذاريات"],["Ət-Tur","الطور"],
+["Ən-Nəcm","النجم"],["Əl-Qəmər","القمر"],["Ər-Rəhman","الرحمن"],
+["Əl-Vaqiə","الواقعة"],["Əl-Hədid","الحديد"],["Əl-Mücadilə","المجادلة"],
+["Əl-Həşr","الحشر"],["Əl-Mumtəhənə","الممتحنة"],["Əs-Saff","الصف"],
+["Əl-Cumuə","الجمعة"],["Əl-Münafiqun","المنافقون"],["Ət-Təğabun","التغابun"],
+["Ət-Talaq","الطلاق"],["Ət-Təhrim","التحريم"],["Əl-Mülk","الملك"],
+["Əl-Qələm","القلم"],["Əl-Haqqə","الحاقة"],["Əl-Məaric","المعارج"],
+["Nuh","نوح"],["Əl-Cin","الجن"],["Əl-Muzzəmmil","المزمل"],
+["Əl-Müddəssir","المدثر"],["Əl-Qiyamə","القيامة"],["Əl-İnsan","الإنسان"],
+["Əl-Mursəlat","المرسلات"],["Ən-Nəbə","النبأ"],["Ən-Naziat","النازعات"],
+["Əbəsə","عبس"],["Ət-Təkvir","التكوير"],["Əl-İnfitar","الانفطار"],
+["Əl-Mutəffifin","المطففين"],["Əl-İnşiqaq","الانشقاق"],["Əl-Buruc","البروج"],
+["Ət-Tariq","الطارق"],["Əl-Əla","الأعلى"],["Əl-Ğaşiyə","الغاشية"],
+["Əl-Fəcr","الفجر"],["Əl-Bələd","البلد"],["Əş-Şəms","الشمس"],
+["Əl-Leyl","الليل"],["Əd-Duha","الضحى"],["Əş-Şərh","الشرح"],
+["Ət-Tin","التين"],["Əl-Ələq","العلق"],["Əl-Qədr","القدر"],
+["Əl-Bəyyinə","البينة"],["Əz-Zilzal","الزلزلة"],["Əl-Adiyat","العاديات"],
+["Əl-Qariə","القارعة"],["Ət-Təkasur","التكاثر"],["Əl-Əsr","العصر"],
+["Əl-Huməzə","الهمزة"],["Əl-Fil","الفيل"],["Qureyş","قريش"],
+["Əl-Maun","الماعون"],["Əl-Kövsər","الكوثر"],["Əl-Kafirun","الكافرون"],
+["Ən-Nəsr","النصر"],["Əl-Məsəd","المسد"],["Əl-İxlas","الإخلاص"],
+["Əl-Fələq","الفلق"],["Ən-Nas","الناس"]
 ];
 
 
-/* =========================================================
-   MƏLUMATLAR
-========================================================= */
+/* =========================
+   YADDAŞ
+========================= */
 
-let data = JSON.parse(localStorage.getItem("quranTranslations") || "{}");
+let data = JSON.parse(
+  localStorage.getItem("quranTranslations") || "{}"
+);
 
 let currentSurah = null;
-let editingAyah = null;
 
 
-/* =========================================================
-   ƏSAS SƏHİFƏ
-========================================================= */
+/* =========================
+   SURƏLƏR
+========================= */
 
-function renderSurahs(list = surahs) {
+function renderSurahs(list=surahs){
 
-  const grid = document.getElementById("surahGrid");
+  const grid=document.getElementById("surahGrid");
 
-  grid.innerHTML = "";
+  grid.innerHTML="";
 
-  if (!list.length) {
-    grid.innerHTML = `
-      <div class="empty">
-        Surə tapılmadı.
-      </div>
-    `;
-    return;
-  }
+  list.forEach(surah=>{
 
-  list.forEach((surah, index) => {
+    const number=surahs.indexOf(surah)+1;
 
-    const realNumber = surahs.indexOf(surah) + 1;
+    const card=document.createElement("div");
 
-    const card = document.createElement("div");
+    card.className="surah-card";
 
-    card.className = "surah-card";
+    card.onclick=()=>openSurah(number);
 
-    card.onclick = () => openSurah(realNumber);
-
-    card.innerHTML = `
-      <div class="number">${realNumber}</div>
+    card.innerHTML=`
+      <div class="number">${number}</div>
 
       <div class="surah-info">
         <div class="surah-name">${surah[0]}</div>
@@ -620,40 +332,40 @@ function renderSurahs(list = surahs) {
     `;
 
     grid.appendChild(card);
+
   });
 }
 
 
-function searchSurahs() {
+function searchSurahs(){
 
-  const value =
-    document.getElementById("searchInput")
-      .value
-      .toLowerCase()
-      .trim();
+  const value=document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
 
-  const filtered = surahs.filter((surah, index) => {
-
-    const number = String(index + 1);
+  const filtered=surahs.filter((surah,index)=>{
 
     return (
       surah[0].toLowerCase().includes(value) ||
       surah[1].includes(value) ||
-      number.includes(value)
+      String(index+1).includes(value)
     );
+
   });
 
   renderSurahs(filtered);
 }
 
 
-/* =========================================================
+/* =========================
    SURƏ AÇ
-========================================================= */
+========================= */
 
-function openSurah(number) {
+function openSurah(number){
 
-  currentSurah = number;
+  currentSurah=number;
 
   document.getElementById("homePage")
     .classList.add("hidden");
@@ -661,19 +373,19 @@ function openSurah(number) {
   document.getElementById("readerPage")
     .classList.remove("hidden");
 
-  document.getElementById("readerSurahName").textContent =
-    number + ". " + surahs[number - 1][0];
+  document.getElementById("readerSurahName").textContent=
+    number+". "+surahs[number-1][0];
 
-  document.getElementById("readerSurahArabic").textContent =
-    surahs[number - 1][1];
+  document.getElementById("readerSurahArabic").textContent=
+    surahs[number-1][1];
 
   renderAyahs();
 }
 
 
-function goHome() {
+function goHome(){
 
-  currentSurah = null;
+  currentSurah=null;
 
   document.getElementById("readerPage")
     .classList.add("hidden");
@@ -683,29 +395,25 @@ function goHome() {
 }
 
 
-/* =========================================================
-   AYƏLƏRİ GÖSTƏR
-========================================================= */
+/* =========================
+   AYƏLƏR
+========================= */
 
-function renderAyahs() {
+function renderAyahs(){
 
-  const reader = document.getElementById("reader");
+  const reader=document.getElementById("reader");
 
-  const ayahs = data[currentSurah] || [];
+  const ayahs=data[currentSurah] || [];
 
-  reader.innerHTML = "";
+  reader.innerHTML="";
 
-  if (!ayahs.length) {
+  if(!ayahs.length){
 
-    reader.innerHTML = `
+    reader.innerHTML=`
       <div class="empty">
-
-        <div style="font-size:40px;margin-bottom:10px;">📖</div>
-
+        <div style="font-size:40px">📖</div>
         <strong>Bu surədə hələ ayə yoxdur.</strong>
-
-        <p>Yuxarıdakı ＋ düyməsinə basaraq ayə əlavə edə bilərsən.</p>
-
+        <p>＋ düyməsinə bas və ayələri birdən əlavə et.</p>
       </div>
     `;
 
@@ -713,14 +421,14 @@ function renderAyahs() {
   }
 
   ayahs
-    .sort((a,b) => Number(a.number) - Number(b.number))
-    .forEach(ayah => {
+    .sort((a,b)=>Number(a.number)-Number(b.number))
+    .forEach(ayah=>{
 
-      const box = document.createElement("article");
+      const box=document.createElement("article");
 
-      box.className = "ayah";
+      box.className="ayah";
 
-      box.innerHTML = `
+      box.innerHTML=`
 
         <div class="ayah-number">
           AYƏ ${escapeHtml(ayah.number)}
@@ -734,15 +442,13 @@ function renderAyahs() {
 
           <button
             class="small-btn"
-            onclick="editAyah(${ayah.id})"
-          >
+            onclick="editAyah(${ayah.id})">
             ✏️ Düzəlt
           </button>
 
           <button
             class="small-btn delete"
-            onclick="deleteAyah(${ayah.id})"
-          >
+            onclick="deleteAyah(${ayah.id})">
             🗑️ Sil
           </button>
 
@@ -750,145 +456,153 @@ function renderAyahs() {
       `;
 
       reader.appendChild(box);
+
     });
 }
 
 
-/* =========================================================
-   AYƏ ƏLAVƏ ET
-========================================================= */
+/* =========================
+   TOPLU AYƏ MODALI
+========================= */
 
-function openAddAyah() {
+function openAddAyah(){
 
-  editingAyah = null;
+  document.getElementById("modalTitle").textContent=
+    "Ayələri toplu əlavə et";
 
-  document.getElementById("modalTitle").textContent =
-    "Ayə əlavə et";
+  const existing=data[currentSurah] || [];
 
-  document.getElementById("ayahNumber").value = "";
+  let nextNumber=1;
 
-  document.getElementById("ayahText").value = "";
+  if(existing.length){
 
-  document.getElementById("ayahModal")
-    .classList.remove("hidden");
-}
+    nextNumber=Math.max(
+      ...existing.map(a=>Number(a.number))
+    )+1;
 
+  }
 
-function openAddFromHome() {
+  document.getElementById("startNumber").value=nextNumber;
 
-  alert(
-    "Əvvəlcə ayəni əlavə etmək istədiyin surəni aç."
-  );
-}
-
-
-function editAyah(id) {
-
-  const ayahs = data[currentSurah] || [];
-
-  const ayah = ayahs.find(a => a.id === id);
-
-  if (!ayah) return;
-
-  editingAyah = id;
-
-  document.getElementById("modalTitle").textContent =
-    "Ayəni düzəlt";
-
-  document.getElementById("ayahNumber").value =
-    ayah.number;
-
-  document.getElementById("ayahText").value =
-    ayah.text;
+  document.getElementById("ayahText").value="";
 
   document.getElementById("ayahModal")
     .classList.remove("hidden");
 }
 
 
-function closeModal() {
+function closeModal(){
 
   document.getElementById("ayahModal")
     .classList.add("hidden");
-
-  editingAyah = null;
 }
 
 
-/* =========================================================
-   AYƏNİ YADDA SAXLA
-========================================================= */
+/* =========================
+   TOPLU YADDA SAXLA
+========================= */
 
-function saveAyah() {
+function saveAyahs(){
 
-  const number =
-    document.getElementById("ayahNumber")
-      .value
-      .trim();
+  const start=Number(
+    document.getElementById("startNumber").value
+  );
 
-  const text =
-    document.getElementById("ayahText")
-      .value
-      .trim();
+  const raw=
+    document.getElementById("ayahText").value;
 
-  if (!number || !text) {
+  if(!start || start<1){
 
-    alert("Ayə nömrəsini və mətni yaz.");
+    alert("Başlanğıc ayə nömrəsini yaz.");
 
     return;
   }
 
-  if (!data[currentSurah]) {
-    data[currentSurah] = [];
+  if(!raw.trim()){
+
+    alert("Ayələri yapışdır.");
+
+    return;
   }
 
-  if (editingAyah !== null) {
+  /*
+    HƏR SƏTİR BİR AYƏDİR.
+    Boş sətirlər nəzərə alınmır.
+  */
 
-    const index =
-      data[currentSurah]
-        .findIndex(a => a.id === editingAyah);
+  const lines=raw
+    .split(/\r?\n/)
+    .map(line=>line.trim())
+    .filter(line=>line.length>0);
 
-    if (index !== -1) {
+  if(!lines.length){
 
-      data[currentSurah][index].number = number;
-      data[currentSurah][index].text = text;
+    alert("Ayə tapılmadı.");
 
-    }
+    return;
+  }
 
-  } else {
+  if(!data[currentSurah]){
+    data[currentSurah]=[];
+  }
+
+  let number=start;
+
+  lines.forEach(text=>{
 
     data[currentSurah].push({
 
-      id: Date.now(),
+      id:Date.now()+Math.random(),
 
-      number: number,
+      number:number,
 
-      text: text
+      text:text
 
     });
-  }
+
+    number++;
+
+  });
 
   saveData();
 
   closeModal();
 
   renderAyahs();
+
+  alert(
+    `${lines.length} ayə uğurla əlavə edildi.`
+  );
 }
 
 
-/* =========================================================
-   TƏK AYƏNİ SİL
-========================================================= */
+/* =========================
+   AYƏNİ DÜZƏLT
+========================= */
 
-function deleteAyah(id) {
+function editAyah(id){
 
-  if (!confirm("Bu ayəni silmək istəyirsən?")) {
+  const ayahs=data[currentSurah] || [];
+
+  const ayah=ayahs.find(a=>a.id===id);
+
+  if(!ayah)return;
+
+  const newText=prompt(
+    `AYƏ ${ayah.number}\n\nMətni düzəlt:`,
+    ayah.text
+  );
+
+  if(newText===null)return;
+
+  if(!newText.trim()){
+
+    alert("Ayə boş ola bilməz.");
+
     return;
   }
 
-  data[currentSurah] =
-    (data[currentSurah] || [])
-      .filter(a => a.id !== id);
+  ayah.text=newText.trim();
 
   saveData();
 
@@ -896,28 +610,49 @@ function deleteAyah(id) {
 }
 
 
-/* =========================================================
-   BÜTÜN SURƏNİ SİL
-========================================================= */
+/* =========================
+   TƏK AYƏ SİL
+========================= */
 
-function deleteAllAyahs() {
+function deleteAyah(id){
 
-  const ayahs = data[currentSurah] || [];
+  if(!confirm("Bu ayəni silmək istəyirsən?")){
+    return;
+  }
 
-  if (!ayahs.length) {
+  data[currentSurah]=
+    (data[currentSurah] || [])
+    .filter(a=>a.id!==id);
 
-    alert("Bu surədə silinəcək ayə yoxdur.");
+  saveData();
+
+  renderAyahs();
+}
+
+
+/* =========================
+   HAMISINI SİL
+========================= */
+
+function deleteAllAyahs(){
+
+  const ayahs=data[currentSurah] || [];
+
+  if(!ayahs.length){
+
+    alert("Bu surədə ayə yoxdur.");
 
     return;
   }
 
-  const name = surahs[currentSurah - 1][0];
+  const name=surahs[currentSurah-1][0];
 
-  const confirmed = confirm(
-    `"${name}" surəsindəki bütün ${ayahs.length} ayəni silmək istəyirsən?\n\nBu əməliyyat geri qaytarılmaya bilər.`
-  );
+  if(!confirm(
+    `"${name}" surəsindəki bütün ${ayahs.length} ayəni silmək istəyirsən?`
+  )){
 
-  if (!confirmed) return;
+    return;
+  }
 
   delete data[currentSurah];
 
@@ -927,11 +662,11 @@ function deleteAllAyahs() {
 }
 
 
-/* =========================================================
-   LOCAL STORAGE
-========================================================= */
+/* =========================
+   YADDA SAXLA
+========================= */
 
-function saveData() {
+function saveData(){
 
   localStorage.setItem(
     "quranTranslations",
@@ -940,47 +675,37 @@ function saveData() {
 }
 
 
-/* =========================================================
+/* =========================
    ARXİV YARAT
-========================================================= */
+========================= */
 
-function exportArchive() {
+function exportArchive(){
 
-  const archive = {
+  const archive={
 
-    app: "Quran Tərcüməsi",
+    app:"Quran Tərcüməsi",
 
-    version: "1.0",
+    version:"2.0",
 
-    createdAt: new Date().toISOString(),
+    createdAt:new Date().toISOString(),
 
-    translations: data
+    translations:data
 
   };
 
-  const json =
-    JSON.stringify(archive, null, 2);
+  const blob=new Blob(
+    [JSON.stringify(archive,null,2)],
+    {type:"application/json"}
+  );
 
-  const blob =
-    new Blob([json], {
-      type: "application/json"
-    });
+  const url=URL.createObjectURL(blob);
 
-  const url =
-    URL.createObjectURL(blob);
+  const a=document.createElement("a");
 
-  const a =
-    document.createElement("a");
+  a.href=url;
 
-  const date =
-    new Date()
-      .toISOString()
-      .slice(0,10);
-
-  a.href = url;
-
-  a.download =
-    `quran-tercumesi-arxiv-${date}.json`;
+  a.download=
+    "quran-tercumesi-arxiv.json";
 
   document.body.appendChild(a);
 
@@ -989,84 +714,74 @@ function exportArchive() {
   a.remove();
 
   URL.revokeObjectURL(url);
-
-  alert("Arxiv hazırlandı.");
 }
 
 
-/* =========================================================
-   ARXİV BƏRPA ET
-========================================================= */
+/* =========================
+   ARXİV BƏRPA
+========================= */
 
-function importArchive(event) {
+function importArchive(event){
 
-  const file =
-    event.target.files[0];
+  const file=event.target.files[0];
 
-  if (!file) return;
+  if(!file)return;
 
-  const reader =
-    new FileReader();
+  const reader=new FileReader();
 
-  reader.onload = function(e) {
+  reader.onload=function(e){
 
-    try {
+    try{
 
-      const archive =
-        JSON.parse(e.target.result);
+      const archive=JSON.parse(e.target.result);
 
-      if (
-        !archive.translations ||
-        typeof archive.translations !== "object"
-      ) {
-        throw new Error("Yanlış arxiv");
+      if(!archive.translations){
+        throw new Error();
       }
 
-      const replace =
-        confirm(
-          "Arxivi bərpa edərkən hazırkı məlumatların üstünə yazılsın?\n\nOK = Arxivlə əvəz et\nCancel = Mövcud məlumatlara əlavə et"
-        );
+      const replace=confirm(
+        "Arxivi bərpa edərkən hazırkı məlumatların üstünə yazılsın?\n\nOK = Əvəz et\nCancel = Mövcud məlumatlara əlavə et"
+      );
 
-      if (replace) {
+      if(replace){
 
-        data = archive.translations;
+        data=archive.translations;
 
-      } else {
+      }else{
 
         Object.keys(archive.translations)
-          .forEach(key => {
+        .forEach(key=>{
 
-            if (!data[key]) {
-              data[key] = [];
-            }
+          if(!data[key]){
+            data[key]=[];
+          }
 
-            data[key] = [
-              ...data[key],
-              ...archive.translations[key]
-            ];
+          data[key]=[
+            ...data[key],
+            ...archive.translations[key]
+          ];
 
-          });
+        });
+
       }
 
       saveData();
 
       renderSurahs();
 
-      if (currentSurah) {
+      if(currentSurah){
         renderAyahs();
       }
 
       alert("Arxiv uğurla bərpa edildi.");
 
-    } catch (error) {
+    }catch(error){
 
-      alert(
-        "Arxiv oxunmadı. Fayl düzgün Quran arxivi deyil."
-      );
+      alert("Arxiv düzgün deyil və oxunmadı.");
 
     }
 
-    event.target.value = "";
+    event.target.value="";
 
   };
 
@@ -1074,29 +789,24 @@ function importArchive(event) {
 }
 
 
-/* =========================================================
-   TƏHLÜKƏSİZ HTML
-========================================================= */
+/* =========================
+   TƏHLÜKƏSİZ MƏTN
+========================= */
 
-function escapeHtml(value) {
+function escapeHtml(value){
 
   return String(value)
-
-    .replace(/&/g, "&amp;")
-
-    .replace(/</g, "&lt;")
-
-    .replace(/>/g, "&gt;")
-
-    .replace(/"/g, "&quot;")
-
-    .replace(/'/g, "&#039;");
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
 
-/* =========================================================
-   BAŞLANĞIC
-========================================================= */
+/* =========================
+   BAŞLA
+========================= */
 
 renderSurahs();
 
