@@ -4,235 +4,412 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Quran Tərcüməsi — Azərbaycan dilində Quran</title>
-<meta name="description" content="Azərbaycan dilində Quran tərcüməsi. 114 surəni Quran və nüzul sırası ilə oxuyun.">
-<meta name="keywords" content="Quran, Quran tərcüməsi, Azərbaycan dilində Quran, 114 surə, nüzul sırası">
 <meta name="author" content="Babayev Ağa">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Quran Tərcüməsi — Azərbaycan dilində Quran">
-<meta property="og:description" content="Azərbaycan dilində Quran tərcüməsi və rahat oxu sistemi.">
-<meta property="og:locale" content="az_AZ">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Book","name":"Quran Tərcüməsi","inLanguage":"az","author":{"@type":"Person","name":"Babayev Ağa"}}
-</script>
+<meta name="description" content="Azərbaycan dilində Quran tərcüməsi. 114 surəni rahat oxuyun.">
+<meta name="theme-color" content="#103d31">
+<title>Quran Tərcüməsi — Azərbaycan dilində Quran</title>
 <style>
+:root{
+--bg:#f4f0e5;--paper:#fffdf6;--paper2:#eee7d7;
+--text:#202b25;--muted:#72796f;--line:#ded4bf;
+--green:#155342;--gold:#b48b43;--soft:#dfe9df;
+--shadow:0 12px 35px #24382b12
+}
+@media(prefers-color-scheme:dark){
+:root{
+--bg:#101a16;--paper:#18241e;--paper2:#243129;
+--text:#edf1e8;--muted:#aab5a8;--line:#34463a;
+--green:#b7d0b7;--gold:#dfbd73;--soft:#263b2d;
+--shadow:0 12px 35px #0003
+}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-:root{--bg:#f7f5ef;--paper:#fffefa;--paper2:#f2efe7;--text:#252822;--muted:#777b72;--line:#e6e1d6;--green:#486b52;--green2:#36543e;--soft:#e8eee8;--gold:#b28a45;--shadow:0 14px 45px #30352b14}
-@media(prefers-color-scheme:dark){:root{--bg:#171a17;--paper:#1e231f;--paper2:#282d28;--text:#edf0e9;--muted:#a7ada4;--line:#353b35;--green:#91b39a;--green2:#36543e;--soft:#29372d;--gold:#d3ad6c;--shadow:0 14px 45px #0004}}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.header{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--line);backdrop-filter:blur(20px)}
-.header-inner{max-width:1120px;margin:auto;min-height:70px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{display:flex;align-items:center;gap:12px}.logo-mark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,var(--green),var(--green2));color:white;font-size:23px}
-.logo-title{font-weight:850;font-size:17px}.logo-sub{font-size:11px;color:var(--muted);margin-top:3px}
-.header-btn,.back{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:12px;padding:10px 13px;font-weight:750}
-.container{max-width:1120px;margin:auto;padding:28px 18px 65px}
-.hero{padding:25px 3px}.hero-tag{display:inline-block;background:var(--soft);color:var(--green);padding:8px 12px;border-radius:30px;font-size:11px;font-weight:850;letter-spacing:.7px}
-.hero h1{font-size:clamp(35px,7vw,56px);line-height:1.04;letter-spacing:-2px;margin:16px 0 10px}.hero p{max-width:680px;color:var(--muted);font-size:16px;line-height:1.7}
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:25px}
-.action{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:18px;padding:17px;text-align:left;box-shadow:var(--shadow)}
-.action-main{background:linear-gradient(145deg,var(--green),var(--green2));color:white;border:0}
-.action-icon{font-size:23px;margin-bottom:10px}.action-title{font-size:14px;font-weight:850}.action-text{font-size:11px;line-height:1.5;opacity:.8;margin-top:5px}
-.continue{display:none;margin-bottom:24px;padding:18px;border:1px solid var(--line);border-radius:19px;background:var(--soft);cursor:pointer}.continue.show{display:block}.continue-label{font-size:11px;color:var(--muted)}.continue-name{font-weight:850;font-size:19px;margin-top:5px}.continue-go{display:inline-block;background:var(--green);color:white;padding:9px 13px;border-radius:10px;margin-top:12px;font-size:12px}
-.search-box{position:relative;margin-bottom:22px}.search{width:100%;padding:16px 16px 16px 45px;border:1px solid var(--line);border-radius:16px;background:var(--paper);color:var(--text);outline:none}.search:focus{border-color:var(--green)}.search-icon{position:absolute;left:16px;top:15px;color:var(--muted)}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:0 2px 13px}.section-head h2{font-size:21px;margin:0}.section-head span{font-size:12px;color:var(--muted)}
-.order-switch{display:flex;gap:10px;margin-bottom:16px}.order-btn{flex:1;padding:13px 8px;border:1px solid var(--line);border-radius:13px;background:var(--paper);color:var(--text);font-size:13px;font-weight:800}.order-btn.active{background:var(--green);border-color:var(--green);color:white}
-.surah-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.surah{min-height:80px;display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:17px;background:var(--paper);color:var(--text);text-align:left;box-shadow:0 3px 15px #23282208}.surah-number{width:40px;height:40px;flex:none;border-radius:13px;display:grid;place-items:center;background:var(--soft);color:var(--green);font-size:12px;font-weight:900}.surah-name{font-size:15px;font-weight:820}.surah-ar{margin-top:4px;color:var(--muted);font-size:11px}
-.reader{max-width:900px;margin:auto}.reader-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}.reader-title{flex:1}.reader-title h2{margin:0;font-size:25px}.reader-title small{display:block;margin-top:4px;color:var(--muted)}
-.book,.preface-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:40px 45px}
-.book-top{text-align:center;padding-bottom:25px;margin-bottom:28px;border-bottom:1px solid var(--line)}.book-top-symbol{color:var(--gold);font-size:24px}.book-top h1{margin:8px 0;font-size:28px}.book-top p{color:var(--muted);font-size:12px;margin:0}
-.quran-text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:20px;line-height:2.05;letter-spacing:.01em}
-.book-bottom{margin-top:32px;padding-top:22px;border-top:1px solid var(--line);text-align:center}.mark-button{border:0;border-radius:30px;padding:13px 18px;background:var(--green);color:white;font-weight:850}.saved{font-size:11px;color:var(--muted);margin-top:9px}
-.preface{max-width:850px;margin:auto}.preface-label{font-size:11px;font-weight:900;letter-spacing:1.3px;color:var(--green)}.preface-card h1{font-size:30px}.preface-text{white-space:pre-line;font-size:17px;line-height:1.9}.signature{border-top:1px solid var(--line);padding-top:18px;margin-top:25px;color:var(--green);font-weight:850}
-.modal{position:fixed;inset:0;z-index:50;background:#0008;display:flex;align-items:center;justify-content:center;padding:18px}.modal-box{max-width:430px;width:100%;padding:24px;border-radius:22px;background:var(--paper);color:var(--text)}.modal-box p{font-size:14px;line-height:1.6;color:var(--muted)}.modal-actions{display:flex;gap:10px}.modal-actions button{flex:1;border:0;border-radius:12px;padding:13px;font-weight:850}.modal-cancel{background:var(--paper2);color:var(--text)}.modal-ok{background:var(--green);color:white}
-@media(max-width:760px){.container{padding:20px 13px 50px}.actions{grid-template-columns:1fr 1fr}.action:first-child{grid-column:1/-1}.surah-grid{grid-template-columns:1fr}.book,.preface-card{padding:27px 19px;border-radius:19px}.quran-text{font-size:19px;line-height:2}.preface-text{font-size:16px;line-height:1.85}}
-@media(orientation:landscape) and (max-height:600px){.book{padding-left:65px;padding-right:65px}}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+header:after{content:"";display:block;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--green),var(--gold),transparent)}
+.header-inner{max-width:1100px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:44px;height:44px;border:1px solid var(--gold);border-radius:14px;display:grid;place-items:center;background:#155342;color:#f1dca5;font-size:25px}
+.logo-title{font-weight:900;font-size:16px}
+.logo-sub{font-size:11px;color:var(--muted);margin-top:4px}
+button{transition:transform .15s,border-color .15s}
+button:active{transform:scale(.98)}
+.header-btn,.back{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:12px;padding:11px 14px;font-weight:800}
+.container{max-width:1100px;margin:auto;padding:25px 18px 60px}
+.hero{position:relative;overflow:hidden;padding:35px;border:1px solid #bda56b77;border-radius:26px;background:linear-gradient(125deg,#103d31,#155342 60%,#23664d);color:#fff9e9;box-shadow:0 20px 45px #102f2420}
+.hero:after{content:"۞";position:absolute;right:-12px;top:-38px;color:#e2c47d;opacity:.15;font-size:180px}
+.tag{display:inline-block;border:1px solid #e2c47d88;color:#f0d99a;padding:8px 13px;border-radius:30px;font-size:11px;font-weight:900;letter-spacing:1px}
+.hero h1{position:relative;z-index:1;font-family:Georgia,serif;font-size:clamp(38px,6vw,62px);line-height:1.06;letter-spacing:-1px;margin:19px 0 14px}
+.hero p{position:relative;z-index:1;max-width:620px;color:#f3edda;font-size:15px;line-height:1.8;margin:0}
+.ornament{position:relative;z-index:1;color:#e2c47d;margin-top:20px;letter-spacing:8px}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.action{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:17px;padding:17px;text-align:left;box-shadow:var(--shadow)}
+.action.primary{background:linear-gradient(145deg,#1c624b,#0b352b);color:#fff8e8;border-color:var(--gold)}
+.action-icon{font-size:22px;margin-bottom:9px}
+.action-title{font-size:14px;font-weight:900}
+.action-text{font-size:12px;line-height:1.55;opacity:.8;margin-top:5px}
+.continue{display:none;margin:20px 0;padding:17px;border:1px solid var(--gold);border-radius:17px;background:var(--soft);cursor:pointer;align-items:center;justify-content:space-between;gap:12px}
+.continue.show{display:flex}
+.continue-label{font-size:11px;color:var(--muted)}
+.continue-name{font-size:18px;font-weight:900;margin-top:5px}
+.continue-go{background:var(--green);color:white;border-radius:10px;padding:10px 13px;font-size:12px;font-weight:850;white-space:nowrap}
+.search-box{position:relative;margin:24px 0}
+.search{width:100%;padding:16px 16px 16px 45px;border:1px solid var(--line);border-radius:15px;background:var(--paper);color:var(--text);outline:none}
+.search:focus{border-color:var(--gold);box-shadow:0 0 0 3px #b48b4318}
+.search-icon{position:absolute;left:15px;top:12px;color:var(--gold);font-size:23px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 2px 14px}
+.section-head h2{font-family:Georgia,serif;font-size:26px;margin:0}
+.section-head span{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:7px 10px;border-radius:20px;background:var(--paper)}
+.order-switch{display:flex;gap:10px;margin-bottom:15px}
+.order-btn{flex:1;padding:13px 8px;border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--text);font-size:13px;font-weight:850}
+.order-btn.active{background:var(--green);border-color:var(--gold);color:white}
+#orderNote{font-size:12px;color:var(--muted);margin:0 2px 14px}
+.surah-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.surah{min-height:78px;display:flex;align-items:center;gap:12px;padding:13px;border:1px solid var(--line);border-radius:16px;background:var(--paper);color:var(--text);text-align:left;box-shadow:0 4px 16px #23282206}
+.surah:hover{border-color:var(--gold)}
+.surah-number{width:41px;height:41px;flex:none;border:1px solid #b48b4355;border-radius:12px;display:grid;place-items:center;background:var(--soft);color:var(--green);font-size:13px;font-weight:950}
+.surah-name{font-size:14px;font-weight:900}
+.surah-ar{margin-top:5px;color:var(--muted);font-size:13px}
+.reader{max-width:900px;margin:auto}
+.reader-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.reader-title{flex:1}
+.reader-title h2{margin:0;font-family:Georgia,serif;font-size:25px}
+.reader-title small{display:block;margin-top:4px;color:var(--muted)}
+.book,.preface-card{position:relative;overflow:hidden;background:var(--paper);border:1px solid var(--line);border-radius:23px;box-shadow:var(--shadow);padding:38px 44px}
+.book:before,.preface-card:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--gold),var(--green),var(--gold),transparent)}
+.book-top{text-align:center;padding:8px 0 24px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+.book-symbol{color:var(--gold);font-size:30px}
+.book-top h1{font-family:Georgia,serif;margin:8px 0;color:var(--green);font-size:clamp(28px,5vw,38px)}
+.book-top p{color:var(--muted);font-size:11px;letter-spacing:1px;margin:0}
+.quran-text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:20px;line-height:2.1;letter-spacing:.01em}
+.book-bottom{margin-top:32px;padding-top:22px;border-top:1px solid var(--line);text-align:center}
+.mark-button{border:1px solid var(--gold);border-radius:30px;padding:13px 18px;background:linear-gradient(145deg,#1b624b,#0b352b);color:#fff8e8;font-weight:900}
+.saved{font-size:12px;color:var(--muted);margin-top:10px}
+.preface{max-width:850px;margin:auto}
+.preface-label{font-size:11px;font-weight:950;letter-spacing:1.6px;color:var(--gold)}
+.preface-card h1{font-family:Georgia,serif;font-size:clamp(29px,5vw,39px);margin:13px 0 22px;color:var(--green)}
+.preface-text{white-space:pre-line;font-size:17px;line-height:1.95}
+.signature{border-top:1px solid var(--line);padding-top:18px;margin-top:25px;color:var(--green);font-weight:900}
+.modal{position:fixed;inset:0;z-index:20;background:#0009;display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(4px)}
+.modal-box{max-width:440px;width:100%;padding:24px;border:1px solid var(--gold);border-radius:21px;background:var(--paper);color:var(--text)}
+.modal-box p{font-size:14px;line-height:1.65;color:var(--muted)}
+.modal-actions{display:flex;gap:10px}
+.modal-actions button{flex:1;border:0;border-radius:11px;padding:13px;font-weight:900}
+.cancel{background:var(--paper2);color:var(--text)}
+.confirm{background:var(--green);color:white}
+.empty-state{grid-column:1/-1;padding:25px;border:1px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted);background:var(--paper)}
+@media(max-width:800px){
+.container{padding:20px 14px 50px}
+.hero{padding:28px 23px}
+.actions{grid-template-columns:1fr 1fr}
+.action:first-child{grid-column:1/-1}
+.surah-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.book,.preface-card{padding:29px 23px}
+.quran-text{font-size:19px}
+}
+@media(max-width:520px){
+.logo-mark{width:40px;height:40px}
+.logo-title{font-size:15px}
+.logo-sub{font-size:10px}
+.header-btn{padding:10px;font-size:12px}
+.hero h1{font-size:41px}
+.hero p{font-size:14px}
+.action{padding:14px}
+.action-title{font-size:13px}
+.action-text{font-size:11px}
+.surah-grid{grid-template-columns:1fr;gap:9px}
+.surah{min-height:72px}
+.continue.show{align-items:flex-start;flex-direction:column}
+.order-btn{font-size:12px;padding:12px 5px}
+.section-head h2{font-size:23px}
+.book,.preface-card{padding:27px 18px}
+.quran-text{font-size:18px;line-height:2}
+.reader-title h2{font-size:22px}
+.back{padding:10px}
+.preface-text{font-size:15.5px}
+}
+@media(orientation:landscape) and (max-height:600px){
+.book{padding-left:65px;padding-right:65px}
+}
 </style>
 </head>
 <body>
-<header class="header"><div class="header-inner">
-<div class="logo"><div class="logo-mark">☾</div><div><div class="logo-title">Quran Tərcüməsi</div><div class="logo-sub">Azərbaycan dilində Quran</div></div></div>
+<header>
+<div class="header-inner">
+<div class="logo">
+<div class="logo-mark">☾</div>
+<div>
+<div class="logo-title">Quran Tərcüməsi</div>
+<div class="logo-sub">Azərbaycan dilində Quran</div>
+</div>
+</div>
 <button class="header-btn" onclick="openPreface()">Ön söz</button>
-</div></header>
+</div>
+</header>
 
 <main id="home" class="container">
-<section class="hero"><div class="hero-tag">✦ QURAN TƏRCÜMƏSİ</div><h1>Quranı oxu.<br>Mənanı düşün.</h1><p>Azərbaycan dilində Quran tərcüməsini rahat, aydın və kitab oxuyurmuş kimi oxumaq üçün hazırlanmış proqram.</p></section>
-<div id="continue" class="continue" onclick="continueReading()"><div class="continue-label">Oxuduğun yerdən davam et</div><div id="continueName" class="continue-name"></div><div class="continue-go">▶ Davam et</div></div>
-<section class="actions">
-<button class="action action-main" onclick="downloadArchive()"><div class="action-icon">📦</div><div class="action-title">Arxivi yüklə</div><div class="action-text">114 surənin mətnlərini bir JSON faylı kimi saxla.</div></button>
-<button class="action" onclick="document.getElementById('archiveFile').click()"><div class="action-icon">♻️</div><div class="action-title">Arxivi bərpa et</div><div class="action-text">Hazır arxivi seç və surələri öz yerlərinə qaytar.</div></button>
-<button class="action" onclick="openPreface()"><div class="action-icon">📖</div><div class="action-title">Ön söz</div><div class="action-text">Tərcümənin yaranma hekayəsini oxu.</div></button>
+<section class="hero">
+<div class="tag">✦ QURAN TƏRCÜMƏSİ</div>
+<h1>Quranı oxu.<br>Mənanı düşün.</h1>
+<p>Azərbaycan dilində Quran tərcüməsini rahat, aydın və kitab oxuyurmuş kimi oxumaq üçün hazırlanmış proqram.</p>
+<div class="ornament">۞　✦　۞</div>
 </section>
-<div class="search-box"><span class="search-icon">⌕</span><input id="search" class="search" type="search" placeholder="Surə axtar..." autocomplete="off"></div>
-<div class="section-head"><h2>Surələr</h2><span>114 surə</span></div>
-<div class="order-switch"><button id="mushafOrder" class="order-btn active" onclick="setSurahOrder('mushaf')">📖 Quran sırası</button><button id="nuzulOrder" class="order-btn" onclick="setSurahOrder('nuzul')">🌅 Nüzul sırası</button></div>
-<div id="orderNote" style="font-size:12px;color:var(--muted);margin:-5px 2px 14px">Surələr Quranın ənənəvi sırası ilə göstərilir.</div>
+
+<div id="continue" class="continue" onclick="continueReading()">
+<div>
+<div class="continue-label">OXUDUĞUN YERDƏN DAVAM ET</div>
+<div id="continueName" class="continue-name"></div>
+</div>
+<div class="continue-go">▶ Davam et</div>
+</div>
+
+<div class="actions">
+<button class="action primary" onclick="continueReading()">
+<div class="action-icon">📖</div>
+<div class="action-title">Oxumağa davam et</div>
+<div class="action-text">Qaldığın surəyə qayıt</div>
+</button>
+<button class="action" onclick="openPreface()">
+<div class="action-icon">✦</div>
+<div class="action-title">Ön söz</div>
+<div class="action-text">Tərcümə haqqında</div>
+</button>
+<button class="action" onclick="document.getElementById('archiveFile').click()">
+<div class="action-icon">📂</div>
+<div class="action-title">Arxivi bərpa et</div>
+<div class="action-text">JSON faylından surələri yüklə</div>
+</button>
+<button class="action" onclick="downloadArchive()">
+<div class="action-icon">💾</div>
+<div class="action-title">Arxivi saxla</div>
+<div class="action-text">Mətnlərini JSON faylına köçür</div>
+</button>
+</div>
+
+<div class="search-box">
+<span class="search-icon">⌕</span>
+<input id="search" class="search" type="search" placeholder="Surə adı və ya nömrəsi ilə axtar..." autocomplete="off">
+</div>
+
+<div class="section-head">
+<h2>Surələr</h2>
+<span>114 surə</span>
+</div>
+
+<div class="order-switch">
+<button id="mushafOrder" class="order-btn active" onclick="setOrder('mushaf')">Quran sırası</button>
+<button id="nuzulOrder" class="order-btn" onclick="setOrder('nuzul')">Nüzul sırası</button>
+</div>
+<div id="orderNote">Surələr Quranın ənənəvi sırası ilə göstərilir.</div>
 <div id="surahList" class="surah-grid"></div>
 </main>
 
-<main id="readerPage" class="container hidden"><div class="reader">
-<div class="reader-top"><button class="back" onclick="goHome()">← Geri</button><div class="reader-title"><h2 id="readerName"></h2><small id="readerNumber"></small></div></div>
-<article class="book"><div class="book-top"><div class="book-top-symbol">۞</div><h1 id="bookTitle"></h1><p>Quran tərcüməsi</p></div>
+<main id="readerPage" class="container hidden">
+<div class="reader">
+<div class="reader-top">
+<button class="back" onclick="goHome()">← Geri</button>
+<div class="reader-title">
+<h2 id="readerName"></h2>
+<small id="readerNumber"></small>
+</div>
+</div>
+<article class="book">
+<div class="book-top">
+<div class="book-symbol">۞</div>
+<h1 id="bookTitle"></h1>
+<p>QURAN TƏRCÜMƏSİ · AZƏRBAYCAN DİLİNDƏ</p>
+</div>
 <div id="quranText" class="quran-text"></div>
-<div class="book-bottom"><button class="mark-button" onclick="markPosition()">🔖 Burada qaldım</button><div id="saved" class="saved"></div></div>
-</article></div></main>
+<div class="book-bottom">
+<button class="mark-button" onclick="markPosition()">✓ Burada qaldım</button>
+<div id="saved" class="saved"></div>
+</div>
+</article>
+</div>
+</main>
 
-<main id="prefacePage" class="container hidden"><div class="preface">
-<div class="reader-top"><button class="back" onclick="goHome()">← Geri</button><div class="reader-title"><h2>Ön söz</h2></div></div>
-<article class="preface-card"><div class="preface-label">ÖN SÖZ</div><h1>Bu tərcümənin hekayəsi</h1>
+<main id="prefacePage" class="container hidden">
+<div class="preface">
+<div class="reader-top">
+<button class="back" onclick="goHome()">← Geri</button>
+<div class="reader-title"><h2>Ön söz</h2></div>
+</div>
+<article class="preface-card">
+<div class="preface-label">ÖN SÖZ</div>
+<h1>Bu tərcümənin hekayəsi</h1>
 <div class="preface-text">Bu Quran tərcüməsi Elxan Aktaşın hazırladığı Quran tərcüməsinin Azərbaycancaya uyğunlaşdırılmış formasıdır.
 
-Mən, Babayev Ağa, bu işi sadəcə bir tərcümə layihəsi kimi görmürəm. Bunun arxasında mənim illər ərzində Quranla qurduğum şəxsi münasibət, axtarışlarım, suallarım və bir dilə olan ehtiyacım dayanır.
+Mən, Babayev Ağa, bu işi sadəcə bir tərcümə layihəsi kimi görmürəm. Bunun arxasında illər ərzində Quranla qurduğum şəxsi münasibət, axtarışlarım, suallarım və öz dilimdə daha aydın mətnə olan ehtiyacım dayanır.
 
-Mən 16 yaşımdan Quran oxuyuram. Bu illər ərzində Quranı yalnız ərəb dilində oxumaqla kifayətlənmədim. Müxtəlif Azərbaycan və türk dili tərcümələrini oxudum, müqayisə etdim, ayələrin mənaları üzərində düşündüm. Bəzən bir ayənin müxtəlif tərcümələrdə tamamilə fərqli səsləndiyini gördüm. Bəzən isə Azərbaycan dilindəki ifadələr o qədər ağır, köhnə və anlaşılmaz gəlirdi ki, insan ayənin özündən çox, tərcümənin dilini anlamağa çalışırdı.
+Mən 16 yaşımdan Quran oxuyuram. Bu illər ərzində müxtəlif Azərbaycan və türk dili tərcümələrini oxudum, müqayisə etdim, ayələrin mənaları üzərində düşündüm. Bəzən bir ayənin müxtəlif tərcümələrdə fərqli səsləndiyini gördüm. Bəzən isə Azərbaycan dilindəki ifadələr ağır və anlaşılmaz gəlirdi.
 
-Zaman keçdikcə məndə bir fikir formalaşdı:
+Zaman keçdikcə məndə bir fikir formalaşdı: niyə Quranı Azərbaycan dilində oxuyan insan üçün daha aydın, daha təbii və daha canlı bir mətn olmasın?
 
-Niyə Quranı Azərbaycan dilində oxuyan insan üçün daha aydın, daha təbii və daha canlı bir mətn olmasın?
-
-Məhz bu sual məni bu işə gətirdi.
-
-Mən müxtəlif tərcümələri oxuduqca, mənə ən çox yaxın gələn tərcümələrdən birinin Elxan Aktaşın hazırladığı tərcümə olduğunu gördüm. Mənə görə onun tərcüməsində Quranın öz daxilindəki əlaqələrə və mənaya diqqət yetirmək cəhdi xüsusi əhəmiyyət daşıyırdı. Mən həmin tərcüməni oxuyarkən bir çox ayələri əvvəlkindən fərqli şəkildə düşünməyə başladım.
-
-Və sonra düşündüm:
-
-Bəs bunu öz dilimdə necə oxuyardım?
-
-Bu iş elə həmin sualdan başladı.
-
-Mən Elxan Aktaşın tərcüməsini öz bildiyim kimi yenidən yazmaq və ya ona başqa məna vermək istəmədim. Əksinə, əsas məqsədim onun verdiyi mənanı mümkün qədər qoruyaraq Azərbaycan dilində təbii və başadüşülən şəkildə ifadə etmək oldu.
-
-Ona görə bu kitabı oxuyan insan bir şeyi bilməlidir:
+Mənə ən çox yaxın gələn tərcümələrdən biri Elxan Aktaşın hazırladığı tərcümə oldu. Əsas məqsədim onun verdiyi mənanı mümkün qədər qoruyaraq Azərbaycan dilində təbii və başadüşülən şəkildə ifadə etməkdir.
 
 Bu tərcümənin əsas mənbəyi Elxan Aktaşın tərcüməsidir. Azərbaycan dilinə uyğunlaşdırılması və bu formada hazırlanması isə Babayev Ağa tərəfindən həyata keçirilib.
 
-Mən bunu edərkən özümü böyük bir alim və ya Quran üzərində son sözü deyən biri kimi görməmişəm. Mən sadəcə illərdir Quran oxuyan, müxtəlif tərcümələrə baxan və öz ana dilində “mənanı daha aydın necə ifadə edə bilərəm?” sualına cavab axtaran bir oxucuyam.
+Mən özümü Quran üzərində son sözü deyən biri kimi görmürəm. Mən sadəcə illərdir Quran oxuyan, müxtəlif tərcümələrə baxan və öz ana dilində mənanı daha aydın ifadə etməyə çalışan bir oxucuyam.
 
-Bəlkə də bu işin ən böyük şəxsi tərəfi elə budur.
+İstədim ki, Azərbaycan dilində Quran oxuyan insan ağır və uzaq bir mətnlə deyil, oxuya bildiyi, anlaya bildiyi və üzərində düşünə bildiyi bir mətnlə qarşılaşsın. Məqsədim insanları mənim sözümə bağlamaq yox, Quranı daha rahat oxumalarına kömək etməkdir.
 
-Mən Quranı ilk oxumağa başladığım yaşdan bu günə qədər çox şey dəyişdirmişəm. Düşüncələrim dəyişib, suallarım dəyişib, bəzi cavablarım dəyişib. Amma Quranı oxumaq və anlamağa çalışmaq istəyim dəyişməyib.
-
-Bu tərcümə də həmin yolun bir nəticəsidir.
-
-Mən istədim ki, Azərbaycan dilində Quran oxuyan insan qarşısında soyuq, ağır və uzaq bir mətn yox, oxuya bildiyi, anlaya bildiyi və üzərində düşünə bildiyi bir mətn görsün.
-
-İstədim ki, gənc bir insan Quranı əlinə götürəndə “bu nə deyir?” deyə tərcümə ilə mübarizə aparmasın.
-
-İstədim ki, bir insan ayəni oxusun, dayansın və düşünsün:
-
-“Bu söz mənə nə deyir?”
-
-Çünki mənim üçün Quranın tərcüməsinin ən böyük məqsədi budur: insanı tərcüməçiyə bağlamaq yox, insanı Quranla üz-üzə gətirmək.
-
-Bu işin hər sətrində bacardığım qədər diqqətli olmağa çalışdım. Bəzən bir sözün qarşısında uzun müddət düşündüm. Bəzən bir cümləni bir neçə dəfə dəyişdim. Bəzən isə sadə görünən bir ifadənin əslində nə qədər böyük məsuliyyət daşıdığını hiss etdim.
-
-Çünki burada söhbət adi bir mətndən getmir.
-
-Söhbət mənim illərdir oxuduğum, üzərində düşündüyüm və həyatımın mühüm bir hissəsinə çevrilmiş Qurandan gedir.
-
-Ona görə də bu işi tələsik görmək istəmədim.
-
-Mənim məqsədim mükəmməl olduğumu göstərmək deyil. Mənim məqsədim bacardığım ən yaxşı Azərbaycan dilini ortaya qoymaq idi.
-
-Bu kitabı oxuyan hər kəsdən də bunu nəzərə almasını istəyirəm: burada verilən mətn bir insanın son hökmü deyil. Oxuyun, müqayisə edin, düşünün, araşdırın. Əgər bir yerdə səhv görürsünüzsə, onu da araşdırın.
-
-Çünki mən bu işi ona görə etmədim ki, insanlar mənim sözümü qəbul etsinlər.
-
-Mən bu işi ona görə etdim ki, insanlar Quranı daha rahat oxusunlar.
-
-16 yaşımda Quranı oxumağa başladığım zaman qarşıma çıxan sualların bir hissəsi bu gün də mənimlədir. Bəlkə də bu kitabı hazırlamağımın ən böyük səbəbi həmin sualların özüdür.
-
-Mən hələ də axtarıram.
-
-Hələ də oxuyuram.
-
-Hələ də düşünürəm.
-
-Və bu tərcümə də həmin axtarışın içindən doğdu.
-
-Elxan Aktaşın tərcüməsindən, Azərbaycan dilinə — bacardığım qədər bizim dilimizə yaxın, aydın və oxunaqlı şəkildə.</div>
-<div class="signature">— Babayev Ağa</div></article></div></main>
+Bu kitabı oxuyan hər kəsdən mətni oxumağı, müqayisə etməyi, düşünməyi və araşdırmağı xahiş edirəm. Mən hələ də axtarıram, oxuyuram və düşünürəm. Bu tərcümə də həmin axtarışın bir nəticəsidir.</div>
+<div class="signature">— Babayev Ağa</div>
+</article>
+</div>
+</main>
 
 <input id="archiveFile" type="file" accept=".json,application/json" hidden>
-<div id="modal" class="modal hidden"><div class="modal-box"><h3>Arxivi bərpa et</h3><p id="modalText"></p><div class="modal-actions"><button class="modal-cancel" onclick="closeModal()">Ləğv et</button><button id="modalOk" class="modal-ok">Bərpa et</button></div></div></div>
+
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+<div class="modal-box">
+<h3>Arxivi bərpa et</h3>
+<p id="modalText"></p>
+<div class="modal-actions">
+<button class="cancel" onclick="closeModal()">Ləğv et</button>
+<button id="modalOk" class="confirm">Bərpa et</button>
+</div>
+</div>
+</div>
 
 <script>
-const surahs=[
-["Fatihə","الفاتحة"],["Bəqərə","البقرة"],["Ali-İmran","آل عمران"],["Nisa","النساء"],["Maidə","المائدة"],["Ənam","الأنعام"],["Əraf","الأعراف"],["Ənfal","الأنفال"],["Tövbə","التوبة"],["Yunus","يونس"],["Hud","هود"],["Yusuf","يوسف"],["Rəd","الرعد"],["İbrahim","إبراهيم"],["Hicr","الحجر"],["Nəhl","النحل"],["İsra","الإسراء"],["Kəhf","الكهف"],["Məryəm","مريم"],["Taha","طه"],["Ənbiya","الأنبياء"],["Həcc","الحج"],["Muminun","المؤمنون"],["Nur","النور"],["Furqan","الفرقان"],["Şuəra","الشعراء"],["Nəml","النمل"],["Qəsəs","القصص"],["Ənkəbut","العنكبوت"],["Rum","الروم"],["Loğman","لقمان"],["Səcdə","السجدة"],["Əhzab","الأحزاب"],["Səba","سبأ"],["Fatir","فاطر"],["Yasin","يس"],["Saffat","الصافات"],["Sad","ص"],["Zumər","الزمر"],["Ğafir","غافر"],["Fussilət","فصلت"],["Şura","الشورى"],["Zuxruf","الزخرف"],["Duxan","الدخان"],["Casiyə","الجاثية"],["Əhqaf","الأحقاف"],["Muhəmməd","محمد"],["Fəth","الفتح"],["Hucurat","الحجرات"],["Qaf","ق"],["Zariyat","الذاريات"],["Tur","الطور"],["Nəcm","النجم"],["Qəmər","القمر"],["Rəhman","الرحمن"],["Vaqiə","الواقعة"],["Hədid","الحديد"],["Mücadilə","المجادلة"],["Həşr","الحشر"],["Mumtəhənə","الممتحنة"],["Saff","الصف"],["Cümə","الجمعة"],["Münafiqun","المنافقون"],["Təğabun","التغابن"],["Talaq","الطلاق"],["Təhrim","التحريم"],["Mülk","الملك"],["Qələm","القلم"],["Haqqə","الحاقة"],["Məaric","المعارج"],["Nuh","نوح"],["Cin","الجن"],["Müzzəmmil","المزمل"],["Müddəssir","المدثر"],["Qiyamət","القيامة"],["İnsan","الإنسان"],["Mursəlat","المرسلات"],["Nəbə","النبأ"],["Naziat","النازعات"],["Əbəsə","عبس"],["Təkvir","التكوير"],["İnfitar","الانفطار"],["Mutəffifin","المطففين"],["İnşiqaq","الانشقاق"],["Büruc","البروج"],["Tariq","الطارق"],["Əla","الأعلى"],["Ğaşiyə","الغاشية"],["Fəcr","الفجر"],["Bələd","البلد"],["Şəms","الشمس"],["Leyl","الليل"],["Duha","الضحى"],["İnşirah","الشرح"],["Tin","التين"],["Ələq","العلق"],["Qədr","القدر"],["Bəyyinə","البينة"],["Zilzal","الزلزلة"],["Adiyat","العاديات"],["Qariə","القارعة"],["Təkasur","التكاثر"],["Əsr","العصر"],["Huməzə","الهمزة"],["Fil","الفيل"],["Qureyş","قريش"],["Maun","الماعون"],["Kövsər","الكوثر"],["Kafirun","الكافرون"],["Nəsr","النصر"],["Məsəd","المسد"],["İxlas","الإخلاص"],["Fələq","الفلق"],["Nas","الناس"]
-];
+const names=`Fatihə|Bəqərə|Ali-İmran|Nisa|Maidə|Ənam|Əraf|Ənfal|Tövbə|Yunus|Hud|Yusuf|Rəd|İbrahim|Hicr|Nəhl|İsra|Kəhf|Məryəm|Taha|Ənbiya|Həcc|Muminun|Nur|Furqan|Şuəra|Nəml|Qəsəs|Ənkəbut|Rum|Loğman|Səcdə|Əhzab|Səba|Fatir|Yasin|Saffat|Sad|Zumər|Ğafir|Fussilət|Şura|Zuxruf|Duxan|Casiyə|Əhqaf|Muhəmməd|Fəth|Hucurat|Qaf|Zariyat|Tur|Nəcm|Qəmər|Rəhman|Vaqiə|Hədid|Mücadilə|Həşr|Mumtəhənə|Saff|Cümə|Münafiqun|Təğabun|Talaq|Təhrim|Mülk|Qələm|Haqqə|Məaric|Nuh|Cin|Müzzəmmil|Müddəssir|Qiyamət|İnsan|Mursəlat|Nəbə|Naziat|Əbəsə|Təkvir|İnfitar|Mutəffifin|İnşiqaq|Büruc|Tariq|Əla|Ğaşiyə|Fəcr|Bələd|Şəms|Leyl|Duha|İnşirah|Tin|Ələq|Qədr|Bəyyinə|Zilzal|Adiyat|Qariə|Təkasur|Əsr|Huməzə|Fil|Qureyş|Maun|Kövsər|Kafirun|Nəsr|Məsəd|İxlas|Fələq|Nas`.split('|');
 
-/* Geniş yayılmış ənənəvi nüzul sırası.
-   Tarixi mənbələrdə bəzi surələrin yeri fərqli göstərilə bilər. */
+const arabic=`الفاتحة|البقرة|آل عمران|النساء|المائدة|الأنعام|الأعراف|الأنفال|التوبة|يونس|هود|يوسف|الرعد|إبراهيم|الحجر|النحل|الإسراء|الكهف|مريم|طه|الأنبياء|الحج|المؤمنون|النور|الفرقان|الشعراء|النمل|القصص|العنكبوت|الروم|لقمان|السجدة|الأحزاب|سبأ|فاطر|يس|الصافات|ص|الزمر|غافر|فصلت|الشورى|الزخرف|الدخان|الجاثية|الأحقاف|محمد|الفتح|الحجرات|ق|الذاريات|الطور|النجم|القمر|الرحمن|الواقعة|الحديد|المجادلة|الحشر|الممتحنة|الصف|الجمعة|المنافقون|التغابن|الطلاق|التحريم|الملك|القلم|الحاقة|المعارج|نوح|الجن|المزمل|المدثر|القيامة|الإنسان|المرسلات|النبأ|النازعات|عبس|التكوير|الانفطار|المطففين|الانشقاق|البروج|الطارق|الأعلى|الغاشية|الفجر|البلد|الشمس|الليل|الضحى|الشرح|التين|العلق|القدر|البينة|الزلزلة|العاديات|القارعة|التكاثر|العصر|الهمزة|الفيل|قريش|الماعون|الكوثر|الكافرون|النصر|المسد|الإخلاص|الفلق|الناس`.split('|');
+
+const surahs=names.map((name,i)=>({name,arabic:arabic[i]}));
+
 const NUZUL_ORDER=[96,68,73,74,1,111,81,87,92,89,93,94,103,100,108,102,107,109,105,113,114,112,53,80,97,91,85,95,106,101,75,104,77,50,90,86,54,38,7,72,36,25,35,19,20,56,26,27,28,17,10,11,12,15,6,37,31,34,39,40,41,42,43,44,45,46,51,88,18,16,71,14,21,23,32,52,67,69,70,78,79,82,84,30,29,83,2,8,3,33,60,4,99,57,47,13,55,76,65,98,59,24,22,63,58,49,66,64,61,62,48,5,9,110];
 
-const DATA_KEY="quranTranslations",POS_KEY="quranPositions",LAST_KEY="quranLastSurah";
-let translations={},positions={},currentSurah=null,surahOrder="mushaf",scrollTimer;
-try{translations=JSON.parse(localStorage.getItem(DATA_KEY))||{}}catch(e){}
-try{positions=JSON.parse(localStorage.getItem(POS_KEY))||{}}catch(e){}
+const DATA_KEY='quranTranslations';
+const POS_KEY='quranPositions';
+const LAST_KEY='quranLastSurah';
 
-function setSurahOrder(order){
+let translations={};
+let positions={};
+let currentSurah=null;
+let surahOrder='mushaf';
+let scrollTimer;
+
+try{translations=JSON.parse(localStorage.getItem(DATA_KEY))||{};}catch(e){}
+try{positions=JSON.parse(localStorage.getItem(POS_KEY))||{};}catch(e){}
+
+const $=id=>document.getElementById(id);
+
+function setOrder(order){
 surahOrder=order;
-document.getElementById("mushafOrder").classList.toggle("active",order==="mushaf");
-document.getElementById("nuzulOrder").classList.toggle("active",order==="nuzul");
-document.getElementById("orderNote").textContent=order==="nuzul"?"Surələr geniş yayılmış nüzul ardıcıllığı ilə göstərilir.":"Surələr Quranın ənənəvi sırası ilə göstərilir.";
-renderSurahs(document.getElementById("search").value);
+$('mushafOrder').classList.toggle('active',order==='mushaf');
+$('nuzulOrder').classList.toggle('active',order==='nuzul');
+$('orderNote').textContent=order==='nuzul'
+?'Surələr geniş yayılmış nüzul ardıcıllığı ilə göstərilir.'
+:'Surələr Quranın ənənəvi sırası ilə göstərilir.';
+renderSurahs($('search').value);
 }
-function renderSurahs(filter=""){
-const list=document.getElementById("surahList");list.innerHTML="";
-const q=filter.trim().toLocaleLowerCase("az");
-const order=surahOrder==="nuzul"?NUZUL_ORDER:Array.from({length:114},(_,i)=>i+1);
-order.forEach(number=>{
-const s=surahs[number-1],name=s[0];
-if(q&&!name.toLocaleLowerCase("az").includes(q)&&!String(number).includes(q))return;
-const el=document.createElement("button");el.className="surah";
-el.innerHTML=`<div class="surah-number">${number}</div><div><div class="surah-name">${name}</div><div class="surah-ar">${s[1]}</div></div>`;
-el.onclick=()=>openSurah(number);list.appendChild(el);
+
+function renderSurahs(filter=''){
+const list=$('surahList');
+list.innerHTML='';
+const q=filter.trim().toLocaleLowerCase('az');
+const numeric=/^\d+$/.test(q);
+const order=surahOrder==='nuzul'
+?NUZUL_ORDER
+:Array.from({length:114},(_,i)=>i+1);
+let count=0;
+
+order.forEach(num=>{
+const s=surahs[num-1];
+if(q&&(numeric?num!==Number(q):!s.name.toLocaleLowerCase('az').includes(q)))return;
+count++;
+const el=document.createElement('button');
+el.className='surah';
+el.innerHTML=`<div class="surah-number">${num}</div><div><div class="surah-name">${s.name}</div><div class="surah-ar" lang="ar" dir="rtl">${s.arabic}</div></div>`;
+el.onclick=()=>openSurah(num);
+list.appendChild(el);
 });
+
+if(!count){
+const el=document.createElement('div');
+el.className='empty-state';
+el.textContent='Uyğun surə tapılmadı. Surə adını və ya 1–114 arası nömrəni yoxla.';
+list.appendChild(el);
 }
-function openSurah(number){
-currentSurah=number;
-document.getElementById("home").classList.add("hidden");
-document.getElementById("prefacePage").classList.add("hidden");
-document.getElementById("readerPage").classList.remove("hidden");
-document.getElementById("readerName").textContent=surahs[number-1][0];
-document.getElementById("readerNumber").textContent=`${number}. surə`;
-document.getElementById("bookTitle").textContent=surahs[number-1][0];
-renderText();window.scrollTo(0,0);
-setTimeout(()=>{const saved=Number(positions[number])||0;if(saved>0)window.scrollTo({top:saved,behavior:"auto"});},100);
-localStorage.setItem(LAST_KEY,String(number));updateContinue();
 }
+
+function openSurah(num){
+currentSurah=num;
+$('home').classList.add('hidden');
+$('prefacePage').classList.add('hidden');
+$('readerPage').classList.remove('hidden');
+$('readerName').textContent=surahs[num-1].name;
+$('readerNumber').textContent=num+'. surə';
+$('bookTitle').textContent=surahs[num-1].name;
+$('saved').textContent='';
+renderText();
+window.scrollTo(0,0);
+setTimeout(()=>{
+const y=Number(positions[num])||0;
+if(y)window.scrollTo({top:y,behavior:'auto'});
+},100);
+localStorage.setItem(LAST_KEY,String(num));
+updateContinue();
+}
+
 function renderText(){
-const box=document.getElementById("quranText"),text=translations[currentSurah];
-box.textContent=typeof text==="string"&&text.trim()?text:"Bu surənin mətni hələ arxivdən yüklənməyib.";
+const text=translations[currentSurah];
+$('quranText').textContent=typeof text==='string'&&text.trim()
+?text
+:'Bu surənin mətni hələ arxivdən yüklənməyib. Əsas səhifədə “Arxivi bərpa et” düyməsinə basaraq əvvəl saxladığın JSON arxivini yüklə.';
 }
+
 function goHome(){
-document.getElementById("readerPage").classList.add("hidden");
-document.getElementById("prefacePage").classList.add("hidden");
-document.getElementById("home").classList.remove("hidden");
-currentSurah=null;window.scrollTo(0,0);updateContinue();
+$('readerPage').classList.add('hidden');
+$('prefacePage').classList.add('hidden');
+$('home').classList.remove('hidden');
+currentSurah=null;
+window.scrollTo(0,0);
+updateContinue();
 }
+
 function openPreface(){
-document.getElementById("home").classList.add("hidden");
-document.getElementById("readerPage").classList.add("hidden");
-document.getElementById("prefacePage").classList.remove("hidden");window.scrollTo(0,0);
+$('home').classList.add('hidden');
+$('readerPage').classList.add('hidden');
+$('prefacePage').classList.remove('hidden');
+window.scrollTo(0,0);
 }
+
 function markPosition(){
 if(!currentSurah)return;
 positions[currentSurah]=window.scrollY;
 localStorage.setItem(POS_KEY,JSON.stringify(positions));
 localStorage.setItem(LAST_KEY,String(currentSurah));
-document.getElementById("saved").textContent="✓ Oxuduğun yer yadda saxlanıldı.";
+$('saved').textContent='✓ Oxuduğun yer yadda saxlanıldı.';
 updateContinue();
 }
-function continueReading(){const last=Number(localStorage.getItem(LAST_KEY));if(last)openSurah(last)}
-function updateContinue(){
-const box=document.getElementById("continue"),name=document.getElementById("continueName"),last=Number(localStorage.getItem(LAST_KEY));
-if(!last||!surahs[last-1]){box.classList.remove("show");return}
-name.textContent=`${last}. ${surahs[last-1][0]} surəsi`;box.classList.add("show");
+
+function continueReading(){
+const num=Number(localStorage.getItem(LAST_KEY));
+if(num&&surahs[num-1])openSurah(num);
+else{
+$('search').focus();
+$('surahList').scrollIntoView({behavior:'smooth'});
 }
-window.addEventListener("scroll",()=>{
-if(!currentSurah||document.getElementById("readerPage").classList.contains("hidden"))return;
+}
+
+function updateContinue(){
+const num=Number(localStorage.getItem(LAST_KEY));
+if(!num||!surahs[num-1]){
+$('continue').classList.remove('show');
+return;
+}
+$('continueName').textContent=num+'. '+surahs[num-1].name+' surəsi';
+$('continue').classList.add('show');
+}
+
+window.addEventListener('scroll',()=>{
+if(!currentSurah||$('readerPage').classList.contains('hidden'))return;
 clearTimeout(scrollTimer);
 scrollTimer=setTimeout(()=>{
 positions[currentSurah]=window.scrollY;
@@ -240,48 +417,89 @@ localStorage.setItem(POS_KEY,JSON.stringify(positions));
 localStorage.setItem(LAST_KEY,String(currentSurah));
 },700);
 },{passive:true});
+
 function downloadArchive(){
-const archive={type:"quran-translation-archive",version:1,createdAt:new Date().toISOString(),surahs:translations,readingPositions:positions,lastSurah:localStorage.getItem(LAST_KEY)};
-const blob=new Blob([JSON.stringify(archive,null,2)],{type:"application/json"});
-const url=URL.createObjectURL(blob),a=document.createElement("a");
-a.href=url;a.download="quran-tercumesi-arxiv.json";document.body.appendChild(a);a.click();a.remove();
+const archive={
+type:'quran-translation-archive',
+version:1,
+createdAt:new Date().toISOString(),
+surahs:translations,
+readingPositions:positions,
+lastSurah:localStorage.getItem(LAST_KEY)
+};
+const blob=new Blob([JSON.stringify(archive,null,2)],{type:'application/json'});
+const url=URL.createObjectURL(blob);
+const link=document.createElement('a');
+link.href=url;
+link.download='quran-tercumesi-arxiv.json';
+document.body.appendChild(link);
+link.click();
+link.remove();
 setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-document.getElementById("archiveFile").addEventListener("change",function(event){
-const file=event.target.files[0];if(!file)return;
+
+$('archiveFile').addEventListener('change',function(event){
+const file=event.target.files[0];
+if(!file)return;
 const reader=new FileReader();
-reader.onload=function(){
+reader.onload=()=>{
 try{
-const archive=JSON.parse(reader.result),incoming=archive.surahs||archive.translations;
-if(!incoming||typeof incoming!=="object")throw new Error("format");
+const archive=JSON.parse(reader.result);
+const incoming=archive.surahs||archive.translations;
+if(!incoming||typeof incoming!=='object')throw Error('invalid');
 showRestoreConfirm(incoming,archive);
-}catch(e){alert("Bu fayl düzgün Quran arxivi deyil.");}
+}catch(e){
+alert('Bu fayl düzgün Quran arxivi deyil.');
+}
 };
-reader.readAsText(file);event.target.value="";
+reader.readAsText(file);
+event.target.value='';
 });
+
 function showRestoreConfirm(incoming,archive){
-document.getElementById("modalText").textContent="Arxivdə olan surə mətnləri proqramdakı mətnlərin yerinə yerləşdiriləcək. Mətnlər dəyişdirilmədən saxlanılacaq.";
-document.getElementById("modal").classList.remove("hidden");
-document.getElementById("modalOk").onclick=function(){
+$('modalText').textContent='Arxivdəki surə mətnləri bu cihazda saxlanılan mətnlərin yerinə yerləşdiriləcək. Düzgün JSON arxivini seçdiyinə əmin ol.';
+$('modal').classList.remove('hidden');
+
+$('modalOk').onclick=()=>{
 translations={};
 for(let i=1;i<=114;i++){
-if(Object.prototype.hasOwnProperty.call(incoming,String(i)))translations[i]=String(incoming[i]);
-else if(Object.prototype.hasOwnProperty.call(incoming,i))translations[i]=String(incoming[i]);
-else translations[i]="";
+if(Object.prototype.hasOwnProperty.call(incoming,String(i))){
+translations[i]=String(incoming[i]);
+}else if(Object.prototype.hasOwnProperty.call(incoming,i)){
+translations[i]=String(incoming[i]);
+}else{
+translations[i]='';
 }
+}
+
 positions=archive.readingPositions||{};
 localStorage.setItem(DATA_KEY,JSON.stringify(translations));
 localStorage.setItem(POS_KEY,JSON.stringify(positions));
-if(archive.lastSurah)localStorage.setItem(LAST_KEY,String(archive.lastSurah));
-closeModal();renderSurahs(document.getElementById("search").value);updateContinue();
+
+if(archive.lastSurah){
+localStorage.setItem(LAST_KEY,String(archive.lastSurah));
+}
+
+closeModal();
+renderSurahs($('search').value);
+updateContinue();
 if(currentSurah)renderText();
-alert("Arxiv uğurla bərpa edildi.");
+alert('Arxiv uğurla bərpa edildi.');
 };
 }
-function closeModal(){document.getElementById("modal").classList.add("hidden")}
-document.getElementById("modal").addEventListener("click",e=>{if(e.target===e.currentTarget)closeModal()});
-document.getElementById("search").addEventListener("input",function(){renderSurahs(this.value)});
-renderSurahs();updateContinue();
+
+function closeModal(){
+$('modal').classList.add('hidden');
+}
+
+$('modal').addEventListener('click',event=>{
+if(event.target===$('modal'))closeModal();
+});
+
+$('search').addEventListener('input',()=>renderSurahs($('search').value));
+
+renderSurahs();
+updateContinue();
 </script>
 </body>
 </html>
