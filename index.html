@@ -9,24 +9,14 @@
 <meta name="theme-color" content="#103d31">
 <title>Quran Tərcüməsi — Azərbaycan dilində Quran</title>
 <style>
-:root{
---bg:#f4f0e5;--paper:#fffdf6;--paper2:#eee7d7;
---text:#202b25;--muted:#72796f;--line:#ded4bf;
---green:#155342;--gold:#b48b43;--soft:#dfe9df;
---shadow:0 12px 35px #24382b12
-}
-@media(prefers-color-scheme:dark){
-:root{
---bg:#101a16;--paper:#18241e;--paper2:#243129;
---text:#edf1e8;--muted:#aab5a8;--line:#34463a;
---green:#b7d0b7;--gold:#dfbd73;--soft:#263b2d;
---shadow:0 12px 35px #0003
-}}
+:root{--bg:#f4f0e5;--paper:#fffdf6;--paper2:#eee7d7;--text:#202b25;--muted:#72796f;--line:#ded4bf;--green:#155342;--gold:#b48b43;--soft:#dfe9df;--shadow:0 12px 35px #24382b12}
+@media(prefers-color-scheme:dark){:root{--bg:#101a16;--paper:#18241e;--paper2:#243129;--text:#edf1e8;--muted:#aab5a8;--line:#34463a;--green:#b7d0b7;--gold:#dfbd73;--soft:#263b2d;--shadow:0 12px 35px #0003}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 button,input{font:inherit}
-button{cursor:pointer}
+button{cursor:pointer;transition:transform .15s,border-color .15s}
+button:active{transform:scale(.98)}
 .hidden{display:none!important}
 header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
 header:after{content:"";display:block;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--green),var(--gold),transparent)}
@@ -35,9 +25,6 @@ header:after{content:"";display:block;height:2px;background:linear-gradient(90de
 .logo-mark{width:44px;height:44px;border:1px solid var(--gold);border-radius:14px;display:grid;place-items:center;background:#155342;color:#f1dca5;font-size:25px}
 .logo-title{font-weight:900;font-size:16px}
 .logo-sub{font-size:11px;color:var(--muted);margin-top:4px}
-button{transition:transform .15s,border-color .15s}
-button:active{transform:scale(.98)}
-.header-btn,.back{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:12px;padding:11px 14px;font-weight:800}
 .container{max-width:1100px;margin:auto;padding:25px 18px 60px}
 .hero{position:relative;overflow:hidden;padding:35px;border:1px solid #bda56b77;border-radius:26px;background:linear-gradient(125deg,#103d31,#155342 60%,#23664d);color:#fff9e9;box-shadow:0 20px 45px #102f2420}
 .hero:after{content:"۞";position:absolute;right:-12px;top:-38px;color:#e2c47d;opacity:.15;font-size:180px}
@@ -78,8 +65,9 @@ button:active{transform:scale(.98)}
 .reader-title{flex:1}
 .reader-title h2{margin:0;font-family:Georgia,serif;font-size:25px}
 .reader-title small{display:block;margin-top:4px;color:var(--muted)}
-.book,.preface-card{position:relative;overflow:hidden;background:var(--paper);border:1px solid var(--line);border-radius:23px;box-shadow:var(--shadow);padding:38px 44px}
-.book:before,.preface-card:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--gold),var(--green),var(--gold),transparent)}
+.back{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:12px;padding:11px 14px;font-weight:800}
+.book{position:relative;overflow:hidden;background:var(--paper);border:1px solid var(--line);border-radius:23px;box-shadow:var(--shadow);padding:38px 44px}
+.book:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--gold),var(--green),var(--gold),transparent)}
 .book-top{text-align:center;padding:8px 0 24px;margin-bottom:26px;border-bottom:1px solid var(--line)}
 .book-symbol{color:var(--gold);font-size:30px}
 .book-top h1{font-family:Georgia,serif;margin:8px 0;color:var(--green);font-size:clamp(28px,5vw,38px)}
@@ -88,11 +76,6 @@ button:active{transform:scale(.98)}
 .book-bottom{margin-top:32px;padding-top:22px;border-top:1px solid var(--line);text-align:center}
 .mark-button{border:1px solid var(--gold);border-radius:30px;padding:13px 18px;background:linear-gradient(145deg,#1b624b,#0b352b);color:#fff8e8;font-weight:900}
 .saved{font-size:12px;color:var(--muted);margin-top:10px}
-.preface{max-width:850px;margin:auto}
-.preface-label{font-size:11px;font-weight:950;letter-spacing:1.6px;color:var(--gold)}
-.preface-card h1{font-family:Georgia,serif;font-size:clamp(29px,5vw,39px);margin:13px 0 22px;color:var(--green)}
-.preface-text{white-space:pre-line;font-size:17px;line-height:1.95}
-.signature{border-top:1px solid var(--line);padding-top:18px;margin-top:25px;color:var(--green);font-weight:900}
 .modal{position:fixed;inset:0;z-index:20;background:#0009;display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(4px)}
 .modal-box{max-width:440px;width:100%;padding:24px;border:1px solid var(--gold);border-radius:21px;background:var(--paper);color:var(--text)}
 .modal-box p{font-size:14px;line-height:1.65;color:var(--muted)}
@@ -101,178 +84,107 @@ button:active{transform:scale(.98)}
 .cancel{background:var(--paper2);color:var(--text)}
 .confirm{background:var(--green);color:white}
 .empty-state{grid-column:1/-1;padding:25px;border:1px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted);background:var(--paper)}
-@media(max-width:800px){
-.container{padding:20px 14px 50px}
-.hero{padding:28px 23px}
-.actions{grid-template-columns:1fr 1fr}
-.action:first-child{grid-column:1/-1}
-.surah-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.book,.preface-card{padding:29px 23px}
-.quran-text{font-size:19px}
-}
-@media(max-width:520px){
-.logo-mark{width:40px;height:40px}
-.logo-title{font-size:15px}
-.logo-sub{font-size:10px}
-.header-btn{padding:10px;font-size:12px}
-.hero h1{font-size:41px}
-.hero p{font-size:14px}
-.action{padding:14px}
-.action-title{font-size:13px}
-.action-text{font-size:11px}
-.surah-grid{grid-template-columns:1fr;gap:9px}
-.surah{min-height:72px}
-.continue.show{align-items:flex-start;flex-direction:column}
-.order-btn{font-size:12px;padding:12px 5px}
-.section-head h2{font-size:23px}
-.book,.preface-card{padding:27px 18px}
-.quran-text{font-size:18px;line-height:2}
-.reader-title h2{font-size:22px}
-.back{padding:10px}
-.preface-text{font-size:15.5px}
-}
-@media(orientation:landscape) and (max-height:600px){
-.book{padding-left:65px;padding-right:65px}
-}
+@media(max-width:800px){.container{padding:20px 14px 50px}.hero{padding:28px 23px}.actions{grid-template-columns:1fr 1fr}.action:first-child{grid-column:1/-1}.surah-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.book{padding:29px 23px}.quran-text{font-size:19px}}
+@media(max-width:520px){.logo-mark{width:40px;height:40px}.logo-title{font-size:15px}.logo-sub{font-size:10px}.hero h1{font-size:41px}.hero p{font-size:14px}.action{padding:14px}.action-title{font-size:13px}.action-text{font-size:11px}.surah-grid{grid-template-columns:1fr;gap:9px}.surah{min-height:72px}.continue.show{align-items:flex-start;flex-direction:column}.order-btn{font-size:12px;padding:12px 5px}.section-head h2{font-size:23px}.book{padding:27px 18px}.quran-text{font-size:18px;line-height:2}.reader-title h2{font-size:22px}.back{padding:10px}}
+@media(orientation:landscape) and (max-height:600px){.book{padding-left:65px;padding-right:65px}}
 </style>
 </head>
 <body>
 <header>
-<div class="header-inner">
-<div class="logo">
-<div class="logo-mark">☾</div>
-<div>
-<div class="logo-title">Quran Tərcüməsi</div>
-<div class="logo-sub">Azərbaycan dilində Quran</div>
-</div>
-</div>
-<button class="header-btn" onclick="openPreface()">Ön söz</button>
-</div>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">☾</div>
+      <div>
+        <div class="logo-title">Quran Tərcüməsi</div>
+        <div class="logo-sub">Azərbaycan dilində Quran</div>
+      </div>
+    </div>
+  </div>
 </header>
 
 <main id="home" class="container">
-<section class="hero">
-<div class="tag">✦ QURAN TƏRCÜMƏSİ</div>
-<h1>Quranı oxu.<br>Mənanı düşün.</h1>
-<p>Azərbaycan dilində Quran tərcüməsini rahat, aydın və kitab oxuyurmuş kimi oxumaq üçün hazırlanmış proqram.</p>
-<div class="ornament">۞　✦　۞</div>
-</section>
+  <section class="hero">
+    <div class="tag">✦ QURAN TƏRCÜMƏSİ</div>
+    <h1>Quranı oxu.<br>Mənanı düşün.</h1>
+    <p>Azərbaycan dilində Quran tərcüməsini rahat, aydın və kitab oxuyurmuş kimi oxumaq üçün hazırlanmış proqram.</p>
+    <div class="ornament">۞　✦　۞</div>
+  </section>
 
-<div id="continue" class="continue" onclick="continueReading()">
-<div>
-<div class="continue-label">OXUDUĞUN YERDƏN DAVAM ET</div>
-<div id="continueName" class="continue-name"></div>
-</div>
-<div class="continue-go">▶ Davam et</div>
-</div>
+  <div id="continue" class="continue" onclick="continueReading()">
+    <div>
+      <div class="continue-label">OXUDUĞUN YERDƏN DAVAM ET</div>
+      <div id="continueName" class="continue-name"></div>
+    </div>
+    <div class="continue-go">▶ Davam et</div>
+  </div>
 
-<div class="actions">
-<button class="action primary" onclick="continueReading()">
-<div class="action-icon">📖</div>
-<div class="action-title">Oxumağa davam et</div>
-<div class="action-text">Qaldığın surəyə qayıt</div>
-</button>
-<button class="action" onclick="openPreface()">
-<div class="action-icon">✦</div>
-<div class="action-title">Ön söz</div>
-<div class="action-text">Tərcümə haqqında</div>
-</button>
-<button class="action" onclick="document.getElementById('archiveFile').click()">
-<div class="action-icon">📂</div>
-<div class="action-title">Arxivi bərpa et</div>
-<div class="action-text">JSON faylından surələri yüklə</div>
-</button>
-<button class="action" onclick="downloadArchive()">
-<div class="action-icon">💾</div>
-<div class="action-title">Arxivi saxla</div>
-<div class="action-text">Mətnlərini JSON faylına köçür</div>
-</button>
-</div>
+  <div class="actions">
+    <button class="action primary" onclick="continueReading()">
+      <div class="action-icon">📖</div>
+      <div class="action-title">Oxumağa davam et</div>
+      <div class="action-text">Qaldığın surəyə qayıt</div>
+    </button>
+    <button class="action" onclick="document.getElementById('archiveFile').click()">
+      <div class="action-icon">📂</div>
+      <div class="action-title">Arxivi bərpa et</div>
+      <div class="action-text">JSON faylından surələri yüklə</div>
+    </button>
+    <button class="action" onclick="downloadArchive()">
+      <div class="action-icon">💾</div>
+      <div class="action-title">Arxivi saxla</div>
+      <div class="action-text">Mətnlərini JSON faylına köçür</div>
+    </button>
+  </div>
 
-<div class="search-box">
-<span class="search-icon">⌕</span>
-<input id="search" class="search" type="search" placeholder="Surə adı və ya nömrəsi ilə axtar..." autocomplete="off">
-</div>
+  <div class="search-box">
+    <span class="search-icon">⌕</span>
+    <input id="search" class="search" type="search" placeholder="Surə adı və ya nömrəsi ilə axtar..." autocomplete="off">
+  </div>
 
-<div class="section-head">
-<h2>Surələr</h2>
-<span>114 surə</span>
-</div>
-
-<div class="order-switch">
-<button id="mushafOrder" class="order-btn active" onclick="setOrder('mushaf')">Quran sırası</button>
-<button id="nuzulOrder" class="order-btn" onclick="setOrder('nuzul')">Nüzul sırası</button>
-</div>
-<div id="orderNote">Surələr Quranın ənənəvi sırası ilə göstərilir.</div>
-<div id="surahList" class="surah-grid"></div>
+  <div class="section-head"><h2>Surələr</h2><span>114 surə</span></div>
+  <div class="order-switch">
+    <button id="mushafOrder" class="order-btn active" onclick="setOrder('mushaf')">Quran sırası</button>
+    <button id="nuzulOrder" class="order-btn" onclick="setOrder('nuzul')">Nüzul sırası</button>
+  </div>
+  <div id="orderNote">Surələr Quranın ənənəvi sırası ilə göstərilir.</div>
+  <div id="surahList" class="surah-grid"></div>
 </main>
 
 <main id="readerPage" class="container hidden">
-<div class="reader">
-<div class="reader-top">
-<button class="back" onclick="goHome()">← Geri</button>
-<div class="reader-title">
-<h2 id="readerName"></h2>
-<small id="readerNumber"></small>
-</div>
-</div>
-<article class="book">
-<div class="book-top">
-<div class="book-symbol">۞</div>
-<h1 id="bookTitle"></h1>
-<p>QURAN TƏRCÜMƏSİ · AZƏRBAYCAN DİLİNDƏ</p>
-</div>
-<div id="quranText" class="quran-text"></div>
-<div class="book-bottom">
-<button class="mark-button" onclick="markPosition()">✓ Burada qaldım</button>
-<div id="saved" class="saved"></div>
-</div>
-</article>
-</div>
-</main>
-
-<main id="prefacePage" class="container hidden">
-<div class="preface">
-<div class="reader-top">
-<button class="back" onclick="goHome()">← Geri</button>
-<div class="reader-title"><h2>Ön söz</h2></div>
-</div>
-<article class="preface-card">
-<div class="preface-label">ÖN SÖZ</div>
-<h1>Bu tərcümənin hekayəsi</h1>
-<div class="preface-text">Bu Quran tərcüməsi Elxan Aktaşın hazırladığı Quran tərcüməsinin Azərbaycancaya uyğunlaşdırılmış formasıdır.
-
-Mən, Babayev Ağa, bu işi sadəcə bir tərcümə layihəsi kimi görmürəm. Bunun arxasında illər ərzində Quranla qurduğum şəxsi münasibət, axtarışlarım, suallarım və öz dilimdə daha aydın mətnə olan ehtiyacım dayanır.
-
-Mən 16 yaşımdan Quran oxuyuram. Bu illər ərzində müxtəlif Azərbaycan və türk dili tərcümələrini oxudum, müqayisə etdim, ayələrin mənaları üzərində düşündüm. Bəzən bir ayənin müxtəlif tərcümələrdə fərqli səsləndiyini gördüm. Bəzən isə Azərbaycan dilindəki ifadələr ağır və anlaşılmaz gəlirdi.
-
-Zaman keçdikcə məndə bir fikir formalaşdı: niyə Quranı Azərbaycan dilində oxuyan insan üçün daha aydın, daha təbii və daha canlı bir mətn olmasın?
-
-Mənə ən çox yaxın gələn tərcümələrdən biri Elxan Aktaşın hazırladığı tərcümə oldu. Əsas məqsədim onun verdiyi mənanı mümkün qədər qoruyaraq Azərbaycan dilində təbii və başadüşülən şəkildə ifadə etməkdir.
-
-Bu tərcümənin əsas mənbəyi Elxan Aktaşın tərcüməsidir. Azərbaycan dilinə uyğunlaşdırılması və bu formada hazırlanması isə Babayev Ağa tərəfindən həyata keçirilib.
-
-Mən özümü Quran üzərində son sözü deyən biri kimi görmürəm. Mən sadəcə illərdir Quran oxuyan, müxtəlif tərcümələrə baxan və öz ana dilində mənanı daha aydın ifadə etməyə çalışan bir oxucuyam.
-
-İstədim ki, Azərbaycan dilində Quran oxuyan insan ağır və uzaq bir mətnlə deyil, oxuya bildiyi, anlaya bildiyi və üzərində düşünə bildiyi bir mətnlə qarşılaşsın. Məqsədim insanları mənim sözümə bağlamaq yox, Quranı daha rahat oxumalarına kömək etməkdir.
-
-Bu kitabı oxuyan hər kəsdən mətni oxumağı, müqayisə etməyi, düşünməyi və araşdırmağı xahiş edirəm. Mən hələ də axtarıram, oxuyuram və düşünürəm. Bu tərcümə də həmin axtarışın bir nəticəsidir.</div>
-<div class="signature">— Babayev Ağa</div>
-</article>
-</div>
+  <div class="reader">
+    <div class="reader-top">
+      <button class="back" onclick="goHome()">← Geri</button>
+      <div class="reader-title">
+        <h2 id="readerName"></h2>
+        <small id="readerNumber"></small>
+      </div>
+    </div>
+    <article class="book">
+      <div class="book-top">
+        <div class="book-symbol">۞</div>
+        <h1 id="bookTitle"></h1>
+        <p>QURAN TƏRCÜMƏSİ · AZƏRBAYCAN DİLİNDƏ</p>
+      </div>
+      <div id="quranText" class="quran-text"></div>
+      <div class="book-bottom">
+        <button class="mark-button" onclick="markPosition()">✓ Burada qaldım</button>
+        <div id="saved" class="saved"></div>
+      </div>
+    </article>
+  </div>
 </main>
 
 <input id="archiveFile" type="file" accept=".json,application/json" hidden>
 
 <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
-<div class="modal-box">
-<h3>Arxivi bərpa et</h3>
-<p id="modalText"></p>
-<div class="modal-actions">
-<button class="cancel" onclick="closeModal()">Ləğv et</button>
-<button id="modalOk" class="confirm">Bərpa et</button>
-</div>
-</div>
+  <div class="modal-box">
+    <h3>Arxivi bərpa et</h3>
+    <p id="modalText"></p>
+    <div class="modal-actions">
+      <button class="cancel" onclick="closeModal()">Ləğv et</button>
+      <button id="modalOk" class="confirm">Bərpa et</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -300,200 +212,197 @@ try{positions=JSON.parse(localStorage.getItem(POS_KEY))||{};}catch(e){}
 const $=id=>document.getElementById(id);
 
 function setOrder(order){
-surahOrder=order;
-$('mushafOrder').classList.toggle('active',order==='mushaf');
-$('nuzulOrder').classList.toggle('active',order==='nuzul');
-$('orderNote').textContent=order==='nuzul'
-?'Surələr geniş yayılmış nüzul ardıcıllığı ilə göstərilir.'
-:'Surələr Quranın ənənəvi sırası ilə göstərilir.';
-renderSurahs($('search').value);
+  surahOrder=order;
+  $('mushafOrder').classList.toggle('active',order==='mushaf');
+  $('nuzulOrder').classList.toggle('active',order==='nuzul');
+  $('orderNote').textContent=order==='nuzul'
+    ?'Surələr geniş yayılmış nüzul ardıcıllığı ilə göstərilir.'
+    :'Surələr Quranın ənənəvi sırası ilə göstərilir.';
+  renderSurahs($('search').value);
 }
 
 function renderSurahs(filter=''){
-const list=$('surahList');
-list.innerHTML='';
-const q=filter.trim().toLocaleLowerCase('az');
-const numeric=/^\d+$/.test(q);
-const order=surahOrder==='nuzul'
-?NUZUL_ORDER
-:Array.from({length:114},(_,i)=>i+1);
-let count=0;
+  const list=$('surahList');
+  list.innerHTML='';
+  const q=filter.trim().toLocaleLowerCase('az');
+  const numeric=/^\d+$/.test(q);
+  const order=surahOrder==='nuzul'
+    ?NUZUL_ORDER
+    :Array.from({length:114},(_,i)=>i+1);
+  let count=0;
 
-order.forEach(num=>{
-const s=surahs[num-1];
-if(q&&(numeric?num!==Number(q):!s.name.toLocaleLowerCase('az').includes(q)))return;
-count++;
-const el=document.createElement('button');
-el.className='surah';
-el.innerHTML=`<div class="surah-number">${num}</div><div><div class="surah-name">${s.name}</div><div class="surah-ar" lang="ar" dir="rtl">${s.arabic}</div></div>`;
-el.onclick=()=>openSurah(num);
-list.appendChild(el);
-});
+  order.forEach(num=>{
+    const s=surahs[num-1];
+    if(q&&(numeric?num!==Number(q):!s.name.toLocaleLowerCase('az').includes(q)))return;
+    count++;
 
-if(!count){
-const el=document.createElement('div');
-el.className='empty-state';
-el.textContent='Uyğun surə tapılmadı. Surə adını və ya 1–114 arası nömrəni yoxla.';
-list.appendChild(el);
-}
+    const el=document.createElement('button');
+    el.className='surah';
+    el.innerHTML=`<div class="surah-number">${num}</div><div><div class="surah-name">${s.name}</div><div class="surah-ar" lang="ar" dir="rtl">${s.arabic}</div></div>`;
+    el.onclick=()=>openSurah(num);
+    list.appendChild(el);
+  });
+
+  if(!count){
+    const el=document.createElement('div');
+    el.className='empty-state';
+    el.textContent='Uyğun surə tapılmadı. Surə adını və ya 1–114 arası nömrəni yoxla.';
+    list.appendChild(el);
+  }
 }
 
 function openSurah(num){
-currentSurah=num;
-$('home').classList.add('hidden');
-$('prefacePage').classList.add('hidden');
-$('readerPage').classList.remove('hidden');
-$('readerName').textContent=surahs[num-1].name;
-$('readerNumber').textContent=num+'. surə';
-$('bookTitle').textContent=surahs[num-1].name;
-$('saved').textContent='';
-renderText();
-window.scrollTo(0,0);
-setTimeout(()=>{
-const y=Number(positions[num])||0;
-if(y)window.scrollTo({top:y,behavior:'auto'});
-},100);
-localStorage.setItem(LAST_KEY,String(num));
-updateContinue();
+  currentSurah=num;
+  $('home').classList.add('hidden');
+  $('readerPage').classList.remove('hidden');
+  $('readerName').textContent=surahs[num-1].name;
+  $('readerNumber').textContent=num+'. surə';
+  $('bookTitle').textContent=surahs[num-1].name;
+  $('saved').textContent='';
+  renderText();
+  window.scrollTo(0,0);
+
+  setTimeout(()=>{
+    const y=Number(positions[num])||0;
+    if(y)window.scrollTo({top:y,behavior:'auto'});
+  },100);
+
+  localStorage.setItem(LAST_KEY,String(num));
+  updateContinue();
 }
 
 function renderText(){
-const text=translations[currentSurah];
-$('quranText').textContent=typeof text==='string'&&text.trim()
-?text
-:'Bu surənin mətni hələ arxivdən yüklənməyib. Əsas səhifədə “Arxivi bərpa et” düyməsinə basaraq əvvəl saxladığın JSON arxivini yüklə.';
+  const text=translations[currentSurah];
+  $('quranText').textContent=typeof text==='string'&&text.trim()
+    ?text
+    :'Bu surənin mətni hələ arxivdən yüklənməyib. Əsas səhifədə “Arxivi bərpa et” düyməsinə basaraq əvvəl saxladığın JSON arxivini yüklə.';
 }
 
 function goHome(){
-$('readerPage').classList.add('hidden');
-$('prefacePage').classList.add('hidden');
-$('home').classList.remove('hidden');
-currentSurah=null;
-window.scrollTo(0,0);
-updateContinue();
-}
-
-function openPreface(){
-$('home').classList.add('hidden');
-$('readerPage').classList.add('hidden');
-$('prefacePage').classList.remove('hidden');
-window.scrollTo(0,0);
+  $('readerPage').classList.add('hidden');
+  $('home').classList.remove('hidden');
+  currentSurah=null;
+  window.scrollTo(0,0);
+  updateContinue();
 }
 
 function markPosition(){
-if(!currentSurah)return;
-positions[currentSurah]=window.scrollY;
-localStorage.setItem(POS_KEY,JSON.stringify(positions));
-localStorage.setItem(LAST_KEY,String(currentSurah));
-$('saved').textContent='✓ Oxuduğun yer yadda saxlanıldı.';
-updateContinue();
+  if(!currentSurah)return;
+  positions[currentSurah]=window.scrollY;
+  localStorage.setItem(POS_KEY,JSON.stringify(positions));
+  localStorage.setItem(LAST_KEY,String(currentSurah));
+  $('saved').textContent='✓ Oxuduğun yer yadda saxlanıldı.';
+  updateContinue();
 }
 
 function continueReading(){
-const num=Number(localStorage.getItem(LAST_KEY));
-if(num&&surahs[num-1])openSurah(num);
-else{
-$('search').focus();
-$('surahList').scrollIntoView({behavior:'smooth'});
-}
+  const num=Number(localStorage.getItem(LAST_KEY));
+  if(num&&surahs[num-1])openSurah(num);
+  else{
+    $('search').focus();
+    $('surahList').scrollIntoView({behavior:'smooth'});
+  }
 }
 
 function updateContinue(){
-const num=Number(localStorage.getItem(LAST_KEY));
-if(!num||!surahs[num-1]){
-$('continue').classList.remove('show');
-return;
-}
-$('continueName').textContent=num+'. '+surahs[num-1].name+' surəsi';
-$('continue').classList.add('show');
+  const num=Number(localStorage.getItem(LAST_KEY));
+  if(!num||!surahs[num-1]){
+    $('continue').classList.remove('show');
+    return;
+  }
+  $('continueName').textContent=num+'. '+surahs[num-1].name+' surəsi';
+  $('continue').classList.add('show');
 }
 
 window.addEventListener('scroll',()=>{
-if(!currentSurah||$('readerPage').classList.contains('hidden'))return;
-clearTimeout(scrollTimer);
-scrollTimer=setTimeout(()=>{
-positions[currentSurah]=window.scrollY;
-localStorage.setItem(POS_KEY,JSON.stringify(positions));
-localStorage.setItem(LAST_KEY,String(currentSurah));
-},700);
+  if(!currentSurah||$('readerPage').classList.contains('hidden'))return;
+  clearTimeout(scrollTimer);
+  scrollTimer=setTimeout(()=>{
+    positions[currentSurah]=window.scrollY;
+    localStorage.setItem(POS_KEY,JSON.stringify(positions));
+    localStorage.setItem(LAST_KEY,String(currentSurah));
+  },700);
 },{passive:true});
 
 function downloadArchive(){
-const archive={
-type:'quran-translation-archive',
-version:1,
-createdAt:new Date().toISOString(),
-surahs:translations,
-readingPositions:positions,
-lastSurah:localStorage.getItem(LAST_KEY)
-};
-const blob=new Blob([JSON.stringify(archive,null,2)],{type:'application/json'});
-const url=URL.createObjectURL(blob);
-const link=document.createElement('a');
-link.href=url;
-link.download='quran-tercumesi-arxiv.json';
-document.body.appendChild(link);
-link.click();
-link.remove();
-setTimeout(()=>URL.revokeObjectURL(url),1000);
+  const archive={
+    type:'quran-translation-archive',
+    version:1,
+    createdAt:new Date().toISOString(),
+    surahs:translations,
+    readingPositions:positions,
+    lastSurah:localStorage.getItem(LAST_KEY)
+  };
+
+  const blob=new Blob([JSON.stringify(archive,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;
+  link.download='quran-tercumesi-arxiv.json';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
 $('archiveFile').addEventListener('change',function(event){
-const file=event.target.files[0];
-if(!file)return;
-const reader=new FileReader();
-reader.onload=()=>{
-try{
-const archive=JSON.parse(reader.result);
-const incoming=archive.surahs||archive.translations;
-if(!incoming||typeof incoming!=='object')throw Error('invalid');
-showRestoreConfirm(incoming,archive);
-}catch(e){
-alert('Bu fayl düzgün Quran arxivi deyil.');
-}
-};
-reader.readAsText(file);
-event.target.value='';
+  const file=event.target.files[0];
+  if(!file)return;
+
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const archive=JSON.parse(reader.result);
+      const incoming=archive.surahs||archive.translations;
+      if(!incoming||typeof incoming!=='object')throw Error('invalid');
+      showRestoreConfirm(incoming,archive);
+    }catch(e){
+      alert('Bu fayl düzgün Quran arxivi deyil.');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value='';
 });
 
 function showRestoreConfirm(incoming,archive){
-$('modalText').textContent='Arxivdəki surə mətnləri bu cihazda saxlanılan mətnlərin yerinə yerləşdiriləcək. Düzgün JSON arxivini seçdiyinə əmin ol.';
-$('modal').classList.remove('hidden');
+  $('modalText').textContent='Arxivdəki surə mətnləri bu cihazda saxlanılan mətnlərin yerinə yerləşdiriləcək. Düzgün JSON arxivini seçdiyinə əmin ol.';
+  $('modal').classList.remove('hidden');
 
-$('modalOk').onclick=()=>{
-translations={};
-for(let i=1;i<=114;i++){
-if(Object.prototype.hasOwnProperty.call(incoming,String(i))){
-translations[i]=String(incoming[i]);
-}else if(Object.prototype.hasOwnProperty.call(incoming,i)){
-translations[i]=String(incoming[i]);
-}else{
-translations[i]='';
-}
-}
+  $('modalOk').onclick=()=>{
+    translations={};
 
-positions=archive.readingPositions||{};
-localStorage.setItem(DATA_KEY,JSON.stringify(translations));
-localStorage.setItem(POS_KEY,JSON.stringify(positions));
+    for(let i=1;i<=114;i++){
+      if(Object.prototype.hasOwnProperty.call(incoming,String(i))){
+        translations[i]=String(incoming[i]);
+      }else if(Object.prototype.hasOwnProperty.call(incoming,i)){
+        translations[i]=String(incoming[i]);
+      }else{
+        translations[i]='';
+      }
+    }
 
-if(archive.lastSurah){
-localStorage.setItem(LAST_KEY,String(archive.lastSurah));
-}
+    positions=archive.readingPositions||{};
+    localStorage.setItem(DATA_KEY,JSON.stringify(translations));
+    localStorage.setItem(POS_KEY,JSON.stringify(positions));
 
-closeModal();
-renderSurahs($('search').value);
-updateContinue();
-if(currentSurah)renderText();
-alert('Arxiv uğurla bərpa edildi.');
-};
+    if(archive.lastSurah){
+      localStorage.setItem(LAST_KEY,String(archive.lastSurah));
+    }
+
+    closeModal();
+    renderSurahs($('search').value);
+    updateContinue();
+    if(currentSurah)renderText();
+    alert('Arxiv uğurla bərpa edildi.');
+  };
 }
 
 function closeModal(){
-$('modal').classList.add('hidden');
+  $('modal').classList.add('hidden');
 }
 
 $('modal').addEventListener('click',event=>{
-if(event.target===$('modal'))closeModal();
+  if(event.target===$('modal'))closeModal();
 });
 
 $('search').addEventListener('input',()=>renderSurahs($('search').value));
