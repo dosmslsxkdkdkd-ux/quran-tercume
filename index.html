@@ -1,164 +1,73 @@
-
 <!DOCTYPE html>
 <html lang="az">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quran PDF Oxuyucu</title>
+<title>Quran — Rahat oxu</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f4f1e8;color:#20352b;margin:0;padding:16px}
-h1{text-align:center}
-.box{background:white;padding:16px;margin:12px auto;border-radius:12px;max-width:850px}
-input,button{font-size:16px;padding:10px;margin:5px 0;box-sizing:border-box}
-input[type="file"],input[type="search"],input[type="number"]{width:100%}
-button{background:#173b32;color:white;border:0;border-radius:7px;cursor:pointer}
-#results{max-height:300px;overflow:auto}
-.result{padding:10px;border-bottom:1px solid #ddd;cursor:pointer}
-#pdfpage{width:100%;border:1px solid #ddd}
+body{margin:0;background:#f5f1e7;color:#202a25;font-family:Georgia,serif}
+header{background:#173c32;color:white;padding:15px;position:sticky;top:0}
+button,input{padding:10px;border-radius:8px;border:1px solid #ccc}
+main{max-width:850px;margin:auto;padding:15px}
+#text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:23px;line-height:2;background:#fffdf7;padding:24px;border-radius:12px}
+.dark{background:#101815;color:#eee}
+.dark #text{background:#19231f;color:#eee}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 </style>
 </head>
 <body>
-
-<h1>📖 Quran PDF Oxuyucu</h1>
-
-<div class="box">
-<h3>PDF yüklə</h3>
-<input type="file" id="file" accept=".pdf,application/pdf">
-<p id="status">PDF seçilməyib</p>
+<header>
+<h2>📖 Quran — Rahat oxu</h2>
+<input id="file" type="file" accept="application/pdf">
+<button onclick="document.body.classList.toggle('dark')">🌙 Gecə rejimi</button>
+</header>
+<main>
+<div class="controls">
+<button onclick="changeSize(-2)">A−</button>
+<button onclick="changeSize(2)">A+</button>
+<button onclick="prev()">← Əvvəlki</button>
+<span id="page">PDF seçilməyib</span>
+<button onclick="next()">Növbəti →</button>
 </div>
-
-<div class="box">
-<h3>PDF daxilində axtarış</h3>
-<input id="query" type="search" placeholder="Ayədən söz yaz..." disabled>
-<button id="searchBtn" disabled>Axtar</button>
+<input id="search" placeholder="Mətndə axtar..." oninput="findText()">
+<div id="text">Öz Quran PDF faylını seç və rahat oxumağa başla.</div>
 <div id="results"></div>
-</div>
-
-<div class="box">
-<h3>Səhifə idarəsi</h3>
-<button id="prev" disabled>← Əvvəlki</button>
-<button id="next" disabled>Növbəti →</button>
-<input id="pageNo" type="number" min="1" placeholder="Səhifə nömrəsi">
-<button id="go" disabled>Səhifəyə keç</button>
-<button id="smaller" disabled>− Kiçilt</button>
-<button id="bigger" disabled>+ Böyüt</button>
-<p id="pageInfo"></p>
-<canvas id="pdfpage"></canvas>
-</div>
-
+</main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-(async function(){
-const $=id=>document.getElementById(id);
-const file=$("file"),status=$("status"),query=$("query");
-const canvas=$("pdfpage"),ctx=canvas.getContext("2d");
-let pdf=null,pages=[],current=1,zoom=1.2,task=null;
-
-if(!window.pdfjsLib){
-status.textContent="PDF kitabxanası yüklənmədi. İnterneti yoxla.";
-return;
-}
 pdfjsLib.GlobalWorkerOptions.workerSrc=
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-function norm(s){
-return s.normalize("NFD")
-.replace(/[\u0300-\u036f]/g,"")
-.toLocaleLowerCase("az")
-.replace(/ı/g,"i").replace(/ə/g,"e");
+'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+let pdf,p=1,size=23,all=[];
+const el=id=>document.getElementById(id);
+el('file').onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ el('text').textContent='PDF açılır...';
+ try{
+  pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+  all=[];
+  for(let i=1;i<=pdf.numPages;i++){
+   const pg=await pdf.getPage(i),c=await pg.getTextContent();
+   all.push(c.items.map(x=>x.str).join(' '));
+  }
+  p=1;show();
+ }catch(e){el('text').textContent='PDF açıla bilmədi. Yenidən yoxla.';}
+};
+function show(){
+ if(!pdf)return;
+ el('text').textContent=all[p-1]||'Bu səhifədən mətn çıxarmaq mümkün olmadı.';
+ el('text').style.fontSize=size+'px';
+ el('page').textContent=p+' / '+pdf.numPages;
 }
-
-function buttons(on){
-["searchBtn","prev","next","go","bigger","smaller"]
-.forEach(id=>$(id).disabled=!on);
-query.disabled=!on;
+function next(){if(pdf&&p<pdf.numPages){p++;show()}}
+function prev(){if(pdf&&p>1){p--;show()}}
+function changeSize(n){size=Math.max(14,Math.min(42,size+n));show()}
+function findText(){
+ const q=el('search').value.toLocaleLowerCase();
+ if(!q||!pdf){el('results').textContent='';return}
+ const hits=[];
+ all.forEach((t,i)=>{if(t.toLocaleLowerCase().includes(q))hits.push(i+1)});
+ el('results').textContent=hits.length?'Tapıldığı PDF səhifələri: '+hits.join(', '):'Tapılmadı';
 }
-
-async function draw(n){
-if(!pdf)return;
-current=Math.max(1,Math.min(pdf.numPages,Number(n)||1));
-if(task){try{task.cancel()}catch(e){}}
-const page=await pdf.getPage(current);
-const viewport=page.getViewport({scale:zoom});
-const ratio=Math.min(devicePixelRatio||1,2);
-canvas.width=viewport.width*ratio;
-canvas.height=viewport.height*ratio;
-canvas.style.width="100%";
-canvas.style.height="auto";
-ctx.setTransform(ratio,0,0,ratio,0,0);
-task=page.render({canvasContext:ctx,viewport});
-try{await task.promise}catch(e){
-if(e.name!=="RenderingCancelledException")throw e;
-}
-$("pageNo").value=current;
-$("pageInfo").textContent=
-"Səhifə "+current+" / "+pdf.numPages;
-}
-
-file.addEventListener("change",async()=>{
-const f=file.files[0];
-if(!f)return;
-buttons(false);
-status.textContent="PDF açılır, mətn hazırlanır...";
-$("results").innerHTML="";
-try{
-const data=await f.arrayBuffer();
-pdf=await pdfjsLib.getDocument({data}).promise;
-pages=new Array(pdf.numPages);
-current=1;zoom=1.2;
-for(let i=1;i<=pdf.numPages;i++){
-const p=await pdf.getPage(i);
-const t=await p.getTextContent();
-pages[i-1]=t.items.map(x=>x.str).join(" ");
-if(i%10===0){
-status.textContent="Mətn oxunur: "+i+"/"+pdf.numPages;
-await new Promise(r=>setTimeout(r,0));
-}
-}
-buttons(pages.some(x=>x.trim()));
-status.textContent=f.name+" — "+pdf.numPages+" səhifə";
-await draw(1);
-}catch(e){
-console.error(e);
-status.textContent="PDF açıla bilmədi.";
-}
-});
-
-function search(){
-const q=norm(query.value.trim());
-if(!q||!pages.length)return;
-const out=$("results");
-out.innerHTML="";
-let count=0;
-pages.forEach((text,i)=>{
-if(norm(text).includes(q)){
-count++;
-const div=document.createElement("div");
-div.className="result";
-div.textContent="Səhifə "+(i+1)+": "+
-text.slice(Math.max(0,norm(text).indexOf(q)-60),
-norm(text).indexOf(q)+q.length+100);
-div.onclick=()=>draw(i+1);
-out.appendChild(div);
-}
-});
-if(!count)out.textContent=
-"Nəticə tapılmadı. Ayədən başqa söz yoxla.";
-}
-
-$("searchBtn").onclick=search;
-query.addEventListener("keydown",e=>{
-if(e.key==="Enter")search();
-});
-$("prev").onclick=()=>draw(current-1);
-$("next").onclick=()=>draw(current+1);
-$("go").onclick=()=>draw($("pageNo").value);
-$("pageNo").addEventListener("keydown",e=>{
-if(e.key==="Enter")draw($("pageNo").value);
-});
-$("bigger").onclick=()=>{zoom=Math.min(3,zoom+.2);draw(current)};
-$("smaller").onclick=()=>{zoom=Math.max(.5,zoom-.2);draw(current)};
-})();
 </script>
 </body>
 </html>
