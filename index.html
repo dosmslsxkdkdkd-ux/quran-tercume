@@ -4,70 +4,152 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quran — Rahat oxu</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
-body{margin:0;background:#f5f1e7;color:#202a25;font-family:Georgia,serif}
-header{background:#173c32;color:white;padding:15px;position:sticky;top:0}
-button,input{padding:10px;border-radius:8px;border:1px solid #ccc}
-main{max-width:850px;margin:auto;padding:15px}
-#text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:23px;line-height:2;background:#fffdf7;padding:24px;border-radius:12px}
-.dark{background:#101815;color:#eee}
-.dark #text{background:#19231f;color:#eee}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+:root{--bg:#f4f1e8;--panel:#fffdf7;--ink:#26382e;--accent:#24634d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
+header{background:#173d32;color:white;padding:15px;position:sticky;top:0;z-index:5}
+header h2{margin:0 0 10px}
+button,input{font:inherit;padding:10px;border-radius:9px;border:1px solid #ccc}
+button{cursor:pointer}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:15px;max-width:1200px;margin:auto;padding:15px}
+aside,.reader{background:var(--panel);border-radius:14px;padding:14px;min-width:0}
+aside{height:calc(100vh - 150px);overflow:auto;position:sticky;top:145px}
+#surahs{padding:0;margin:10px 0;list-style:none}
+#surahs button{display:block;width:100%;text-align:left;margin:4px 0;background:transparent;border:0}
+#surahs button:hover{background:#e4eee7}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+#pageInfo{padding:10px}
+#pdfPage{display:block;width:100%;height:auto;background:white;border-radius:6px}
+#status{font-size:14px;margin:8px 0}
+.dark{--bg:#101815;--panel:#19231f;--ink:#f0f0e8;--accent:#77c7a3}
+@media(max-width:700px){
+ .layout{grid-template-columns:1fr;padding:8px}
+ aside{height:auto;position:static}
+ #surahs{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+ #surahs button{font-size:13px;padding:8px}
+}
 </style>
 </head>
 <body>
 <header>
 <h2>📖 Quran — Rahat oxu</h2>
-<input id="file" type="file" accept="application/pdf">
-<button onclick="document.body.classList.toggle('dark')">🌙 Gecə rejimi</button>
-</header>
-<main>
-<div class="controls">
-<button onclick="changeSize(-2)">A−</button>
-<button onclick="changeSize(2)">A+</button>
-<button onclick="prev()">← Əvvəlki</button>
-<span id="page">PDF seçilməyib</span>
-<button onclick="next()">Növbəti →</button>
+<div class="toolbar">
+<label>PDF seç:
+<input id="pdfFile" type="file" accept=".pdf,application/pdf">
+</label>
+<button id="night">🌙 Gecə rejimi</button>
 </div>
-<input id="search" placeholder="Mətndə axtar..." oninput="findText()">
-<div id="text">Öz Quran PDF faylını seç və rahat oxumağa başla.</div>
-<div id="results"></div>
+<div id="status">Başlamaq üçün öz Quran PDF faylını seç.</div>
+</header>
+<div class="layout">
+<aside>
+<h3>114 surə</h3>
+<input id="surahSearch" placeholder="Surə axtar..." style="width:100%">
+<ul id="surahs"></ul>
+</aside>
+<main class="reader">
+<div class="toolbar">
+<button id="prev">← Əvvəlki</button>
+<span id="pageInfo">Səhifə —</span>
+<button id="next">Növbəti →</button>
+<button id="smaller">A−</button>
+<button id="bigger">A+</button>
+</div>
+<div class="toolbar">
+<input id="pageNumber" type="number" min="1" placeholder="Səhifə №" style="width:120px">
+<button id="goPage">Səhifəyə keç</button>
+</div>
+<div id="empty">PDF faylını yüklədikdən sonra kitab burada açılacaq.</div>
+<canvas id="pdfPage" hidden></canvas>
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</div>
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc=
-'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-let pdf,p=1,size=23,all=[];
-const el=id=>document.getElementById(id);
-el('file').onchange=async e=>{
- const f=e.target.files[0];if(!f)return;
- el('text').textContent='PDF açılır...';
+if(window.pdfjsLib){
+ pdfjsLib.GlobalWorkerOptions.workerSrc=
+ 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+const surahNames=[
+"Fatihə","Bəqərə","Ali-İmran","Nisa","Maidə","Ənam","Əraf","Ənfal","Tövbə","Yunus",
+"Hud","Yusuf","Rəd","İbrahim","Hicr","Nəhl","İsra","Kəhf","Məryəm","Taha",
+"Ənbiya","Həcc","Muminun","Nur","Furqan","Şuəra","Nəml","Qəsəs","Ənkəbut","Rum",
+"Loğman","Səcdə","Əhzab","Səba","Fatir","Yasin","Saffat","Sad","Zumər","Ğafir",
+"Fussilət","Şura","Zuxruf","Duxan","Casiyə","Əhqaf","Muhəmməd","Fəth","Hucurat","Qaf",
+"Zariyat","Tur","Nəcm","Qəmər","Rəhman","Vaqiə","Hədid","Mücadilə","Həşr","Mumtəhənə",
+"Saff","Cümə","Munafiqun","Təğabun","Talaq","Təhrim","Mulk","Qələm","Haqqə","Məaric",
+"Nuh","Cin","Muzzəmmil","Muddəssir","Qiyamə","İnsan","Mursəlat","Nəbə","Naziat","Əbəsə",
+"Təkvir","İnfitar","Mutaffifin","İnşiqaq","Buruc","Tariq","Əla","Ğaşiyə","Fəcr","Bələd",
+"Şəms","Leyl","Duha","İnşirah","Tin","Ələq","Qədr","Bəyyinə","Zilzal","Adiyat",
+"Qariə","Təkasur","Əsr","Huməzə","Fil","Qureyş","Maun","Kövsər","Kafirun","Nəsr",
+"Məsəd","İxlas","Fələq","Nas"
+];
+// Surə nömrəsinə uyğun PDF səhifəsi avtomatik təyin edilmir.
+// Aşağıdakı menyu surə seçərkən istədiyin PDF səhifəsini daxil etməyə imkan verir.
+const ul=document.getElementById('surahs');
+function makeSurahs(filter=''){
+ ul.innerHTML='';
+ surahNames.forEach((name,i)=>{
+  if(!name.toLocaleLowerCase('az').includes(filter.toLocaleLowerCase('az')))return;
+  const li=document.createElement('li');
+  const b=document.createElement('button');
+  b.textContent=(i+1)+'. '+name;
+  b.onclick=()=>{
+   const saved=localStorage.getItem('quran-surah-page-'+(i+1));
+   const ask=prompt(name+' surəsinin başladığı PDF səhifəsinin nömrəsi:',saved||'');
+   if(ask===null)return;
+   const n=Number(ask);
+   if(Number.isInteger(n)&&n>0){
+    localStorage.setItem('quran-surah-page-'+(i+1),n);
+    if(pdfDoc)renderPage(n);
+    else alert('Əvvəlcə Quran PDF faylını yüklə.');
+   }else alert('Düzgün səhifə nömrəsi daxil et.');
+  };
+  li.appendChild(b);ul.appendChild(li);
+ });
+}
+makeSurahs();
+document.getElementById('surahSearch').addEventListener('input',e=>makeSurahs(e.target.value));
+let pdfDoc=null,currentPage=1,scale=1.25;
+const canvas=document.getElementById('pdfPage'),ctx=canvas.getContext('2d');
+const status=document.getElementById('status');
+document.getElementById('pdfFile').addEventListener('change',async e=>{
+ const file=e.target.files[0];if(!file)return;
+ if(!window.pdfjsLib){status.textContent='PDF kitabxanası yüklənmədi. İnternet bağlantısını yoxla.';return}
  try{
-  pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
-  all=[];
-  for(let i=1;i<=pdf.numPages;i++){
-   const pg=await pdf.getPage(i),c=await pg.getTextContent();
-   all.push(c.items.map(x=>x.str).join(' '));
-  }
-  p=1;show();
- }catch(e){el('text').textContent='PDF açıla bilmədi. Yenidən yoxla.';}
-};
-function show(){
- if(!pdf)return;
- el('text').textContent=all[p-1]||'Bu səhifədən mətn çıxarmaq mümkün olmadı.';
- el('text').style.fontSize=size+'px';
- el('page').textContent=p+' / '+pdf.numPages;
+  status.textContent='PDF açılır...';
+  pdfDoc=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+  document.getElementById('empty').hidden=true;
+  canvas.hidden=false;
+  currentPage=1;
+  await renderPage(1);
+  status.textContent='PDF hazırdır. Cəmi '+pdfDoc.numPages+' səhifə.';
+ }catch(err){
+  status.textContent='PDF açılmadı. Faylın düzgün PDF olduğunu yoxla.';
+ }
+});
+async function renderPage(n){
+ if(!pdfDoc)return;
+ n=Math.max(1,Math.min(pdfDoc.numPages,Math.floor(n)));
+ currentPage=n;
+ const page=await pdfDoc.getPage(n);
+ const viewport=page.getViewport({scale:scale});
+ const dpr=window.devicePixelRatio||1;
+ canvas.width=Math.floor(viewport.width*dpr);
+ canvas.height=Math.floor(viewport.height*dpr);
+ canvas.style.width='100%';
+ canvas.style.height='auto';
+ await page.render({canvasContext:ctx,viewport:page.getViewport({scale:scale*dpr})}).promise;
+ document.getElementById('pageInfo').textContent='Səhifə '+n+' / '+pdfDoc.numPages;
+ document.getElementById('pageNumber').value=n;
+ localStorage.setItem('quran-last-page',n);
 }
-function next(){if(pdf&&p<pdf.numPages){p++;show()}}
-function prev(){if(pdf&&p>1){p--;show()}}
-function changeSize(n){size=Math.max(14,Math.min(42,size+n));show()}
-function findText(){
- const q=el('search').value.toLocaleLowerCase();
- if(!q||!pdf){el('results').textContent='';return}
- const hits=[];
- all.forEach((t,i)=>{if(t.toLocaleLowerCase().includes(q))hits.push(i+1)});
- el('results').textContent=hits.length?'Tapıldığı PDF səhifələri: '+hits.join(', '):'Tapılmadı';
-}
+document.getElementById('prev').onclick=()=>renderPage(currentPage-1);
+document.getElementById('next').onclick=()=>renderPage(currentPage+1);
+document.getElementById('goPage').onclick=()=>renderPage(Number(document.getElementById('pageNumber').value));
+document.getElementById('bigger').onclick=()=>{scale=Math.min(2.5,scale+0.15);renderPage(currentPage)};
+document.getElementById('smaller').onclick=()=>{scale=Math.max(0.7,scale-0.15);renderPage(currentPage)};
+document.getElementById('night').onclick=()=>document.body.classList.toggle('dark');
 </script>
 </body>
 </html>
