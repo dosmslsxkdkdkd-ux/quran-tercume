@@ -3,138 +3,347 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quran — Kitab kimi oxu</title>
+<meta name="theme-color" content="#173c31">
+<title>Quran | Rahat oxu</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
+:root{
+  --green:#173c31;
+  --green2:#245746;
+  --gold:#c9a86a;
+  --paper:#f7f1e5;
+  --ink:#292f29;
+  --soft:#e8dfcd;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#eee9dc;color:#25382f;font-family:Arial,sans-serif}
-header{background:#194638;color:white;padding:18px;text-align:center;font-size:23px;font-weight:bold}
-main{max-width:850px;margin:auto;padding:12px}
-input,button{font-size:16px;border-radius:9px;padding:11px}
-input[type=file]{width:100%;background:white;margin:10px 0}
-button{border:0;background:#d6e5d8;color:#193d30;cursor:pointer}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0}
-#pageNum{width:90px;text-align:center}
-#reader{background:#d8d3c8;border-radius:10px;padding:8px;min-height:180px;text-align:center;overflow:auto}
-canvas{max-width:100%;height:auto;background:white;box-shadow:0 2px 9px #777}
-#status{text-align:center;padding:10px;font-size:14px}
-body.dark{background:#101713;color:#eee}
-body.dark #reader{background:#080b09}
-body.dark input{background:#222;color:white}
-body.dark button{background:#30483a;color:white}
+body{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  background:var(--paper);
+  color:var(--ink);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+header{
+  background:linear-gradient(135deg,#102f26,#285b46);
+  color:#fff;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  position:sticky;
+  top:0;
+  z-index:5;
+  box-shadow:0 3px 12px #0002;
+}
+#menuBtn{
+  border:1px solid #c9a86a;
+  background:transparent;
+  color:#f4dfae;
+  border-radius:12px;
+  font-size:25px;
+  width:48px;height:46px;
+}
+.brand{flex:1}
+.brand strong{font-size:21px;letter-spacing:.3px}
+.brand small{display:block;color:#dfd3b5;margin-top:4px;font-size:12px}
+main{max-width:850px;margin:auto;padding:14px}
+.upload{
+  background:#fffaf0;
+  border:1px solid #e0d1b1;
+  border-radius:16px;
+  padding:14px;
+  box-shadow:0 4px 14px #3a2d1510;
+}
+.upload label{font-size:14px;font-weight:bold}
+input[type=file]{display:block;width:100%;margin-top:9px;font-size:14px}
+.tools{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;flex-wrap:wrap;margin:13px 0;
+}
+.tools button{
+  border:1px solid #d6c39c;
+  border-radius:12px;
+  padding:11px 13px;
+  background:#fffaf0;color:var(--green);
+}
+.tools button.primary{background:var(--green);color:white;border-color:var(--green)}
+#pageNum{
+  width:82px;padding:11px 5px;text-align:center;
+  border:1px solid #d6c39c;border-radius:12px;background:white;
+}
+#status{text-align:center;color:#74694f;font:13px Arial,sans-serif;padding:3px 0 12px}
+#reader{
+  background:#ded3bd;
+  padding:9px;
+  border-radius:15px;
+  box-shadow:inset 0 1px 5px #6b57362b;
+  touch-action:pan-y;
+}
+#reader canvas{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:auto;
+  background:white;
+  box-shadow:0 5px 20px #33271335;
+}
+.hint{text-align:center;font:12px Arial,sans-serif;color:#84765c;margin:12px 0 20px}
+/* Yan menyu */
+#shade{
+  position:fixed;inset:0;background:#0007;
+  z-index:10;display:none;
+}
+#shade.show{display:block}
+#drawer{
+  position:fixed;top:0;bottom:0;left:0;
+  width:min(340px,88vw);
+  background:#fbf5e8;
+  z-index:11;
+  transform:translateX(-105%);
+  transition:transform .25s ease;
+  display:flex;flex-direction:column;
+  box-shadow:8px 0 30px #0003;
+}
+#drawer.show{transform:translateX(0)}
+.drawerHead{
+  background:linear-gradient(135deg,#102f26,#285b46);
+  color:white;padding:20px 16px 16px;
+}
+.drawerHead .top{display:flex;justify-content:space-between;align-items:center}
+.drawerHead h2{font-size:21px;margin:0}
+#closeMenu{background:transparent;border:1px solid #c9a86a;color:#fff0c6;border-radius:9px;padding:6px 11px}
+.drawerHead p{color:#e4d6b8;font:12px Arial,sans-serif;margin:10px 0 0}
+#surahSearch{
+  margin:12px;padding:12px;border:1px solid #ddceb0;
+  border-radius:11px;background:#fffdf7;width:calc(100% - 24px);
+}
+#surahList{overflow:auto;padding:0 10px 18px}
+.surah{
+  width:100%;display:flex;align-items:center;gap:11px;
+  text-align:left;border:0;border-bottom:1px solid #e8deca;
+  padding:11px 8px;background:transparent;color:#283d31;
+}
+.surah .num{
+  width:34px;height:34px;flex-shrink:0;
+  display:grid;place-items:center;border:1px solid #d5bb83;
+  border-radius:10px;color:#806331;font:13px Arial,sans-serif;
+}
+.surah .name{font-size:16px;flex:1}
+.surah .arrow{color:#ad8c4f;font-size:20px}
+.surah:active,.surah:hover{background:#eee4d0}
+.surah.active{background:#e6eddf}
+body.dark{
+  --paper:#111a15;--ink:#eae6dc;--soft:#29372d;
+}
+body.dark .upload,body.dark .tools button,body.dark #pageNum{
+  background:#1d2a22;color:#f1eadb;border-color:#435343;
+}
+body.dark #reader{background:#080d0a}
+body.dark #status,body.dark .hint{color:#b5ab94}
+body.dark #drawer{background:#18251d}
+body.dark .surah{color:#f0e8d7;border-color:#344337}
+body.dark .surah .num{color:#e4c887}
+body.dark .surah.active,body.dark .surah:hover{background:#2c4434}
+body.dark #surahSearch{background:#111a15;color:white;border-color:#435343}
+@media(min-width:650px){
+  main{padding:22px}
+  #reader{padding:16px}
+}
 </style>
 </head>
 <body>
-<header>📖 Quran — Rahat oxu</header>
+<header>
+  <button id="menuBtn" aria-label="Surələr menyusu">☰</button>
+  <div class="brand">
+    <strong>📖 Quran — Rahat oxu</strong>
+    <small>Öz kitabın, öz rahatlığın</small>
+  </div>
+</header>
+<div id="shade"></div>
+<aside id="drawer" aria-label="Surələr menyusu">
+  <div class="drawerHead">
+    <div class="top">
+      <h2>☾ Surələr</h2>
+      <button id="closeMenu">✕</button>
+    </div>
+    <p>Oxumaq istədiyin surəni seç</p>
+  </div>
+  <input id="surahSearch" type="search" placeholder="Surə axtar...">
+  <div id="surahList"></div>
+</aside>
 <main>
-  <p><b>Quran PDF faylını seç:</b></p>
-  <input id="file" type="file" accept=".pdf,application/pdf">
-  <div class="toolbar">
-    <button id="night">🌙 Gecə rejimi</button>
+  <section class="upload">
+    <label for="file">Quran PDF faylını seç</label>
+    <input id="file" type="file" accept=".pdf,application/pdf">
+  </section>
+  <div class="tools">
+    <button id="night">☾ Gecə rejimi</button>
     <button id="minus">A− Kiçilt</button>
     <button id="plus">A+ Böyüt</button>
   </div>
-  <div class="toolbar">
-    <button id="prev">❮ Əvvəlki</button>
-    <input id="pageNum" type="number" min="1" value="1" aria-label="Səhifə nömrəsi">
-    <button id="go">Get</button>
-    <button id="next">Növbəti ❯</button>
+  <div class="tools">
+    <button id="prev">‹ Əvvəlki</button>
+    <input id="pageNum" type="number" min="1" value="11" aria-label="PDF səhifəsi">
+    <button id="go" class="primary">Aç</button>
+    <button id="next">Növbəti ›</button>
   </div>
-  <div id="status">Başlamaq üçün PDF faylını seç.</div>
-  <div id="reader">Kitab səhifəsi burada görünəcək.</div>
+  <div id="status">Başlamaq üçün Quran PDF faylını seç.</div>
+  <div id="reader">📚 Kitabın səhifəsi burada görünəcək.</div>
+  <div class="hint">Səhifələri düymələrlə və ya barmağınla sürüşdürərək çevir.</div>
 </main>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-let pdf=null;
-let page=1;
-let zoom=1;
-let renderTask=null;
-const reader=document.getElementById('reader');
-const status=document.getElementById('status');
-const pageNum=document.getElementById('pageNum');
-document.getElementById('file').addEventListener('change',async function(e){
-  const file=e.target.files[0];
-  if(!file)return;
-  status.textContent='PDF açılır...';
-  try{
-    const data=await file.arrayBuffer();
-    pdf=await pdfjsLib.getDocument({data}).promise;
-    pageNum.max=pdf.numPages;
-    page=Number(localStorage.getItem('quranReaderPage'))||1;
-    if(page>pdf.numPages)page=1;
-    await showPage(page);
-  }catch(err){
-    status.textContent='PDF açıla bilmədi. İnternet bağlantısını yoxla.';
-  }
-});
-async function showPage(n){
+/*
+  Səhifələr bu kitabın PDF-dəki çap səhifələrinə əsaslanır.
+  PDF-də ilk 10 səhifə əlavə olduğuna görə çap səhifəsinə 10 əlavə olunur.
+  Bəzi son surələr eyni çap səhifəsində başlayır.
+*/
+const surahs = [
+["Fatihə",1],["Bəqərə",2],["Ali-İmran",40],["Nisa",61],
+["Maidə",85],["Ənam",101],["Əraf",121],["Ənfal",143],
+["Tövbə",151],["Yunus",167],["Hud",179],["Yusuf",192],
+["Rad",204],["İbrahim",210],["Hicr",216],["Nəhl",222],
+["İsra",234],["Kəhf",245],["Məryəm",256],["Taha",264],
+["Ənbiya",274],["Həcc",284],["Muminun",293],["Nur",302],
+["Furqan",310],["Şuəra",317],["Nəml",329],["Qəsəs",337],
+["Ənkəbut",346],["Rum",353],["Loğman",359],["Səcdə",363],
+["Əhzab",366],["Səba",375],["Fatir",381],["Yasin",386],
+["Saffat",392],["Sad",401],["Zumər",407],["Mumin",415],
+["Fussilət",423],["Şura",429],["Zuxruf",435],["Duxan",442],
+["Casiyə",445],["Əhqaf",449],["Məhəmməd",454],["Fəth",458],
+["Hucurat",462],["Qaf",464],["Zariyat",467],["Tur",471],
+["Nəcm",474],["Qəmər",477],["Rəhman",481],["Vaqiə",485],
+["Hədid",489],["Mücadilə",493],["Həşr",496],["Mumtəhənə",499],
+["Saff",501],["Cümə",503],["Munafiqun",505],["Təğabun",507],
+["Talaq",509],["Təhrim",511],["Mulk",513],["Qələm",516],
+["Haqqə",519],["Məaric",522],["Nuh",525],["Cin",527],
+["Muzzəmmil",530],["Muddəssir",532],["Qiyamət",535],["İnsan",537],
+["Mursəlat",539],["Nəbə",541],["Naziat",543],["Əbəsə",545],
+["Təkvir",547],["İnfitar",549],["Mutaffifin",550],["İnşiqaq",552],
+["Buruc",553],["Tariq",554],["Əla",555],["Ğaşiyə",556],
+["Fəcr",557],["Bələd",559],["Şəms",560],["Leyl",561],
+["Duha",562],["İnşirah",563],["Tin",563],["Ələq",564],
+["Qədr",565],["Bəyyinə",565],["Zilzal",566],["Adiyat",565],
+["Qariə",567],["Təkasur",567],["Əsr",568],["Huməzə",568],
+["Fil",569],["Qureyş",569],["Maun",569],["Kövsər",570],
+["Kafirun",570],["Nəsr",570],["Məsəd",571],["İxlas",571],
+["Fələq",572],["Nas",572]
+];
+let pdf=null, current=11, zoom=1, renderTask=null, activeSurah=-1;
+const $=id=>document.getElementById(id);
+const drawer=$("drawer"), shade=$("shade"), reader=$("reader");
+function openMenu(){
+  drawer.classList.add("show");
+  shade.classList.add("show");
+}
+function closeMenu(){
+  drawer.classList.remove("show");
+  shade.classList.remove("show");
+}
+$("menuBtn").onclick=openMenu;
+$("closeMenu").onclick=closeMenu;
+shade.onclick=closeMenu;
+function drawSurahs(){
+  const q=$("surahSearch").value.trim().toLocaleLowerCase("az");
+  const list=$("surahList");
+  list.innerHTML="";
+  surahs.forEach((s,i)=>{
+    if(q && !(s[0].toLocaleLowerCase("az").includes(q)) &&
+       !String(i+1).includes(q)) return;
+    const b=document.createElement("button");
+    b.className="surah"+(i===activeSurah?" active":"");
+    b.innerHTML='<span class="num">'+(i+1)+'</span>'+
+      '<span class="name"></span><span class="arrow">›</span>';
+    b.querySelector(".name").textContent=s[0];
+    b.onclick=()=>{
+      activeSurah=i;
+      drawSurahs();
+      closeMenu();
+      // Kitabın çap səhifəsi + PDF-in əvvəlindəki 10 əlavə səhifə
+      openPage(s[1]+10,s[0]+" surəsi");
+    };
+    list.appendChild(b);
+  });
+}
+$("surahSearch").addEventListener("input",drawSurahs);
+async function openPage(n,title=""){
   if(!pdf){
-    status.textContent='Əvvəlcə PDF faylını seç.';
+    $("status").textContent="Əvvəlcə PDF faylını seç.";
     return;
   }
-  page=Math.max(1,Math.min(pdf.numPages,Number(n)||1));
-  pageNum.value=page;
-  status.textContent='Səhifə '+page+' / '+pdf.numPages;
+  current=Math.max(1,Math.min(pdf.numPages,Number(n)||1));
+  $("pageNum").value=current;
+  $("status").textContent=(title?title+" · ":"")+
+    "PDF səhifəsi "+current+" / "+pdf.numPages;
   try{
     if(renderTask){
       try{renderTask.cancel()}catch(e){}
     }
-    const pdfPage=await pdf.getPage(page);
-    const original=pdfPage.getViewport({scale:1});
-    const available=Math.max(250,reader.clientWidth-20);
-    const scale=Math.min(available/original.width,1.5)*zoom;
-    const viewport=pdfPage.getViewport({scale});
+    const p=await pdf.getPage(current);
+    const base=p.getViewport({scale:1});
+    const available=Math.max(240,reader.clientWidth-18);
+    const scale=(available/base.width)*zoom;
+    const viewport=p.getViewport({scale});
     const ratio=window.devicePixelRatio||1;
-    const canvas=document.createElement('canvas');
-    const ctx=canvas.getContext('2d');
+    const canvas=document.createElement("canvas");
+    const ctx=canvas.getContext("2d");
     canvas.width=Math.floor(viewport.width*ratio);
     canvas.height=Math.floor(viewport.height*ratio);
-    canvas.style.width=viewport.width+'px';
-    canvas.style.height=viewport.height+'px';
+    canvas.style.width=viewport.width+"px";
+    canvas.style.height=viewport.height+"px";
     reader.replaceChildren(canvas);
-    const sharpViewport=pdfPage.getViewport({scale:scale*ratio});
-    renderTask=pdfPage.render({
+    renderTask=p.render({
       canvasContext:ctx,
-      viewport:sharpViewport
+      viewport:p.getViewport({scale:scale*ratio})
     });
     await renderTask.promise;
-    localStorage.setItem('quranReaderPage',page);
-    status.textContent='Səhifə '+page+' / '+pdf.numPages;
-  }catch(err){
-    if(err.name!=='RenderingCancelledException'){
-      status.textContent='Səhifə göstərilmədi. Yenidən yoxla.';
+    localStorage.setItem("quranReaderPage",current);
+    $("status").textContent=(title?title+" · ":"")+
+      "PDF səhifəsi "+current+" / "+pdf.numPages;
+  }catch(e){
+    if(e.name!=="RenderingCancelledException"){
+      $("status").textContent="Səhifəni göstərmək olmadı. PDF-ni yenidən seç.";
     }
   }
 }
-document.getElementById('prev').onclick=()=>showPage(page-1);
-document.getElementById('next').onclick=()=>showPage(page+1);
-document.getElementById('go').onclick=()=>showPage(pageNum.value);
-pageNum.addEventListener('keydown',e=>{
-  if(e.key==='Enter')showPage(pageNum.value);
+$("file").addEventListener("change",async e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+  $("status").textContent="Kitab hazırlanır...";
+  try{
+    pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+    $("pageNum").max=pdf.numPages;
+    const saved=Number(localStorage.getItem("quranReaderPage"))||11;
+    await openPage(Math.min(saved,pdf.numPages));
+  }catch(e){
+    $("status").textContent="PDF açıla bilmədi. İnterneti yoxla və yenidən seç.";
+  }
 });
-document.getElementById('plus').onclick=()=>{
-  zoom=Math.min(2,zoom+0.15);
-  showPage(page);
-};
-document.getElementById('minus').onclick=()=>{
-  zoom=Math.max(0.6,zoom-0.15);
-  showPage(page);
-};
-document.getElementById('night').onclick=()=>{
-  document.body.classList.toggle('dark');
-};
-let touchX=0;
-reader.addEventListener('touchstart',e=>{
+$("prev").onclick=()=>openPage(current-1);
+$("next").onclick=()=>openPage(current+1);
+$("go").onclick=()=>openPage($("pageNum").value);
+$("pageNum").addEventListener("keydown",e=>{
+  if(e.key==="Enter")openPage($("pageNum").value);
+});
+$("plus").onclick=()=>{zoom=Math.min(2,zoom+.15);openPage(current)};
+$("minus").onclick=()=>{zoom=Math.max(.65,zoom-.15);openPage(current)};
+$("night").onclick=()=>document.body.classList.toggle("dark");
+let touchX=0,touchY=0;
+reader.addEventListener("touchstart",e=>{
   touchX=e.changedTouches[0].screenX;
+  touchY=e.changedTouches[0].screenY;
 },{passive:true});
-reader.addEventListener('touchend',e=>{
-  const diff=e.changedTouches[0].screenX-touchX;
-  if(Math.abs(diff)>70){
-    if(diff<0)showPage(page+1);
-    else showPage(page-1);
+reader.addEventListener("touchend",e=>{
+  const dx=e.changedTouches[0].screenX-touchX;
+  const dy=e.changedTouches[0].screenY-touchY;
+  if(Math.abs(dx)>85 && Math.abs(dx)>Math.abs(dy)*1.3){
+    if(dx<0)openPage(current+1);
+    else openPage(current-1);
   }
 },{passive:true});
+drawSurahs();
 </script>
 </body>
 </html>
