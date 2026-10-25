@@ -1,414 +1,663 @@
-
 <!DOCTYPE html>
-<html lang="az">
+<html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="author" content="Babayev Ağa">
-<meta name="description" content="Azərbaycan dilində Quran tərcüməsi. 114 surəni rahat oxuyun.">
-<meta name="theme-color" content="#103d31">
-<title>Quran Tərcüməsi — Azərbaycan dilində Quran</title>
-<style>
-:root{--bg:#f4f0e5;--paper:#fffdf6;--paper2:#eee7d7;--text:#202b25;--muted:#72796f;--line:#ded4bf;--green:#155342;--gold:#b48b43;--soft:#dfe9df;--shadow:0 12px 35px #24382b12}
-@media(prefers-color-scheme:dark){:root{--bg:#101a16;--paper:#18241e;--paper2:#243129;--text:#edf1e8;--muted:#aab5a8;--line:#34463a;--green:#b7d0b7;--gold:#dfbd73;--soft:#263b2d;--shadow:0 12px 35px #0003}}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-button,input{font:inherit}
-button{cursor:pointer;transition:transform .15s,border-color .15s}
-button:active{transform:scale(.98)}
-.hidden{display:none!important}
-header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
-header:after{content:"";display:block;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--green),var(--gold),transparent)}
-.header-inner{max-width:1100px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-mark{width:44px;height:44px;border:1px solid var(--gold);border-radius:14px;display:grid;place-items:center;background:#155342;color:#f1dca5;font-size:25px}
-.logo-title{font-weight:900;font-size:16px}
-.logo-sub{font-size:11px;color:var(--muted);margin-top:4px}
-.container{max-width:1100px;margin:auto;padding:25px 18px 60px}
-.hero{position:relative;overflow:hidden;padding:35px;border:1px solid #bda56b77;border-radius:26px;background:linear-gradient(125deg,#103d31,#155342 60%,#23664d);color:#fff9e9;box-shadow:0 20px 45px #102f2420}
-.hero:after{content:"۞";position:absolute;right:-12px;top:-38px;color:#e2c47d;opacity:.15;font-size:180px}
-.tag{display:inline-block;border:1px solid #e2c47d88;color:#f0d99a;padding:8px 13px;border-radius:30px;font-size:11px;font-weight:900;letter-spacing:1px}
-.hero h1{position:relative;z-index:1;font-family:Georgia,serif;font-size:clamp(38px,6vw,62px);line-height:1.06;letter-spacing:-1px;margin:19px 0 14px}
-.hero p{position:relative;z-index:1;max-width:620px;color:#f3edda;font-size:15px;line-height:1.8;margin:0}
-.ornament{position:relative;z-index:1;color:#e2c47d;margin-top:20px;letter-spacing:8px}
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
-.action{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:17px;padding:17px;text-align:left;box-shadow:var(--shadow)}
-.action.primary{background:linear-gradient(145deg,#1c624b,#0b352b);color:#fff8e8;border-color:var(--gold)}
-.action-icon{font-size:22px;margin-bottom:9px}
-.action-title{font-size:14px;font-weight:900}
-.action-text{font-size:12px;line-height:1.55;opacity:.8;margin-top:5px}
-.continue{display:none;margin:20px 0;padding:17px;border:1px solid var(--gold);border-radius:17px;background:var(--soft);cursor:pointer;align-items:center;justify-content:space-between;gap:12px}
-.continue.show{display:flex}
-.continue-label{font-size:11px;color:var(--muted)}
-.continue-name{font-size:18px;font-weight:900;margin-top:5px}
-.continue-go{background:var(--green);color:white;border-radius:10px;padding:10px 13px;font-size:12px;font-weight:850;white-space:nowrap}
-.search-box{position:relative;margin:24px 0}
-.search{width:100%;padding:16px 16px 16px 45px;border:1px solid var(--line);border-radius:15px;background:var(--paper);color:var(--text);outline:none}
-.search:focus{border-color:var(--gold);box-shadow:0 0 0 3px #b48b4318}
-.search-icon{position:absolute;left:15px;top:12px;color:var(--gold);font-size:23px}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 2px 14px}
-.section-head h2{font-family:Georgia,serif;font-size:26px;margin:0}
-.section-head span{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:7px 10px;border-radius:20px;background:var(--paper)}
-.order-switch{display:flex;gap:10px;margin-bottom:15px}
-.order-btn{flex:1;padding:13px 8px;border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--text);font-size:13px;font-weight:850}
-.order-btn.active{background:var(--green);border-color:var(--gold);color:white}
-#orderNote{font-size:12px;color:var(--muted);margin:0 2px 14px}
-.surah-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
-.surah{min-height:78px;display:flex;align-items:center;gap:12px;padding:13px;border:1px solid var(--line);border-radius:16px;background:var(--paper);color:var(--text);text-align:left;box-shadow:0 4px 16px #23282206}
-.surah:hover{border-color:var(--gold)}
-.surah-number{width:41px;height:41px;flex:none;border:1px solid #b48b4355;border-radius:12px;display:grid;place-items:center;background:var(--soft);color:var(--green);font-size:13px;font-weight:950}
-.surah-name{font-size:14px;font-weight:900}
-.surah-ar{margin-top:5px;color:var(--muted);font-size:13px}
-.reader{max-width:900px;margin:auto}
-.reader-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.reader-title{flex:1}
-.reader-title h2{margin:0;font-family:Georgia,serif;font-size:25px}
-.reader-title small{display:block;margin-top:4px;color:var(--muted)}
-.back{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:12px;padding:11px 14px;font-weight:800}
-.book{position:relative;overflow:hidden;background:var(--paper);border:1px solid var(--line);border-radius:23px;box-shadow:var(--shadow);padding:38px 44px}
-.book:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--gold),var(--green),var(--gold),transparent)}
-.book-top{text-align:center;padding:8px 0 24px;margin-bottom:26px;border-bottom:1px solid var(--line)}
-.book-symbol{color:var(--gold);font-size:30px}
-.book-top h1{font-family:Georgia,serif;margin:8px 0;color:var(--green);font-size:clamp(28px,5vw,38px)}
-.book-top p{color:var(--muted);font-size:11px;letter-spacing:1px;margin:0}
-.quran-text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:20px;line-height:2.1;letter-spacing:.01em}
-.book-bottom{margin-top:32px;padding-top:22px;border-top:1px solid var(--line);text-align:center}
-.mark-button{border:1px solid var(--gold);border-radius:30px;padding:13px 18px;background:linear-gradient(145deg,#1b624b,#0b352b);color:#fff8e8;font-weight:900}
-.saved{font-size:12px;color:var(--muted);margin-top:10px}
-.modal{position:fixed;inset:0;z-index:20;background:#0009;display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(4px)}
-.modal-box{max-width:440px;width:100%;padding:24px;border:1px solid var(--gold);border-radius:21px;background:var(--paper);color:var(--text)}
-.modal-box p{font-size:14px;line-height:1.65;color:var(--muted)}
-.modal-actions{display:flex;gap:10px}
-.modal-actions button{flex:1;border:0;border-radius:11px;padding:13px;font-weight:900}
-.cancel{background:var(--paper2);color:var(--text)}
-.confirm{background:var(--green);color:white}
-.empty-state{grid-column:1/-1;padding:25px;border:1px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted);background:var(--paper)}
-@media(max-width:800px){.container{padding:20px 14px 50px}.hero{padding:28px 23px}.actions{grid-template-columns:1fr 1fr}.action:first-child{grid-column:1/-1}.surah-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.book{padding:29px 23px}.quran-text{font-size:19px}}
-@media(max-width:520px){.logo-mark{width:40px;height:40px}.logo-title{font-size:15px}.logo-sub{font-size:10px}.hero h1{font-size:41px}.hero p{font-size:14px}.action{padding:14px}.action-title{font-size:13px}.action-text{font-size:11px}.surah-grid{grid-template-columns:1fr;gap:9px}.surah{min-height:72px}.continue.show{align-items:flex-start;flex-direction:column}.order-btn{font-size:12px;padding:12px 5px}.section-head h2{font-size:23px}.book{padding:27px 18px}.quran-text{font-size:18px;line-height:2}.reader-title h2{font-size:22px}.back{padding:10px}}
-@media(orientation:landscape) and (max-height:600px){.book{padding-left:65px;padding-right:65px}}
-</style>
-</head>
-<body>
-<header>
-  <div class="header-inner">
-    <div class="logo">
-      <div class="logo-mark">☾</div>
-      <div>
-        <div class="logo-title">Quran Tərcüməsi</div>
-        <div class="logo-sub">Azərbaycan dilində Quran</div>
-      </div>
-    </div>
-  </div>
-</header>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kur'an-ı Kerim PDF Okuyucu</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- PDF.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<main id="home" class="container">
-  <section class="hero">
-    <div class="tag">✦ QURAN TƏRCÜMƏSİ</div>
-    <h1>Quranı oxu.<br>Mənanı düşün.</h1>
-    <p>Azərbaycan dilində Quran tərcüməsini rahat, aydın və kitab oxuyurmuş kimi oxumaq üçün hazırlanmış proqram.</p>
-    <div class="ornament">۞　✦　۞</div>
-  </section>
-
-  <div id="continue" class="continue" onclick="continueReading()">
-    <div>
-      <div class="continue-label">OXUDUĞUN YERDƏN DAVAM ET</div>
-      <div id="continueName" class="continue-name"></div>
-    </div>
-    <div class="continue-go">▶ Davam et</div>
-  </div>
-
-  <div class="actions">
-    <button class="action primary" onclick="continueReading()">
-      <div class="action-icon">📖</div>
-      <div class="action-title">Oxumağa davam et</div>
-      <div class="action-text">Qaldığın surəyə qayıt</div>
-    </button>
-    <button class="action" onclick="document.getElementById('archiveFile').click()">
-      <div class="action-icon">📂</div>
-      <div class="action-title">Arxivi bərpa et</div>
-      <div class="action-text">JSON faylından surələri yüklə</div>
-    </button>
-    <button class="action" onclick="downloadArchive()">
-      <div class="action-icon">💾</div>
-      <div class="action-title">Arxivi saxla</div>
-      <div class="action-text">Mətnlərini JSON faylına köçür</div>
-    </button>
-  </div>
-
-  <div class="search-box">
-    <span class="search-icon">⌕</span>
-    <input id="search" class="search" type="search" placeholder="Surə adı və ya nömrəsi ilə axtar..." autocomplete="off">
-  </div>
-
-  <div class="section-head"><h2>Surələr</h2><span>114 surə</span></div>
-  <div class="order-switch">
-    <button id="mushafOrder" class="order-btn active" onclick="setOrder('mushaf')">Quran sırası</button>
-    <button id="nuzulOrder" class="order-btn" onclick="setOrder('nuzul')">Nüzul sırası</button>
-  </div>
-  <div id="orderNote">Surələr Quranın ənənəvi sırası ilə göstərilir.</div>
-  <div id="surahList" class="surah-grid"></div>
-</main>
-
-<main id="readerPage" class="container hidden">
-  <div class="reader">
-    <div class="reader-top">
-      <button class="back" onclick="goHome()">← Geri</button>
-      <div class="reader-title">
-        <h2 id="readerName"></h2>
-        <small id="readerNumber"></small>
-      </div>
-    </div>
-    <article class="book">
-      <div class="book-top">
-        <div class="book-symbol">۞</div>
-        <h1 id="bookTitle"></h1>
-        <p>QURAN TƏRCÜMƏSİ · AZƏRBAYCAN DİLİNDƏ</p>
-      </div>
-      <div id="quranText" class="quran-text"></div>
-      <div class="book-bottom">
-        <button class="mark-button" onclick="markPosition()">✓ Burada qaldım</button>
-        <div id="saved" class="saved"></div>
-      </div>
-    </article>
-  </div>
-</main>
-
-<input id="archiveFile" type="file" accept=".json,application/json" hidden>
-
-<div id="modal" class="modal hidden" role="dialog" aria-modal="true">
-  <div class="modal-box">
-    <h3>Arxivi bərpa et</h3>
-    <p id="modalText"></p>
-    <div class="modal-actions">
-      <button class="cancel" onclick="closeModal()">Ləğv et</button>
-      <button id="modalOk" class="confirm">Bərpa et</button>
-    </div>
-  </div>
-</div>
-
-<script>
-const names=`Fatihə|Bəqərə|Ali-İmran|Nisa|Maidə|Ənam|Əraf|Ənfal|Tövbə|Yunus|Hud|Yusuf|Rəd|İbrahim|Hicr|Nəhl|İsra|Kəhf|Məryəm|Taha|Ənbiya|Həcc|Muminun|Nur|Furqan|Şuəra|Nəml|Qəsəs|Ənkəbut|Rum|Loğman|Səcdə|Əhzab|Səba|Fatir|Yasin|Saffat|Sad|Zumər|Ğafir|Fussilət|Şura|Zuxruf|Duxan|Casiyə|Əhqaf|Muhəmməd|Fəth|Hucurat|Qaf|Zariyat|Tur|Nəcm|Qəmər|Rəhman|Vaqiə|Hədid|Mücadilə|Həşr|Mumtəhənə|Saff|Cümə|Münafiqun|Təğabun|Talaq|Təhrim|Mülk|Qələm|Haqqə|Məaric|Nuh|Cin|Müzzəmmil|Müddəssir|Qiyamət|İnsan|Mursəlat|Nəbə|Naziat|Əbəsə|Təkvir|İnfitar|Mutəffifin|İnşiqaq|Büruc|Tariq|Əla|Ğaşiyə|Fəcr|Bələd|Şəms|Leyl|Duha|İnşirah|Tin|Ələq|Qədr|Bəyyinə|Zilzal|Adiyat|Qariə|Təkasur|Əsr|Huməzə|Fil|Qureyş|Maun|Kövsər|Kafirun|Nəsr|Məsəd|İxlas|Fələq|Nas`.split('|');
-
-const arabic=`الفاتحة|البقرة|آل عمران|النساء|المائدة|الأنعام|الأعراف|الأنفال|التوبة|يونس|هود|يوسف|الرعد|إبراهيم|الحجر|النحل|الإسراء|الكهف|مريم|طه|الأنبياء|الحج|المؤمنون|النور|الفرقان|الشعراء|النمل|القصص|العنكبوت|الروم|لقمان|السجدة|الأحزاب|سبأ|فاطر|يس|الصافات|ص|الزمر|غافر|فصلت|الشورى|الزخرف|الدخان|الجاثية|الأحقاف|محمد|الفتح|الحجرات|ق|الذاريات|الطور|النجم|القمر|الرحمن|الواقعة|الحديد|المجادلة|الحشر|الممتحنة|الصف|الجمعة|المنافقون|التغابن|الطلاق|التحريم|الملك|القلم|الحاقة|المعارج|نوح|الجن|المزمل|المدثر|القيامة|الإنسان|المرسلات|النبأ|النازعات|عبس|التكوير|الانفطار|المطففين|الانشقاق|البروج|الطارق|الأعلى|الغاشية|الفجر|البلد|الشمس|الليل|الضحى|الشرح|التين|العلق|القدر|البينة|الزلزلة|العاديات|القارعة|التكاثر|العصر|الهمزة|الفيل|قريش|الماعون|الكوثر|الكافرون|النصر|المسد|الإخلاص|الفلق|الناس`.split('|');
-
-const surahs=names.map((name,i)=>({name,arabic:arabic[i]}));
-
-const NUZUL_ORDER=[96,68,73,74,1,111,81,87,92,89,93,94,103,100,108,102,107,109,105,113,114,112,53,80,97,91,85,95,106,101,75,104,77,50,90,86,54,38,7,72,36,25,35,19,20,56,26,27,28,17,10,11,12,15,6,37,31,34,39,40,41,42,43,44,45,46,51,88,18,16,71,14,21,23,32,52,67,69,70,78,79,82,84,30,29,83,2,8,3,33,60,4,99,57,47,13,55,76,65,98,59,24,22,63,58,49,66,64,61,62,48,5,9,110];
-
-const DATA_KEY='quranTranslations';
-const POS_KEY='quranPositions';
-const LAST_KEY='quranLastSurah';
-
-let translations={};
-let positions={};
-let currentSurah=null;
-let surahOrder='mushaf';
-let scrollTimer;
-
-try{translations=JSON.parse(localStorage.getItem(DATA_KEY))||{};}catch(e){}
-try{positions=JSON.parse(localStorage.getItem(POS_KEY))||{};}catch(e){}
-
-const $=id=>document.getElementById(id);
-
-function setOrder(order){
-  surahOrder=order;
-  $('mushafOrder').classList.toggle('active',order==='mushaf');
-  $('nuzulOrder').classList.toggle('active',order==='nuzul');
-  $('orderNote').textContent=order==='nuzul'
-    ?'Surələr geniş yayılmış nüzul ardıcıllığı ilə göstərilir.'
-    :'Surələr Quranın ənənəvi sırası ilə göstərilir.';
-  renderSurahs($('search').value);
-}
-
-function renderSurahs(filter=''){
-  const list=$('surahList');
-  list.innerHTML='';
-  const q=filter.trim().toLocaleLowerCase('az');
-  const numeric=/^\d+$/.test(q);
-  const order=surahOrder==='nuzul'
-    ?NUZUL_ORDER
-    :Array.from({length:114},(_,i)=>i+1);
-  let count=0;
-
-  order.forEach(num=>{
-    const s=surahs[num-1];
-    if(q&&(numeric?num!==Number(q):!s.name.toLocaleLowerCase('az').includes(q)))return;
-    count++;
-
-    const el=document.createElement('button');
-    el.className='surah';
-    el.innerHTML=`<div class="surah-number">${num}</div><div><div class="surah-name">${s.name}</div><div class="surah-ar" lang="ar" dir="rtl">${s.arabic}</div></div>`;
-    el.onclick=()=>openSurah(num);
-    list.appendChild(el);
-  });
-
-  if(!count){
-    const el=document.createElement('div');
-    el.className='empty-state';
-    el.textContent='Uyğun surə tapılmadı. Surə adını və ya 1–114 arası nömrəni yoxla.';
-    list.appendChild(el);
-  }
-}
-
-function openSurah(num){
-  currentSurah=num;
-  $('home').classList.add('hidden');
-  $('readerPage').classList.remove('hidden');
-  $('readerName').textContent=surahs[num-1].name;
-  $('readerNumber').textContent=num+'. surə';
-  $('bookTitle').textContent=surahs[num-1].name;
-  $('saved').textContent='';
-  renderText();
-  window.scrollTo(0,0);
-
-  setTimeout(()=>{
-    const y=Number(positions[num])||0;
-    if(y)window.scrollTo({top:y,behavior:'auto'});
-  },100);
-
-  localStorage.setItem(LAST_KEY,String(num));
-  updateContinue();
-}
-
-function renderText(){
-  const text=translations[currentSurah];
-  $('quranText').textContent=typeof text==='string'&&text.trim()
-    ?text
-    :'Bu surənin mətni hələ arxivdən yüklənməyib. Əsas səhifədə “Arxivi bərpa et” düyməsinə basaraq əvvəl saxladığın JSON arxivini yüklə.';
-}
-
-function goHome(){
-  $('readerPage').classList.add('hidden');
-  $('home').classList.remove('hidden');
-  currentSurah=null;
-  window.scrollTo(0,0);
-  updateContinue();
-}
-
-function markPosition(){
-  if(!currentSurah)return;
-  positions[currentSurah]=window.scrollY;
-  localStorage.setItem(POS_KEY,JSON.stringify(positions));
-  localStorage.setItem(LAST_KEY,String(currentSurah));
-  $('saved').textContent='✓ Oxuduğun yer yadda saxlanıldı.';
-  updateContinue();
-}
-
-function continueReading(){
-  const num=Number(localStorage.getItem(LAST_KEY));
-  if(num&&surahs[num-1])openSurah(num);
-  else{
-    $('search').focus();
-    $('surahList').scrollIntoView({behavior:'smooth'});
-  }
-}
-
-function updateContinue(){
-  const num=Number(localStorage.getItem(LAST_KEY));
-  if(!num||!surahs[num-1]){
-    $('continue').classList.remove('show');
-    return;
-  }
-  $('continueName').textContent=num+'. '+surahs[num-1].name+' surəsi';
-  $('continue').classList.add('show');
-}
-
-window.addEventListener('scroll',()=>{
-  if(!currentSurah||$('readerPage').classList.contains('hidden'))return;
-  clearTimeout(scrollTimer);
-  scrollTimer=setTimeout(()=>{
-    positions[currentSurah]=window.scrollY;
-    localStorage.setItem(POS_KEY,JSON.stringify(positions));
-    localStorage.setItem(LAST_KEY,String(currentSurah));
-  },700);
-},{passive:true});
-
-function downloadArchive(){
-  const archive={
-    type:'quran-translation-archive',
-    version:1,
-    createdAt:new Date().toISOString(),
-    surahs:translations,
-    readingPositions:positions,
-    lastSurah:localStorage.getItem(LAST_KEY)
-  };
-
-  const blob=new Blob([JSON.stringify(archive,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const link=document.createElement('a');
-  link.href=url;
-  link.download='quran-tercumesi-arxiv.json';
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-$('archiveFile').addEventListener('change',function(event){
-  const file=event.target.files[0];
-  if(!file)return;
-
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try{
-      const archive=JSON.parse(reader.result);
-      const incoming=archive.surahs||archive.translations;
-      if(!incoming||typeof incoming!=='object')throw Error('invalid');
-      showRestoreConfirm(incoming,archive);
-    }catch(e){
-      alert('Bu fayl düzgün Quran arxivi deyil.');
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            },
+            sepia: {
+              bg: '#fbf0d9',
+              card: '#f4e4bc',
+              text: '#433422',
+              border: '#e2cf9e'
+            }
+          }
+        }
+      }
     }
-  };
-  reader.readAsText(file);
-  event.target.value='';
-});
+  </script>
 
-function showRestoreConfirm(incoming,archive){
-  $('modalText').textContent='Arxivdəki surə mətnləri bu cihazda saxlanılan mətnlərin yerinə yerləşdiriləcək. Düzgün JSON arxivini seçdiyinə əmin ol.';
-  $('modal').classList.remove('hidden');
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.4);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(156, 163, 175, 0.7);
+    }
+    
+    body.sepia-mode {
+      background-color: #fbf0d9;
+      color: #433422;
+    }
+    .sepia-card {
+      background-color: #f4e4bc !important;
+      border-color: #e2cf9e !important;
+      color: #433422 !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
 
-  $('modalOk').onclick=()=>{
-    translations={};
+  <!-- TOP NAVBAR -->
+  <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30 shadow-sm transition-colors">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
+      
+      <!-- Left: Mobile Menu & Logo -->
+      <div class="flex items-center space-x-3">
+        <button id="toggle-sidebar" class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 lg:hidden">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+        <div class="flex items-center space-x-2">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-green-500 flex items-center justify-center text-white shadow-md">
+            <i data-lucide="book-open" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-lg leading-none text-gray-900 dark:text-white">Kur'an Okuyucu</h1>
+            <span class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">PDF Kitaplık</span>
+          </div>
+        </div>
+      </div>
 
-    for(let i=1;i<=114;i++){
-      if(Object.prototype.hasOwnProperty.call(incoming,String(i))){
-        translations[i]=String(incoming[i]);
-      }else if(Object.prototype.hasOwnProperty.call(incoming,i)){
-        translations[i]=String(incoming[i]);
-      }else{
-        translations[i]='';
+      <!-- Center: PDF Controls -->
+      <div id="pdf-controls" class="hidden sm:flex items-center space-x-2 bg-gray-100 dark:bg-gray-700/60 p-1.5 rounded-xl border border-gray-200 dark:border-gray-600">
+        <button id="prev-page" class="p-1.5 rounded-lg hover:bg-white dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition shadow-sm" title="Önceki Sayfa">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+        
+        <div class="flex items-center px-2 text-sm font-medium space-x-1">
+          <input type="number" id="page-num-input" value="1" min="1" class="w-12 text-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md py-0.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <span id="page-count-text" class="text-gray-500 dark:text-gray-400">/ 0</span>
+        </div>
+
+        <button id="next-page" class="p-1.5 rounded-lg hover:bg-white dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition shadow-sm" title="Sonraki Sayfa">
+          <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </button>
+
+        <div class="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-1"></div>
+
+        <!-- Zoom Controls -->
+        <button id="zoom-out" class="p-1.5 rounded-lg hover:bg-white dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition" title="Uzaklaştır">
+          <i data-lucide="zoom-out" class="w-4 h-4"></i>
+        </button>
+        <span id="zoom-level" class="text-xs font-semibold px-1 text-gray-600 dark:text-gray-300">100%</span>
+        <button id="zoom-in" class="p-1.5 rounded-lg hover:bg-white dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition" title="Yakınlaştır">
+          <i data-lucide="zoom-in" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Right: Action Buttons -->
+      <div class="flex items-center space-x-2">
+        <!-- Load PDF Button -->
+        <label class="cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs sm:text-sm font-medium flex items-center space-x-1.5 transition shadow-sm">
+          <i data-lucide="file-up" class="w-4 h-4"></i>
+          <span>PDF Yükle</span>
+          <input type="file" id="pdf-file-input" accept="application/pdf" class="hidden">
+        </label>
+
+        <!-- Reading Mode Toggle -->
+        <button id="theme-btn" class="p-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition" title="Tema Değiştir">
+          <i data-lucide="moon" id="theme-icon" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- LEFT SIDEBAR: SURE LIST & SEARCH -->
+    <aside id="sidebar" class="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col fixed inset-y-16 left-0 z-20 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out shadow-lg lg:shadow-none">
+      
+      <!-- Search & Ordering Toggle -->
+      <div class="p-3 border-b border-gray-200 dark:border-gray-700 space-y-2">
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input type="text" id="sure-search" placeholder="Sure ara (ör: Bakara, 2, Yâsîn)..." class="w-full pl-9 pr-3 py-2 bg-gray-100 dark:bg-gray-700 border border-transparent dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:border-emerald-500 transition">
+        </div>
+
+        <!-- Order Selector -->
+        <div class="grid grid-cols-2 gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl text-xs font-medium">
+          <button id="order-mushaf" class="py-1.5 px-2 rounded-lg bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 shadow-sm font-semibold text-center transition">
+            Okunuş Sırası
+          </button>
+          <button id="order-nuzul" class="py-1.5 px-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-center transition">
+            Nüzul Sırası
+          </button>
+        </div>
+
+        <div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 px-1 pt-1">
+          <span id="list-mode-desc">Mushaf Sırasına Göre</span>
+          <button id="open-settings-btn" class="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1">
+            <i data-lucide="settings" class="w-3 h-3"></i> Sayfaları Düzenle
+          </button>
+        </div>
+      </div>
+
+      <!-- Sure List Container -->
+      <div id="sure-list" class="flex-1 overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700/50 p-1">
+        <!-- Items generated dynamically -->
+      </div>
+    </aside>
+
+    <!-- BACKDROP FOR MOBILE SIDEBAR -->
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-black/40 z-10 hidden lg:hidden"></div>
+
+    <!-- MAIN READER CANVAS -->
+    <main class="flex-1 flex flex-col bg-gray-200 dark:bg-gray-900 overflow-hidden relative">
+      
+      <!-- Welcome Screen (When no PDF loaded) -->
+      <div id="welcome-screen" class="flex-1 flex flex-col items-center justify-center p-6 text-center max-w-lg mx-auto">
+        <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-3xl flex items-center justify-center mb-4 shadow-inner">
+          <i data-lucide="file-text" class="w-10 h-10"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Kur'an PDF'inizi Yükleyin</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
+          Kendi Kur'an-ı Kerim meali veya tefsir PDF dosyanızı yükleyerek 114 sureye kolayca erişin. İster <b>Okunuş (Mushaf) Sırası</b>, ister <b>Nüzul Sırası</b> ile okuyun.
+        </p>
+        <label class="cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg shadow-emerald-600/30 flex items-center space-x-2 transition transform active:scale-95">
+          <i data-lucide="upload" class="w-5 h-5"></i>
+          <span>Cihazdan PDF Seç</span>
+          <input type="file" id="welcome-pdf-input" accept="application/pdf" class="hidden">
+        </label>
+      </div>
+
+      <!-- PDF Canvas View Container -->
+      <div id="pdf-container" class="hidden flex-1 overflow-auto p-4 flex justify-center items-start">
+        <div class="relative shadow-2xl rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700 bg-white">
+          <canvas id="pdf-render-canvas" class="block mx-auto"></canvas>
+        </div>
+      </div>
+
+      <!-- Mobile Bottom PDF Controls -->
+      <div id="mobile-pdf-controls" class="sm:hidden hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-2 flex items-center justify-between">
+        <button id="mobile-prev" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+        <span id="mobile-page-info" class="text-xs font-semibold text-gray-600 dark:text-gray-300">Sayfa: 1 / 0</span>
+        <button id="mobile-next" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+          <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- PAGE OFFSET / SETTINGS MODAL -->
+  <div id="settings-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-200 dark:border-gray-700">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <i data-lucide="sliders" class="w-5 h-5 text-emerald-500"></i> Sayfa Ayarları
+        </h3>
+        <button id="close-settings-btn" class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+        Yüklediğiniz PDF'in kapak veya giriş sayfaları nedeniyle surelerin sayfa numaraları kaymış olabilir. Buradan başlangıç sayfa offset'ini (kaymasını) ayarlayabilirsiniz.
+      </p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+            Genel Sayfa Kaydırma (Offset)
+          </label>
+          <div class="flex items-center space-x-2">
+            <input type="number" id="global-offset-input" value="0" class="w-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <button id="apply-offset-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shrink-0">
+              Uygula
+            </button>
+          </div>
+          <span class="text-[10px] text-gray-500 dark:text-gray-400">Örn: Fatiha suresi PDF'de 5. sayfadaysa offset'i +4 yapın.</span>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button id="save-settings-btn" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-xl text-xs font-semibold">
+          Kapat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Configure PDF.js Worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    // 114 SURE VERİSİ (Mushaf Sırası, Türkçe Adı, Nüzul Sırası, Varsayılan Başlangıç Sayfası)
+    const SURE_LISTESI = [
+      { id: 1, name: "Fâtiha", nuzul: 5, page: 1 },
+      { id: 2, name: "Bakara", nuzul: 87, page: 2 },
+      { id: 3, name: "Âl-i İmrân", nuzul: 89, page: 50 },
+      { id: 4, name: "Nisâ", nuzul: 92, page: 77 },
+      { id: 5, name: "Mâide", nuzul: 112, page: 106 },
+      { id: 6, name: "En'âm", nuzul: 55, page: 128 },
+      { id: 7, name: "A'râf", nuzul: 39, page: 151 },
+      { id: 8, name: "Enfâl", nuzul: 88, page: 177 },
+      { id: 9, name: "Tevbe", nuzul: 113, page: 187 },
+      { id: 10, name: "Yûnus", nuzul: 51, page: 208 },
+      { id: 11, name: "Hûd", nuzul: 52, page: 221 },
+      { id: 12, name: "Yûsuf", nuzul: 53, page: 235 },
+      { id: 13, name: "Ra'd", nuzul: 96, page: 249 },
+      { id: 14, name: "İbrâhîm", nuzul: 72, page: 255 },
+      { id: 15, name: "Hicr", nuzul: 54, page: 262 },
+      { id: 16, name: "Nahl", nuzul: 70, page: 267 },
+      { id: 17, name: "İsrâ", nuzul: 50, page: 282 },
+      { id: 18, name: "Kehf", nuzul: 69, page: 293 },
+      { id: 19, name: "Meryem", nuzul: 44, page: 305 },
+      { id: 20, name: "Tâhâ", nuzul: 45, page: 312 },
+      { id: 21, name: "Enbiyâ", nuzul: 73, page: 322 },
+      { id: 22, name: "Hacc", nuzul: 103, page: 332 },
+      { id: 23, name: "Mü'minûn", nuzul: 74, page: 342 },
+      { id: 24, name: "Nûr", nuzul: 102, page: 350 },
+      { id: 25, name: "Furkân", nuzul: 42, page: 359 },
+      { id: 26, name: "Şuarâ", nuzul: 47, page: 367 },
+      { id: 27, name: "Neml", nuzul: 48, page: 377 },
+      { id: 28, name: "Kasas", nuzul: 49, page: 385 },
+      { id: 29, name: "Ankebût", nuzul: 85, page: 396 },
+      { id: 30, name: "Rûm", nuzul: 84, page: 404 },
+      { id: 31, name: "Lokmân", nuzul: 57, page: 411 },
+      { id: 32, name: "Secde", nuzul: 75, page: 415 },
+      { id: 33, name: "Ahzâb", nuzul: 90, page: 418 },
+      { id: 34, name: "Sebe'", nuzul: 58, page: 428 },
+      { id: 35, name: "Fâtır", nuzul: 43, page: 434 },
+      { id: 36, name: "Yâsîn", nuzul: 41, page: 440 },
+      { id: 37, name: "Sâffât", nuzul: 56, page: 446 },
+      { id: 38, name: "Sâd", nuzul: 38, page: 453 },
+      { id: 39, name: "Zümer", nuzul: 59, page: 458 },
+      { id: 40, name: "Mü'min (Gâfir)", nuzul: 60, page: 467 },
+      { id: 41, name: "Fussilet", nuzul: 61, page: 477 },
+      { id: 42, name: "Şûrâ", nuzul: 62, page: 483 },
+      { id: 43, name: "Zuhruf", nuzul: 63, page: 489 },
+      { id: 44, name: "Duhân", nuzul: 64, page: 496 },
+      { id: 45, name: "Câsiye", nuzul: 65, page: 499 },
+      { id: 46, name: "Ahkâf", nuzul: 66, page: 502 },
+      { id: 47, name: "Muhammed", nuzul: 95, page: 507 },
+      { id: 48, name: "Fetih", nuzul: 111, page: 511 },
+      { id: 49, name: "Hucurât", nuzul: 106, page: 515 },
+      { id: 50, name: "Kâf", nuzul: 34, page: 518 },
+      { id: 51, name: "Zâriyât", nuzul: 67, page: 520 },
+      { id: 52, name: "Tûr", nuzul: 76, page: 523 },
+      { id: 53, name: "Necm", nuzul: 23, page: 526 },
+      { id: 54, name: "Kamer", nuzul: 37, page: 528 },
+      { id: 55, name: "Rahmân", nuzul: 97, page: 531 },
+      { id: 56, name: "Vâkıa", nuzul: 46, page: 534 },
+      { id: 57, name: "Hadîd", nuzul: 94, page: 537 },
+      { id: 58, name: "Mücâdele", nuzul: 105, page: 542 },
+      { id: 59, name: "Haşr", nuzul: 101, page: 545 },
+      { id: 60, name: "Mümtehine", nuzul: 91, page: 549 },
+      { id: 61, name: "Saff", nuzul: 109, page: 551 },
+      { id: 62, name: "Cuma", nuzul: 110, page: 553 },
+      { id: 63, name: "Münâfikûn", nuzul: 104, page: 554 },
+      { id: 64, name: "Teğâbün", nuzul: 108, page: 556 },
+      { id: 65, name: "Talâq", nuzul: 99, page: 558 },
+      { id: 66, name: "Tahrîm", nuzul: 107, page: 560 },
+      { id: 67, name: "Mülk", nuzul: 77, page: 562 },
+      { id: 68, name: "Kalem", nuzul: 2, page: 564 },
+      { id: 69, name: "Hâkka", nuzul: 78, page: 566 },
+      { id: 70, name: "Meâric", nuzul: 79, page: 568 },
+      { id: 71, name: "Nûh", nuzul: 71, page: 570 },
+      { id: 72, name: "Cin", nuzul: 40, page: 572 },
+      { id: 73, name: "Müzzemmil", nuzul: 3, page: 574 },
+      { id: 74, name: "Müddessir", nuzul: 4, page: 575 },
+      { id: 75, name: "Kıyâme", nuzul: 31, page: 577 },
+      { id: 76, name: "Insân (Dehr)", nuzul: 98, page: 578 },
+      { id: 77, name: "Mürselât", nuzul: 33, page: 580 },
+      { id: 78, name: "Nebe'", nuzul: 80, page: 582 },
+      { id: 79, name: "Nâziât", nuzul: 81, page: 583 },
+      { id: 80, name: "Abese", nuzul: 24, page: 585 },
+      { id: 81, name: "Tekvîr", nuzul: 7, page: 586 },
+      { id: 82, name: "İnfitâr", nuzul: 82, page: 587 },
+      { id: 83, name: "Mutaffifîn", nuzul: 86, page: 587 },
+      { id: 84, name: "İnşikâq", nuzul: 83, page: 589 },
+      { id: 85, name: "Bürûc", nuzul: 27, page: 590 },
+      { id: 86, name: "Târik", nuzul: 36, page: 591 },
+      { id: 87, name: "A'lâ", nuzul: 8, page: 591 },
+      { id: 88, name: "Gâşiye", nuzul: 68, page: 592 },
+      { id: 89, name: "Fecr", nuzul: 10, page: 593 },
+      { id: 90, name: "Beled", nuzul: 35, page: 594 },
+      { id: 91, name: "Şems", nuzul: 26, page: 595 },
+      { id: 92, name: "Leyl", nuzul: 9, page: 595 },
+      { id: 93, name: "Duhâ", nuzul: 11, page: 596 },
+      { id: 94, name: "İnşirâh", nuzul: 12, page: 596 },
+      { id: 95, name: "Tîn", nuzul: 28, page: 597 },
+      { id: 96, name: "Alak", nuzul: 1, page: 597 },
+      { id: 97, name: "Kadir", nuzul: 25, page: 598 },
+      { id: 98, name: "Beyyine", nuzul: 100, page: 598 },
+      { id: 99, name: "Zilzâl", nuzul: 93, page: 599 },
+      { id: 100, name: "Âdiyât", nuzul: 14, page: 599 },
+      { id: 101, name: "Kâria", nuzul: 30, page: 600 },
+      { id: 102, name: "Tekâsür", nuzul: 16, page: 600 },
+      { id: 103, name: "Asr", nuzul: 13, page: 601 },
+      { id: 104, name: "Hümeze", nuzul: 32, page: 601 },
+      { id: 105, name: "Fîl", nuzul: 19, page: 601 },
+      { id: 106, name: "Kureyş", nuzul: 29, page: 602 },
+      { id: 107, name: "Mâûn", nuzul: 17, page: 602 },
+      { id: 108, name: "Kevser", nuzul: 15, page: 602 },
+      { id: 109, name: "Kâfirûn", nuzul: 18, page: 603 },
+      { id: 110, name: "Nasr", nuzul: 114, page: 603 },
+      { id: 111, name: "Tebbet (Mesed)", nuzul: 6, page: 603 },
+      { id: 112, name: "İhlâs", nuzul: 22, page: 604 },
+      { id: 113, name: "Felak", nuzul: 20, page: 604 },
+      { id: 114, name: "Nâs", nuzul: 21, page: 604 }
+    ];
+
+    // STATE VARIABLES
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.25;
+    let currentOrderMode = 'mushaf'; // 'mushaf' or 'nuzul'
+    let globalOffset = 0;
+
+    // DOM ELEMENTS
+    const canvas = document.getElementById('pdf-render-canvas');
+    const ctx = canvas.getContext('2d');
+    const sureListEl = document.getElementById('sure-list');
+    const sureSearchInput = document.getElementById('sure-search');
+    const orderMushafBtn = document.getElementById('order-mushaf');
+    const orderNuzulBtn = document.getElementById('order-nuzul');
+    const listModeDesc = document.getElementById('list-mode-desc');
+    
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const pdfContainer = document.getElementById('pdf-container');
+    const pdfControls = document.getElementById('pdf-controls');
+    const mobilePdfControls = document.getElementById('mobile-pdf-controls');
+
+    const pageNumInput = document.getElementById('page-num-input');
+    const pageCountText = document.getElementById('page-count-text');
+    const zoomLevelText = document.getElementById('zoom-level');
+    const mobilePageInfo = document.getElementById('mobile-page-info');
+
+    const sidebar = document.getElementById('sidebar');
+    const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+
+    // INITIALIZE ICONS
+    lucide.createIcons();
+
+    // RENDER SURE LIST
+    function renderSureList() {
+      const query = sureSearchInput.value.toLowerCase().trim();
+      sureListEl.innerHTML = '';
+
+      // Copy array for sorting
+      let list = [...SURE_LISTESI];
+
+      if (currentOrderMode === 'nuzul') {
+        list.sort((a, b) => a.nuzul - b.nuzul);
+      } else {
+        list.sort((a, b) => a.id - b.id);
+      }
+
+      // Filter by search
+      if (query) {
+        list = list.filter(item => 
+          item.name.toLowerCase().includes(query) ||
+          item.id.toString().includes(query) ||
+          item.nuzul.toString().includes(query)
+        );
+      }
+
+      list.forEach((sure) => {
+        const calculatedPage = Math.max(1, sure.page + globalOffset);
+        
+        const item = document.createElement('div');
+        item.className = 'p-3 hover:bg-emerald-50 dark:hover:bg-gray-700/60 rounded-xl cursor-pointer transition flex items-center justify-between group';
+        
+        item.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-gray-700 text-emerald-700 dark:text-emerald-400 font-bold text-xs flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition">
+              ${currentOrderMode === 'nuzul' ? sure.nuzul : sure.id}
+            </div>
+            <div>
+              <h4 class="font-semibold text-sm text-gray-800 dark:text-gray-100">${sure.name}</h4>
+              <p class="text-[11px] text-gray-400">
+                ${currentOrderMode === 'nuzul' ? `Mushaf No: ${sure.id}` : `Nüzul Sırası: ${sure.nuzul}`}
+              </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md group-hover:bg-emerald-100 group-hover:text-emerald-700 transition">
+              S. ${calculatedPage}
+            </span>
+          </div>
+        `;
+
+        item.addEventListener('click', () => {
+          if (pdfDoc) {
+            goToPage(calculatedPage);
+            closeSidebarMobile();
+          } else {
+            alert('Lütfen önce yukarıdaki "PDF Yükle" butonundan Kur\'an PDF dosyanızı yükleyin.');
+          }
+        });
+
+        sureListEl.appendChild(item);
+      });
+    }
+
+    // ORDER TOGGLE HANDLERS
+    orderMushafBtn.addEventListener('click', () => {
+      currentOrderMode = 'mushaf';
+      orderMushafBtn.className = "py-1.5 px-2 rounded-lg bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 shadow-sm font-semibold text-center transition";
+      orderNuzulBtn.className = "py-1.5 px-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-center transition";
+      listModeDesc.textContent = "Mushaf Sırasına Göre";
+      renderSureList();
+    });
+
+    orderNuzulBtn.addEventListener('click', () => {
+      currentOrderMode = 'nuzul';
+      orderNuzulBtn.className = "py-1.5 px-2 rounded-lg bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 shadow-sm font-semibold text-center transition";
+      orderMushafBtn.className = "py-1.5 px-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-center transition";
+      listModeDesc.textContent = "Nüzul (İniş) Sırasına Göre";
+      renderSureList();
+    });
+
+    sureSearchInput.addEventListener('input', renderSureList);
+
+    // PDF RENDER ENGINE
+    function renderPage(num) {
+      pageRendering = true;
+
+      pdfDoc.getPage(num).then((page) => {
+        const viewport = page.getViewport({ scale: scale });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        const renderTask = page.render(renderContext);
+
+        renderTask.promise.then(() => {
+          pageRendering = false;
+          if (pageNumPending !== null) {
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      // Update UI Counters
+      pageNumInput.value = num;
+      mobilePageInfo.textContent = `Sayfa: ${num} / ${pdfDoc.numPages}`;
+    }
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
       }
     }
 
-    positions=archive.readingPositions||{};
-    localStorage.setItem(DATA_KEY,JSON.stringify(translations));
-    localStorage.setItem(POS_KEY,JSON.stringify(positions));
-
-    if(archive.lastSurah){
-      localStorage.setItem(LAST_KEY,String(archive.lastSurah));
+    function goToPage(num) {
+      if (!pdfDoc) return;
+      if (num < 1) num = 1;
+      if (num > pdfDoc.numPages) num = pdfDoc.numPages;
+      pageNum = num;
+      queueRenderPage(pageNum);
     }
 
-    closeModal();
-    renderSurahs($('search').value);
-    updateContinue();
-    if(currentSurah)renderText();
-    alert('Arxiv uğurla bərpa edildi.');
-  };
-}
+    // LOAD PDF FILE
+    function loadPdfFile(file) {
+      if (!file || file.type !== 'application/pdf') {
+        alert('Lütfen geçerli bir PDF dosyası seçin.');
+        return;
+      }
 
-function closeModal(){
-  $('modal').classList.add('hidden');
-}
+      const fileReader = new FileReader();
+      fileReader.onload = function() {
+        const typedarray = new Uint8Array(this.result);
 
-$('modal').addEventListener('click',event=>{
-  if(event.target===$('modal'))closeModal();
-});
+        pdfjsLib.getDocument(typedarray).promise.then((pdf) => {
+          pdfDoc = pdf;
+          pageCountText.textContent = `/ ${pdf.numPages}`;
+          
+          welcomeScreen.classList.add('hidden');
+          pdfContainer.classList.remove('hidden');
+          pdfControls.classList.remove('hidden');
+          pdfControls.classList.add('flex');
+          mobilePdfControls.classList.remove('hidden');
 
-$('search').addEventListener('input',()=>renderSurahs($('search').value));
+          pageNum = 1;
+          renderPage(pageNum);
+        }).catch(err => {
+          alert('PDF yüklenirken bir hata oluştu: ' + err.message);
+        });
+      };
+      fileReader.readAsArrayBuffer(file);
+    }
 
-renderSurahs();
-updateContinue();
-</script>
+    // FILE INPUT EVENT LISTENERS
+    document.getElementById('pdf-file-input').addEventListener('change', (e) => loadPdfFile(e.target.files[0]));
+    document.getElementById('welcome-pdf-input').addEventListener('change', (e) => loadPdfFile(e.target.files[0]));
+
+    // NAVIGATION CONTROLS
+    document.getElementById('prev-page').addEventListener('click', () => {
+      if (pageNum <= 1) return;
+      pageNum--;
+      queueRenderPage(pageNum);
+    });
+
+    document.getElementById('next-page').addEventListener('click', () => {
+      if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
+      pageNum++;
+      queueRenderPage(pageNum);
+    });
+
+    document.getElementById('mobile-prev').addEventListener('click', () => {
+      if (pageNum <= 1) return;
+      pageNum--;
+      queueRenderPage(pageNum);
+    });
+
+    document.getElementById('mobile-next').addEventListener('click', () => {
+      if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
+      pageNum++;
+      queueRenderPage(pageNum);
+    });
+
+    pageNumInput.addEventListener('change', (e) => {
+      const val = parseInt(e.target.value);
+      if (val) goToPage(val);
+    });
+
+    // ZOOM CONTROLS
+    document.getElementById('zoom-in').addEventListener('click', () => {
+      if (scale >= 2.5) return;
+      scale += 0.25;
+      zoomLevelText.textContent = `${Math.round(scale * 100)}%`;
+      if (pdfDoc) queueRenderPage(pageNum);
+    });
+
+    document.getElementById('zoom-out').addEventListener('click', () => {
+      if (scale <= 0.5) return;
+      scale -= 0.25;
+      zoomLevelText.textContent = `${Math.round(scale * 100)}%`;
+      if (pdfDoc) queueRenderPage(pageNum);
+    });
+
+    // MOBILE SIDEBAR TOGGLE
+    function openSidebarMobile() {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarBackdrop.classList.remove('hidden');
+    }
+    function closeSidebarMobile() {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('hidden');
+    }
+
+    toggleSidebarBtn.addEventListener('click', openSidebarMobile);
+    sidebarBackdrop.addEventListener('click', closeSidebarMobile);
+
+    // SETTINGS MODAL (OFFSET ADJUSTMENT)
+    const settingsModal = document.getElementById('settings-modal');
+    document.getElementById('open-settings-btn').addEventListener('click', () => settingsModal.classList.remove('hidden'));
+    document.getElementById('close-settings-btn').addEventListener('click', () => settingsModal.classList.add('hidden'));
+    document.getElementById('save-settings-btn').addEventListener('click', () => settingsModal.classList.add('hidden'));
+
+    document.getElementById('apply-offset-btn').addEventListener('click', () => {
+      const val = parseInt(document.getElementById('global-offset-input').value) || 0;
+      globalOffset = val;
+      renderSureList();
+      alert(`Sayfa kaydırması (${val > 0 ? '+' + val : val}) uygulandı.`);
+      settingsModal.classList.add('hidden');
+    });
+
+    // THEME TOGGLE (Dark / Light)
+    const themeBtn = document.getElementById('theme-btn');
+    const themeIcon = document.getElementById('theme-icon');
+
+    themeBtn.addEventListener('click', () => {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        themeIcon.setAttribute('data-lucide', 'moon');
+      } else {
+        document.documentElement.classList.add('dark');
+        themeIcon.setAttribute('data-lucide', 'sun');
+      }
+      lucide.createIcons();
+    });
+
+    // INITIAL RENDER
+    renderSureList();
+  </script>
 </body>
 </html>
